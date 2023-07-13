@@ -1,0 +1,13 @@
+fastapi~=0.88.0
+pymongo~=4.3.2
+pydantic~=1.10.2
+jsons~=1.6.3
+typing
+datetime
+uuid
+pytest~=6.2.5
+attrs~=22.1.0
+numpy~=1.23.4
+uvicorn~=0.20.0
+setuptools~=65.5.1
+httpx
