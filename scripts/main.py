@@ -4,7 +4,7 @@ from src.controller import machine_controller, index_controller
 import uvicorn
 
 app = FastAPI()
-
+# a comment only
 
 @app.on_event("startup")
 def startup_db_client():
