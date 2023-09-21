@@ -91,4 +91,5 @@ def create_machine(lat):
     from starlette.testclient import TestClient
     with TestClient(app) as client:
         response = client.post("/machine/", json=jsons.dump(machine))
-        assert response.status_code == 201
+        if response.status_code != 201:
+            raise AssertionError(f"Got response {response}")
