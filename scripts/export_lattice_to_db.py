@@ -6,9 +6,11 @@ def main():
     import os
 
     home = os.environ["HOME"]
+    #/home/schnizer/Devel/gitlab/dt4acc/lattices
     filename = os.path.join(
         home,
-        "cpp", #name of the folder in your home directory where the thorscsi is. todo: move this to configuration instead of hardcoding
+        "Devel", "gitlab",
+        # "cpp", #name of the folder in your home directory where the thorscsi is. todo: move this to configuration instead of hardcoding
         "dt4acc",
         "lattices",
         "b2_stduser_beamports_blm_tracy_corr.lat", #name of the lattice file you want to read todo: move to configuration instead of hardcoding

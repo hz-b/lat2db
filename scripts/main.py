@@ -8,8 +8,9 @@ app = FastAPI()
 
 @app.on_event("startup")
 def startup_db_client():
-    # app.mongodb_client = MongoClient("mongodb://mongodb.bessy.de:27017/") use this if you want to write to the besy server
-    app.mongodb_client = MongoClient("mongodb://localhost:27017/") # use this if you are writing to your local machine.
+    # use this if you want to write to the bessy server
+    app.mongodb_client = MongoClient("mongodb://mongodb.bessy.de:27017/")
+    # app.mongodb_client = MongoClient("mongodb://localhost:27017/") # use this if you are writing to your local machine.
     app.database = app.mongodb_client["bessyii"]
 
 
