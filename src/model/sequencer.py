@@ -17,10 +17,10 @@ class Sequencer:
     type: str = "unknown"
     bending_angle: float = 0e0
     entry_angle: float = 0e0
-    exit_angle: float = None
-    frequency: float = None
-    voltage: float = None
-    phase: float = None
+    exit_angle: float | None = None
+    frequency: float | None = None
+    voltage: float | None = None
+    phase: float | None = None
     harmonic_number: int = -1
 
     def set_properties(self, item):
