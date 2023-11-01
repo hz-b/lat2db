@@ -54,8 +54,8 @@ def export(organized_dict, variables):
     create_machine(lp)
     return
 
-    d = dict(lattice_properties=lp, elements=element_configs)
-    json.dump(element_configs, sys.stdout, indent=4)
+    # d = dict(lattice_properties=lp, elements=element_configs)
+    # json.dump(element_configs, sys.stdout, indent=4)
 
 
 def main():
