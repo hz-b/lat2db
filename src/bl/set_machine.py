@@ -47,7 +47,7 @@ def create_machine(lat):
         row.setdefault("length", row.pop("L", 0e0))  # rename "L" to "length"
         type_name = row['type']
 
-        if type_name in ["Bending", "Quadrupole", "Sextupole", "HorizontalSteerer", "VerticalSteerer"]:
+        if type_name in ["Bending", "Quadrupole", "Sextupole", "Horizontalsteerer", "Verticalsteerer"]:
             row.setdefault("main_multipole_strength", row.pop("K", 0e0))  # rename "K" to "main_multipole_strength"
             row.setdefault("number_of_integration_steps",
                            row.pop("N", 1))  # rename "N" to "number_of_integration_steps"
@@ -56,7 +56,7 @@ def create_machine(lat):
             row.setdefault("frequency", row.pop("Frequency", 0e0))  # rename "Frequency" to "frequency"
             row.setdefault("voltage", row.pop("Voltage", 0e0))  # rename "Voltage" to "voltage"
             row.setdefault("harmonic_number",
-                           row.pop("HarmonicNumber", 0e0))  # rename "HarmonicNumber" to "harmonic_number"
+                           row.pop("Harmonicnumber", 0e0))  # rename "HarmonicNumber" to "harmonic_number"
         else:
             pass  # do nothing if type_name is not recognized
 
@@ -75,9 +75,9 @@ def create_machine(lat):
             "Sextupole": (Sextupole, machine.add_sextupole),
             "Bending": (Bending, machine.add_bending),
             "Quadrupole": (Quadrupole, machine.add_quadrupole),
-            "BPM": (BeamPositionMonitor, machine.add_beam_position_monitor),
-            "VerticalSteerer": (VerticalSteerer, machine.add_vertical_steerer),
-            "HorizontalSteerer": (HorizontalSteerer, machine.add_horizontal_steerer),
+            "Bpm": (BeamPositionMonitor, machine.add_beam_position_monitor),
+            "Verticalsteerer": (VerticalSteerer, machine.add_vertical_steerer),
+            "Horizontalsteerer": (HorizontalSteerer, machine.add_horizontal_steerer),
             "Cavity": (Cavity, machine.add_cavity),
         }
 
