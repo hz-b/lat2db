@@ -21,8 +21,10 @@ from src.model.vertical_steerer import VerticalSteerer
 #
 app = FastAPI()
 app.include_router(machine_controller.router, tags=["machines"], prefix="/machine")
-# app.mongodb_client = MongoClient("mongodb://mongodb.bessy.de:27017/") use this if you want to write to the besy server
-app.mongodb_client = MongoClient("mongodb://localhost:27017/") # use this if you are writing to your local machine.
+# use this if you want to write to the besy server
+app.mongodb_client = MongoClient("mongodb://mongodb.bessy.de:27017/")
+# use this if you are writing to your local machine.
+# app.mongodb_client = MongoClient("mongodb://localhost:27017/")
 app.database = app.mongodb_client["bessyii"]
 
 logger = logging.getLogger("tools")
@@ -90,5 +92,6 @@ def create_machine(lat):
     # return machine
     from starlette.testclient import TestClient
     with TestClient(app) as client:
-        response = client.post("/machine/", json=jsons.dump(machine))
-        assert response.status_code == 201
+        response = client.post("/machine/machine", json=jsons.dump(machine))
+        if response.status_code != 201:
+            raise AssertionError(f"Got response {response}")
