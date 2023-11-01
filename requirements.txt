@@ -11,3 +11,4 @@ numpy~=1.23.4
 uvicorn~=0.20.0
 setuptools~=65.5.1
 httpx
+lark
