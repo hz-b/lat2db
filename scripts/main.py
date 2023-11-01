@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from pymongo import MongoClient
 from src.controller import machine_controller, index_controller
+from src import mongodb_url
 import uvicorn
 
 app = FastAPI()
@@ -9,8 +10,8 @@ app = FastAPI()
 @app.on_event("startup")
 def startup_db_client():
     # use this if you want to write to the bessy server
-    app.mongodb_client = MongoClient("mongodb://mongodb.bessy.de:27017/")
-    # app.mongodb_client = MongoClient("mongodb://localhost:27017/") # use this if you are writing to your local machine.
+    # app.mongodb_client = MongoClient("mongodb://mongodb.bessy.de:27017/")
+    app.mongodb_client = MongoClient(mongodb_url) # use this if you are writing to your local machine.
     app.database = app.mongodb_client["bessyii"]
 
 

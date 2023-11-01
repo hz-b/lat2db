@@ -4,6 +4,7 @@ from pathlib import Path
 from lark import Lark
 from tools.parser import MADXTransformer, parse
 
+
 def main():
     import os
 

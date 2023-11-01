@@ -18,13 +18,13 @@ from src.model.sequencer import Sequencer
 from src.model.sextupole import Sextupole
 from src.model.vertical_steerer import VerticalSteerer
 
-#
+
 app = FastAPI()
 app.include_router(machine_controller.router, tags=["machines"], prefix="/machine")
 # use this if you want to write to the besy server
-app.mongodb_client = MongoClient("mongodb://mongodb.bessy.de:27017/")
+# app.mongodb_client = MongoClient("mongodb://mongodb.bessy.de:27017/")
 # use this if you are writing to your local machine.
-# app.mongodb_client = MongoClient("mongodb://localhost:27017/")
+app.mongodb_client = MongoClient("mongodb://localhost:27017/")
 app.database = app.mongodb_client["bessyii"]
 
 logger = logging.getLogger("tools")
