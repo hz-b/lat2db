@@ -32,14 +32,14 @@
 
 <p>To start the FastAPI server, run:</p>
 
-<pre><code>python main.py
+<pre><code>python scripts/main.py
 </code></pre>
 
 <h4>File Conversion and Insertion</h4>
 
 <p>To convert a lattice file to JSON and insert it into MongoDB, you can use the provided script:</p>
 
-<pre><code>python export_lattice_to_db.py &lt;path-to-lattice-file&gt;
+<pre><code>python scripts/export_lattice_to_db.py 
 </code></pre>
 
 <p>This script will convert the specified lattice file to JSON format and store it in the MongoDB database.</p>
