@@ -3,7 +3,7 @@ from pathlib import Path
 from lark import Lark
 from lat2db.bl.set_machine import create_machine
 from lat2db.tools import dtclasses as ds
-from lat2db.tools.parser import MADXTransformer, parse
+from lat2db.tools.madx.parser import MADXTransformer, parse
 
 
 def export_elements(elements):

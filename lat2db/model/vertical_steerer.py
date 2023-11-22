@@ -1,12 +1,15 @@
 from dataclasses import dataclass
 
-from lat2db.model.classical_magnet import ClassicalMagnet
+__all__ = ["VerticalSteerer"]
 
+from .classical_magnet import ClassicalMagnet
+from .horizontal_steerer import HorizontalSteerer
 
 @dataclass
 class VerticalSteerer(ClassicalMagnet):
     """a vertical corrector
 
-    See todo of horizontal corrector for todo
+    Todo:
+        see :class:`HorizontalSteerer`
     """
     main_multipole_index: int = 1
