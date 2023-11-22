@@ -1,6 +1,6 @@
 import json
 
-from lat2db.tools.importers.from_json import factory
+from lat2db.tools.factories.pyat import factory
 from pathlib import Path
 
 # Read json from file
