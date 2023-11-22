@@ -1,11 +1,9 @@
-import json
-import sys
 import time
 from pathlib import Path
 from lark import Lark
-from src.bl.set_machine import create_machine
-from tools import dtclasses as ds
-from tools.parser import MADXTransformer, parse
+from lat2db.bl.set_machine import create_machine
+from lat2db.tools import dtclasses as ds
+from lat2db.tools.parser import MADXTransformer, parse
 
 
 def export_elements(elements):
@@ -59,7 +57,6 @@ def export(organized_dict, variables):
 
 
 def main():
-    import os
     BASE_DIR = Path(__file__).resolve().parent
     with (BASE_DIR / "b2_stduser_beamports_blm_tracy_corr.lat").open() as file: #add b2_stduser_beamports_blm_tracy_corr.lat in directory tools
         lattice_content = file.read()

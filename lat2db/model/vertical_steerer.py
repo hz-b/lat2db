@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from src.model.classical_magnet import ClassicalMagnet
+from lat2db.model.classical_magnet import ClassicalMagnet
 
 
 @dataclass

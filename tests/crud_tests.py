@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 from pymongo import MongoClient
 
-from src.controller import machine_controller
+from lat2db.controller import machine_controller
 
 app = FastAPI()
 app.include_router(machine_controller.router, tags=["machines"], prefix="/machine")

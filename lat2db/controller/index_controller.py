@@ -5,4 +5,4 @@ router = APIRouter()
 
 @router.get("/", response_class=HTMLResponse)
 async def index(request: Request):
-    return FileResponse("src/templates/index.html")
+    return FileResponse("lat2db/templates/index.html")

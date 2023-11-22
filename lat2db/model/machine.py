@@ -5,20 +5,20 @@ from typing import List
 from pydantic import Field
 from datetime import datetime
 
-from src.model.beam_position_monitor import BeamPositionMonitor
-from src.model.bending import Bending
-from src.model.cavity import Cavity
-from src.model.drift import Drift
-from src.model.horizontal_steerer import HorizontalSteerer
-from src.model.marker import Marker
-from src.model.physics_info import PhysicsInfo
-from src.model.quadrupole import Quadrupole
-from src.model.sequencer import Sequencer
-from src.model.sextupole import Sextupole
-from src.model.version import Version
-from src.model.vertical_steerer import VerticalSteerer
-from src.model.energy import Energy
-from src.model.geometric_info import GeometricInfo
+from lat2db.model.beam_position_monitor import BeamPositionMonitor
+from lat2db.model.bending import Bending
+from lat2db.model.cavity import Cavity
+from lat2db.model.drift import Drift
+from lat2db.model.horizontal_steerer import HorizontalSteerer
+from lat2db.model.marker import Marker
+from lat2db.model.physics_info import PhysicsInfo
+from lat2db.model.quadrupole import Quadrupole
+from lat2db.model.sequencer import Sequencer
+from lat2db.model.sextupole import Sextupole
+from lat2db.model.version import Version
+from lat2db.model.vertical_steerer import VerticalSteerer
+from lat2db.model.energy import Energy
+from lat2db.model.geometric_info import GeometricInfo
 
 
 @dataclass()
