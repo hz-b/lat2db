@@ -11,6 +11,7 @@ import math
 
 __all__ = ["factory"]
 
+
 def factory(expr: dict):
     """
     Args:
