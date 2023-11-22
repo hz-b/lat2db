@@ -108,41 +108,10 @@ class MADXTransformer(ArithmeticTransformer, AbstractLatticeFileTransformer):
     def seq_elements(self, *elements):
         return list(elements)
 
-def parse(machine_data):
-
-
-    for key, (element_type, element_values) in machine_data['elements'].items():
-        # Capitalize the first letter of element_type
-        element_type = element_type.capitalize()
-
-        # Capitalize the first letter of keys and values in element_values dictionary
-        formatted_element_values = {k.capitalize(): v for k, v in element_values.items()}
-
-        new_dict[key] = dict(name=key, type=element_type, **formatted_element_values)  # Flatten element_values dictionary
-
-        # Extract the ring sequence
-        ring_sequence = machine_data['lattices']['ring']
-
-        # Create a new dictionary based on the ring sequence
-        organized_dict = {}
-        index = 0
-        for key, at_pos in ring_sequence:
-            if key == 'start':
-                organized_dict[index] = {'index': index, 'name': 'start', 'type': 'Marker'}
-                index += 1
-            elif key == 'ringend':
-                organized_dict[index] = {'index': index, 'name': 'ringend', 'type': 'Marker'}
-                index += 1
-            else:
-                tmp = machine_data['elements'][key]
-                for item, vals in [tmp]:
-                    if item in new_dict:
-                        organized_dict[index] = {**new_dict[item], 'index': index}
-                        index += 1
-
-    return organized_dict
 
 def parse(machine_data):
+    """combine information from different places to a single one
+    """
     # Iterate through elements and create a new dictionary
     organised_dict = {}
 
