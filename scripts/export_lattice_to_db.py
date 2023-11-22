@@ -7,20 +7,8 @@ from tools.parser import MADXTransformer, parse
 
 def main():
     import os
-
-    home = os.environ["HOME"]
-    #/home/schnizer/Devel/gitlab/dt4acc/lattices
-    filename = os.path.join(
-        home,
-        "Devel", "gitlab",
-        # "cpp", #name of the folder in your home directory where the thorscsi is. todo: move this to configuration instead of hardcoding
-        "dt4acc",
-        "lattices",
-        "b2_stduser_beamports_blm_tracy_corr.lat", #name of the lattice file you want to read todo: move to configuration instead of hardcoding
-    )
-
     BASE_DIR = Path(__file__).resolve().parent.parent
-    with open(filename, 'r') as file:
+    with (BASE_DIR / "tools/b2_stduser_beamports_blm_tracy_corr.lat").open() as file: #add b2_stduser_beamports_blm_tracy_corr.lat in directory tools
         lattice_content = file.read()
     with (BASE_DIR / "tools/madx.lark").open() as file:
         MADX_PARSER = Lark(file, parser="lalr", maybe_placeholders=True)
