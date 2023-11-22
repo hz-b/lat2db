@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from src.model.element import Element
+from lat2db.model.element import Element
 
 
 @dataclass

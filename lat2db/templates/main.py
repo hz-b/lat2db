@@ -3,7 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pymongo import MongoClient
 
-from src.controller.machine_controller import router as machine_router
+from lat2db.controller.machine_controller import router as machine_router
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="."), name="static")

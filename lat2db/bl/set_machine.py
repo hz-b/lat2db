@@ -5,18 +5,18 @@ import jsons
 from fastapi import FastAPI
 from pymongo import MongoClient
 
-from src.controller import machine_controller
-from src.model.beam_position_monitor import BeamPositionMonitor
-from src.model.bending import Bending
-from src.model.cavity import Cavity
-from src.model.drift import Drift
-from src.model.horizontal_steerer import HorizontalSteerer
-from src.model.machine import Machine
-from src.model.marker import Marker
-from src.model.quadrupole import Quadrupole
-from src.model.sequencer import Sequencer
-from src.model.sextupole import Sextupole
-from src.model.vertical_steerer import VerticalSteerer
+from lat2db.controller import machine_controller
+from lat2db.model.beam_position_monitor import BeamPositionMonitor
+from lat2db.model.bending import Bending
+from lat2db.model.cavity import Cavity
+from lat2db.model.drift import Drift
+from lat2db.model.horizontal_steerer import HorizontalSteerer
+from lat2db.model.machine import Machine
+from lat2db.model.marker import Marker
+from lat2db.model.quadrupole import Quadrupole
+from lat2db.model.sequencer import Sequencer
+from lat2db.model.sextupole import Sextupole
+from lat2db.model.vertical_steerer import VerticalSteerer
 
 
 app = FastAPI()

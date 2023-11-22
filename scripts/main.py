@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from pymongo import MongoClient
-from src.controller import machine_controller, index_controller
-from src import mongodb_url
+from lat2db.controller import machine_controller, index_controller
+from lat2db import mongodb_url
 import uvicorn
 
 app = FastAPI()

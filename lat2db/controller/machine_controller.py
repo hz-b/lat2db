@@ -3,8 +3,8 @@ from typing import List
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 
-from src.model.machine import Machine
-from src.model.update_machine import MachineUpdate
+from lat2db.model.machine import Machine
+from lat2db.model.update_machine import MachineUpdate
 
 router = APIRouter()
 
