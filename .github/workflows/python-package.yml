@@ -46,4 +46,7 @@ jobs:
 
     - name: Test instaniate example
       run: |
+        # For debug see tree
+        find . -type f 
+        find . -name '*.json'
         python examples/pyat/bessyii_from_json.py
