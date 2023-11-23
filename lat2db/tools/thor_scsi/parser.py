@@ -103,6 +103,10 @@ class MADXTransformer(ArithmeticTransformer, AbstractLatticeFileTransformer):
         self.commands.append(("name", name))
 
     def seq_element(self, name, value):
+        """
+        Todo:
+            check if lowering name is a good idea
+        """
         return name.lower(), value
 
     def seq_elements(self, *elements):
