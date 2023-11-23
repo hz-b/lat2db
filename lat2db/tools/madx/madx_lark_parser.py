@@ -7,7 +7,7 @@ __all__ = ["get_madx_lark", "convert_madx_to_json"]
 
 
 def get_madx_lark_file():
-    return files(__name__.split(".")[0]).joinpath('tools/madx.lark')
+    return files(__name__.split(".")[0]).joinpath('tools/madx/madx.lark')
 
 def get_madx_lark():
     with open(get_madx_lark_file(), "rt") as file:

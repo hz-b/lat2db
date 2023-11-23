@@ -18,7 +18,18 @@ class ClassicalMagnet(Element):
     method: int
     number_of_integration_steps: int
     # interpolation: Union[Multipoles | FieldInterpolation] I don't have a good reason to add this field
+
+    #: strength of the dominant multipole
+    #:
     #: Todo
     #:    change it to a complex number or complex data class
+    #
+    #     unit
+    #:        :math:`T m^{n-1}`
+    #:    or
+    #:        :math:`T m^{n-1} / T m`
+    #:
+    #: one storing the field while the other is storing the field
+    #: scaled by machine's energy
     main_multipole_strength: float
     main_multipole_index: int

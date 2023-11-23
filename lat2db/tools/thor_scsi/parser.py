@@ -137,6 +137,7 @@ def parse(machine_data):
                 organized_dict[index] = {'index': index, 'name': 'ringend', 'type': 'Marker'}
                 index += 1
             else:
+                # expand key: e.g. if sublattice
                 for item in machine_data['lattices'][key]:
                     if item in new_dict:
                         organized_dict[index] = {**new_dict[item], 'index': index}

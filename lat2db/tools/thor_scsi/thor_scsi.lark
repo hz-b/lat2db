@@ -4,8 +4,14 @@
 %ignore /\s+/  // whitespace
 %ignore "&" // backwards compatiable line continuation
 %ignore /(!|\/\/).*/  // single line comments
-%ignore /\/\*(\*(?!\/)|[^*])*\*\//  // multiline commetn
+%ignore /\/\*(\*(?!\/)|[^*])*\*\//  // multiline comment
+%ignore /#.*/  // single line comments starting with #
 %import common (SIGNED_INT, NUMBER, ESCAPED_STRING)
+
+
+
+
+
 
 int         : SIGNED_INT
 string      : ESCAPED_STRING
