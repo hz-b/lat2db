@@ -1,6 +1,8 @@
 import itertools
 import math
 from abc import ABC, abstractproperty
+from dataclasses import dataclass
+
 from lark import Transformer, v_args
 @v_args(inline=True)
 class AbstractLatticeFileTransformer(Transformer, ABC):
@@ -124,16 +126,30 @@ class ArithmeticTransformer(Transformer):
             return name
             # raise UndefinedVariableError(name)
 
+@dataclass(frozen=True)
+class MADXSequenceEntryAtPosition:
+    #: actually an identifier
+    name : str
+    #: posiiton it is placed at
+    pos : float
 
 @v_args(inline=True)
 class MADXTransformer(ArithmeticTransformer, AbstractLatticeFileTransformer):
     def sequence(self, name, *items):
+        """
+        Todo:
+            get rid of lowering name
+        """
         *attributes, elements = items
         self.lattices[name.lower()] = elements
         self.commands.append(("name", name))
 
     def seq_element(self, name, value):
-        return name.lower(), value
+        """
+        Todo:
+            get rid of lowering name
+        """
+        return MADXSequenceEntryAtPosition(name=name.lower(), pos=value)
 
     def seq_elements(self, *elements):
         return list(elements)
@@ -167,9 +183,9 @@ def parse(machine_data):
             if is_element:
                 # here no identities anymore: "complexity hourray"
                 # a salute to some miss
-                if isinstance(entry, tuple):
-                    pos_name, pos_val = entry
-                    pos_val = float(pos_val)
+                if isinstance(entry, MADXSequenceEntryAtPosition):
+                    pos_name = entry.name
+                    pos_val = float(entry.pos)
                 else:
                     pos_name = entry
                     pos_val = None
