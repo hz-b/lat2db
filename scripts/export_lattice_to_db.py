@@ -6,7 +6,14 @@ from pathlib import Path
 def main(filename):
     with open(filename, "rt") as file:
        organized_dict, variables = convert_madx_to_json(file.read())
-    export(organized_dict, variables)
+    # export(organized_dict, variables)
+
+b2dir = t_dir = Path(__file__).resolve().parent / "lattice-files"  / "bessy2reflat" / "BESSYII"
+if __name__ == "__main__":
+    main(b2dir /  "BIIdesign" / "BESSYII_theory.madx")
+
+if __name__ == "__main__":
+    main(b2dir / "BIIstandarduser" / "BII_standarduserReference.seq")
 
 
 if __name__ == "__main__":
@@ -15,6 +22,3 @@ if __name__ == "__main__":
        organized_dict, variables = to_json(file.read())
 
 
-if __name__ == "__main__":
-   t_dir = Path(__file__).resolve().parent / "lattice-files"  / "bessy2reflat" / "BESSYII" / "BIIstandarduser"
-   main(t_dir / "BII_standarduserReference.seq")
