@@ -13,4 +13,5 @@ seq = factory(lattice_in_json_format)
 
 
 import at
-acc = at.Lattice(seq)
+acc = at.Lattice(seq, periodicity=1)
+acc
