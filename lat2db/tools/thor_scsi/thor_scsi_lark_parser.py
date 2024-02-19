@@ -17,9 +17,9 @@ def get_lark():
     return parser
 
 def to_json(lattice_content: str):
+    print("called to json")
     tree = get_lark().parse(lattice_content)
     machine_data = MADXTransformer().transform(tree)
     organized_dict = parse(machine_data)
     variables = machine_data['variables']
-
     return organized_dict, variables

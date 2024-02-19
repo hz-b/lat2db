@@ -1,11 +1,27 @@
+import sys
+sys.path.append('/Users/safiullahomar/lattice/lat2db') 
+
 from fastapi import FastAPI
 from pymongo import MongoClient
 from lat2db.controller import machine_controller, index_controller
 from lat2db import mongodb_url
+from lat2db.controller.machine_controller import router as machine_router
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+#app.include_router(machine_router)
+
 # a comment only
+
 
 @app.on_event("startup")
 def startup_db_client():

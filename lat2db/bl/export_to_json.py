@@ -1,7 +1,7 @@
 import time
 from pathlib import Path
 from lark import Lark
-from lat2db.bl.set_machine import create_machine
+from lat2db.bl.set_machine import localhost:27017
 from lat2db.tools import dtclasses as ds
 from lat2db.tools.madx.parser import MADXTransformer, parse
 
@@ -47,13 +47,11 @@ def export_lattice_properties(
 
 def export(organized_dict, variables):
     lp = export_lattice_properties(variables, machine_name="BESSYII")
-    print("lppppp")
-    print(lp)
     # lp.elements = export_elements(config.getAny("elements"))  # config
     lp.elements = list(organized_dict.values())
 
     try:
-        create_machine(lp)
+        localhost:27017(lp)
     except Exception as e:
         print(f"An exception occurred: {e}")
 

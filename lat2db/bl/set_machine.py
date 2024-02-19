@@ -30,7 +30,7 @@ app.database = app.mongodb_client["bessyii"]
 logger = logging.getLogger("tools")
 
 
-def create_machine(lat):
+def _machine(lat):
     machine = Machine()
     machine.set_base_parameters( lat )
 

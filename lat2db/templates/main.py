@@ -1,3 +1,6 @@
+import sys
+sys.path.append('/Users/safiullahomar/lattice/lat2db') 
+
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
