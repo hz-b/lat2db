@@ -8,14 +8,11 @@ class Cavity(Element):
     #: in Hertz
     frequency: float
     harmonic_number: int
-    #: voltage of the cavity
-    #: Todo:
-    #:   review harmonic number
-    #:     should only be voltage if magnets are stored in
-    #:     in absolute field.
-    #:     other wise it should be a transfer function
-    #:
     voltage: float
-    #: in radians
     phase: float = 0.0
+
+    name: str = ""
+    index: int = 0
+    length: float = 0.0
+    type: str = "Cavity"
 
