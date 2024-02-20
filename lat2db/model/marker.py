@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 from lat2db.model.element import Element
+from typing import Optional
 
 
 @dataclass
@@ -9,7 +10,7 @@ class Marker(Element):
 
     Used to get data at any point within the machine
     """
-    name: str =""
-    index: int = 0
+    name: Optional[str] = None
+    index: Optional[int] = None
     length: float = 0.0
     type: str = "Marker"

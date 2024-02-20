@@ -1,16 +1,13 @@
 from dataclasses import dataclass
 
-from lat2db.model.classical_magnet import ClassicalMagnet
-
+from typing import Optional
 
 @dataclass
-class Sextupole(ClassicalMagnet):
-    main_multipole_index: int = 3
-    name: str = ""
-    index: int = 0
-    length: float = 0.0
-    type: str = "Sextupole"
-    method: int = 0
-    number_of_integration_steps: int = 0
-    main_multipole_strength: float = 0.0
+class Sextupole:
+    name: Optional[str] = None
+    index: Optional[int] = None
+    method: Optional[int] = None
+    number_of_integration_steps: Optional[int] = None
+    main_multipole_strength: Optional[float] = None
+    main_multipole_index: Optional[int] = None
 

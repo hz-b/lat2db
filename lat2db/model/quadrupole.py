@@ -2,16 +2,16 @@ from dataclasses import dataclass
 
 from lat2db.model.classical_magnet import ClassicalMagnet
 
+from typing import Optional
 
 @dataclass
-class Quadrupole(ClassicalMagnet):
-    main_multipole_index: int = 2
-    name: str = ""
-    index: int = 0
-    length: int = 0
-    type: str = ""
-    method: int = 0
-    number_of_integration_steps: int = 0
-    main_multipole_strength: float = 0.0
-    main_multipole_index: int = 0
+class Quadrupole:
+    name: Optional[str] = None
+    index: Optional[int] = None
+    length: Optional[float] = None
+    type: Optional[str] = None
+    method: Optional[int] = None
+    number_of_integration_steps: Optional[int] = None
+    main_multipole_strength: Optional[float] = None
+    main_multipole_index: Optional[int] = None
 

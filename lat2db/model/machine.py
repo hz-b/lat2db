@@ -37,7 +37,7 @@ class Machine():
     geometric_info: GeometricInfo = Field(default=None)
     physics_info: PhysicsInfo = Field(default=None)
     name: str = "unknown"
-    id: str = Field(default_factory=uuid.uuid4)
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
 
     def add_drift(self, drift):
         self.drifts.append(drift)

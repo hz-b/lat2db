@@ -5,7 +5,7 @@ import at
 from itertools import chain
 import pymongo
 import sys
-sys.path.append('/Users/safiullahomar/lattice/lat2db')
+sys.path.append('/Users/safiullahomar/lattice/lat2db test')
 from lat2db.model.quadrupole import Quadrupole
 from lat2db.model.sextupole import Sextupole
 from lat2db.model.drift import Drift
@@ -17,7 +17,8 @@ from lat2db.model.beam_position_monitor import BeamPositionMonitor
 from lat2db.model.cavity import Cavity
 from lat2db.model.version import Version
 from lat2db.model.dipole import Dipole
-
+from lat2db.model.monitor import Monitor
+import uuid
 
 
 
@@ -1337,6 +1338,9 @@ def bessy2Lattice() -> at.Lattice:
         beamposition_elements=[]
         cavity_elements=[]
         version_elements=[]
+        dipole_elements=[]
+        monitor_elements=[]
+
 
 
 
@@ -1360,6 +1364,7 @@ def bessy2Lattice() -> at.Lattice:
         beamposition_fields = [field.name for field in fields(BeamPositionMonitor)]
         cavity_fields = [field.name for field in fields(Cavity)]
         version_fields = [field.name for field in fields(Version)]
+        dipole_fields = [field.name for field in fields(Dipole)]
 
 
         for element in ring:
@@ -1379,6 +1384,7 @@ def bessy2Lattice() -> at.Lattice:
             element_beamposition={}
             element_cavity={}
             element_version={}
+            element_dipole={}
 
             line_number=1
             typename=""
@@ -1411,6 +1417,7 @@ def bessy2Lattice() -> at.Lattice:
                 element_beamposition[key]=value
                 element_cavity[key]=value
                 element_version[key]=value
+                element_dipole[key]=value
 
 
             if typename.lower() == "quadrupole":
@@ -1471,6 +1478,11 @@ def bessy2Lattice() -> at.Lattice:
                     if field not in element_version:
                         # Add missing property with null value
                         element_version[field] = None
+            if typename.lower() == "dipole":
+                for field in dipole_fields:
+                    if field not in element_dipole:
+                        # Add missing property with null value
+                        element_dipole[field] = None
 
             documents = collection_bess.find()
             for document in documents:
@@ -1521,8 +1533,15 @@ def bessy2Lattice() -> at.Lattice:
                 cavity_elements.append(element_cavity)
             if typename.lower() == "version":
                 version_elements.append(element_version)
-        
-        collection.insert_one({"parent_id": parent_id, "sequences": all_elements,
+            if typename.lower() == "dipole":
+                dipole_elements.append(element_dipole)
+        unique_id = str(uuid.uuid4())
+        base_name = "bessy2Lattice"
+        collection_count = collection.count_documents({})
+        unique_index = collection_count + 1
+        name_with_index = f"{base_name}_{unique_index}"
+
+        collection.insert_one({"id": unique_id , "name":name_with_index, "sequences": all_elements,
                                 "quadrupoles":quad_elements,
                                 "sextupoles": sextupole_elements,
                                 "drifts":drift_elements,
@@ -1531,7 +1550,8 @@ def bessy2Lattice() -> at.Lattice:
                                    "horizontal_steerers":h_steerer_elements,
                                     "vertical_steerers":v_steerer_elements,
                                      "beam_position_monitors":beamposition_elements,
-                                      "cavities":cavity_elements
+                                      "cavities":cavity_elements,
+                                        "dipoles":dipole_elements,
                                 
                                 })
         print(f"Number of changes made: {changesnumber}")
@@ -1596,5 +1616,5 @@ if __name__ == '__main__':
     #export_to_mongodb(ring, mongodb_uri, database_name, collection_name)
     print("Exported all lattice elements (except Markers) to MongoDB")
     #for running the api uncomment this
-    app.run(debug=True)
+    #app.run(debug=True)
 
