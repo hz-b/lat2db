@@ -16,7 +16,7 @@ class Quadrupole:
     main_multipole_index: Optional[int] = None
 
     energy: Optional[float] = None
-    k: Optional[float] = None
+    #k: Optional[float] = None
     maxorder: Optional[str] = None
     passmethod: Optional[str] = None
     polynoma: Optional[str] = None

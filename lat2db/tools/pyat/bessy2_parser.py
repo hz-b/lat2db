@@ -137,7 +137,8 @@ def insert_elements(ring, parent_id=None):
 
 
             if typename.lower() == "quadrupole":
-               
+                element_quad["main_multipole_strength"] = element_quad.pop("k",None)
+                #element_quad["passmethod"] = element_quad.pop("method")
                 for field in quadrupole_fields:
                     if field not in element_quad:
                         # Add missing property with null value
@@ -147,22 +148,28 @@ def insert_elements(ring, parent_id=None):
                 #quadrupole_data = element_data
                  
             if typename.lower() == "sextupole":
+                #element_sextupole["passmethod"] = element_quad.pop("method")
+
                 for field in sextupole_fields:
                     if field not in element_sextupole:
                         # Add missing property with null value
                         element_sextupole[field] = None
             if typename.lower() == "drift":
+                #element_drift["passmethod"] = element_quad.pop("method")
+
                 for field in drift_fields:
                     if field not in element_drift:
                         # Add missing property with null value
                         element_drift[field] = None
 
             if typename.lower() == "bending":
+                #element_bending["passmethod"] = element_quad.pop("method")
                 for field in bending_fields:
                     if field not in element_bending:
                         # Add missing property with null value
                         element_bending[field] = None
             if typename.lower() == "marker":
+                #element_marker["passmethod"] = element_quad.pop("method")
                 for field in marker_fields:
                     if field not in element_marker:
                         # Add missing property with null value
