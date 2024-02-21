@@ -12,7 +12,7 @@ class Bending(ClassicalMagnet):
     Energy: Optional[float] = None
     fringeint1: Optional[float] = None
     fullgap: Optional[float] = None
-    k: Optional[float] = None
+    #k: Optional[float] = None
     maxorder: Optional[float] = None
     numintsteps: Optional[float] = None
     passmethod: Optional[str] = None

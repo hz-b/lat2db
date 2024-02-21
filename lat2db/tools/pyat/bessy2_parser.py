@@ -164,6 +164,8 @@ def insert_elements(ring, parent_id=None):
 
             if typename.lower() == "bending":
                 #element_bending["passmethod"] = element_quad.pop("method")
+                element_bending["main_multipole_strength"] = element_bending.pop("k",None)
+
                 for field in bending_fields:
                     if field not in element_bending:
                         # Add missing property with null value
@@ -201,6 +203,8 @@ def insert_elements(ring, parent_id=None):
                         # Add missing property with null value
                         element_version[field] = None
             if typename.lower() == "dipole":
+                element_dipole["main_multipole_strength"] = element_dipole.pop("k",None)
+
                 for field in dipole_fields:
                     if field not in element_dipole:
                         # Add missing property with null value
