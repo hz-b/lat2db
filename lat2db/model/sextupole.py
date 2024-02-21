@@ -11,3 +11,12 @@ class Sextupole:
     main_multipole_strength: Optional[float] = None
     main_multipole_index: Optional[int] = None
 
+
+    corrector: Optional[str] = None
+    kickangle: Optional[str] = None
+    length: Optional[str] = None
+    maxorder: Optional[str] = None
+    passmethod: Optional[str] = None
+    polynoma: Optional[str] = None
+    polynomb: Optional[str] = None
+    type: Optional[str] = None

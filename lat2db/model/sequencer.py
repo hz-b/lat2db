@@ -3,25 +3,26 @@ import numpy as np
 
 nan = np.nan
 
+from typing import Optional
 
 @dataclass
 class Sequencer:
     name: str
     index: int
-    strength: float = 0.0
-    length: float = 0.0
-    method: int = -1
-    number_of_integration_steps: int = 4
-    main_multipole_strength: float = 0.0
-    main_multipole_index: int = -1
-    type: str = "unknown"
-    bending_angle: float = 0e0
-    entry_angle: float = 0e0
-    exit_angle: float | None = None
-    frequency: float | None = None
-    voltage: float | None = None
-    phase: float | None = None
-    harmonic_number: int = -1
+    strength: Optional[float] = None
+    length: Optional[float] = None
+    method: Optional[int] = None
+    number_of_integration_steps: Optional[int] = None
+    main_multipole_strength: Optional[float] = None
+    main_multipole_index: Optional[int] = None
+    type: Optional[str] = None
+    bending_angle: Optional[float] = None
+    entry_angle: Optional[float] = None
+    exit_angle: Optional[float] = None
+    frequency: Optional[float] = None
+    voltage: Optional[float] = None
+    phase: Optional[float] = None
+    harmonic_number: Optional[int] = None
 
     def set_properties(self, item):
         """

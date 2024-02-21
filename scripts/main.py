@@ -12,7 +12,7 @@ def startup_db_client():
     # use this if you want to write to the bessy server
     # app.mongodb_client = MongoClient("mongodb://mongodb.bessy.de:27017/")
     app.mongodb_client = MongoClient(mongodb_url) # use this if you are writing to your local machine.
-    app.database = app.mongodb_client["bessyii"]
+    app.database = app.mongodb_client["db1"]
 
 
 @app.on_event("shutdown")

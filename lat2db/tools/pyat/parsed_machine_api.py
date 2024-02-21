@@ -7,7 +7,7 @@ db = client['db1']
 collection = db['machines']
 
 
-@app.route('/api/elements', methods=['GET'])
+@app.route('/api/get_parsed_machine_data', methods=['GET'])
 def get_elements():
     elements = list(collection.find({}, {'_id': 0}))  # Exclude _id field
     return jsonify(elements)
