@@ -292,7 +292,7 @@ def insert_elements(ring, parent_id=None):
         name_with_index = f"{base_name}_{unique_index}"
 
         collection.insert_one({"id": unique_id , "name":name_with_index, 
-                               #"sequences": all_elements,
+                               "sequences": all_elements,
                                 "quadrupoles":quad_elements,
                                 "sextupoles": sextupole_elements,
                                 "drifts":drift_elements,
