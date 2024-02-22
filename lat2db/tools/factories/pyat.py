@@ -1,13 +1,13 @@
 """build sequence of accelerator toolbox lattice elements
 """
+import enum
+import math
+from functools import partial
+
 import at
 import jsons
+
 from ...model.element import Element
-
-import enum
-from functools import partial
-import math
-
 
 __all__ = ["factory"]
 
@@ -18,13 +18,13 @@ def factory(expr: dict):
         energy: energy of the accelerator: only used by the cavities
     """
 
-    energy_prop = expr["physics_info"]["energy"]
-    assert energy_prop["egu"] == "GeV"
-    assert energy_prop["name"] == "energy"
-    energy = float(energy_prop["value"]) * 1e9
+    # energy_prop = expr["physics_info"]["energy"]
+    # assert energy_prop["egu"] == "GeV"
+    # assert energy_prop["name"] == "energy"
+    energy = 1.7e9  # float(energy_prop["value"]) * 1e9
 
     factory_dict = factory_dict_default.copy()
-    factory_dict["Cavity"] = partial(instaniate_cavity, energy=energy)
+    factory_dict["RFCavity"] = partial(instaniate_cavity, energy=energy)
     seq_expr = expr["sequences"]
     elements = [instantiate_element(e, factory_dict=factory_dict) for e in seq_expr]
     return elements
@@ -66,9 +66,9 @@ def instantiate_bending(prop: Element):
     return at.Dipole(
         prop.name,
         h=h,
-        ExitAngle=prop.exit_angle,
-        EntranceAngle=prop.entry_angle,
-        bending_angle=prop.bending_angle,
+        ExitAngle=prop.exitangle,
+        EntranceAngle=prop.entranceangle,
+        bending_angle=prop.bendingangle,
         k=0.0,
         length=prop.length,
     )
@@ -135,7 +135,7 @@ def instaniate_cavity(prop: Element, *, energy):
         prop.name,
         length=prop.length,
         frequency=prop.frequency,
-        harmonic_number=prop.harmonic_number,
+        harmonic_number=prop.harmnumber,
         voltage=voltage,
         energy=energy,
     )
@@ -143,9 +143,9 @@ def instaniate_cavity(prop: Element, *, energy):
 
 factory_dict_default = dict(
     Marker=instantiate_marker,
-    Bpm=instantiate_monitor,
+    Monitor=instantiate_monitor,
     Drift=instantiate_drift,
-    Bending=instantiate_bending,
+    Dipole=instantiate_bending,
     Quadrupole=instanitate_quadrupole,
     Sextupole=instanitate_sextupole,
     Horizontalsteerer=partial(
@@ -159,4 +159,4 @@ factory_dict_default = dict(
 # due to historic reasons: need to get the that cleaned away
 factory_dict_default["HorizontalSteerer"] = factory_dict_default["Horizontalsteerer"]
 factory_dict_default["VerticalSteerer"] = factory_dict_default["Verticalsteerer"]
-factory_dict_default["BPM"] = factory_dict_default["Bpm"]
+factory_dict_default["Monitor"] = factory_dict_default["Monitor"]
