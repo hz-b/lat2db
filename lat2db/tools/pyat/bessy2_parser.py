@@ -242,6 +242,8 @@ def insert_elements(ring, parent_id=None):
             
             element_data["index"]=index
             element_data["name"] = element_data.pop("famname")
+            element_data["main_multipole_strength"] = element_data.pop("k",None)
+
             all_elements.append(element_data)
             if typename.lower() == "quadrupole":
                 element_quad["name"] = element_quad.pop("famname")
