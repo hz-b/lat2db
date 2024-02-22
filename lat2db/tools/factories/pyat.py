@@ -2,9 +2,13 @@
 """
 import enum
 import math
+import sys
 from functools import partial
 
+sys.stderr.write("Importing at ...")
+sys.stderr.flush()
 import at
+sys.stderr.write("done\n")
 import jsons
 
 from ...model.element import Element
@@ -80,7 +84,10 @@ def instanitate_quadrupole(prop: Element):
     check which convention k follows
     """
     k = prop.main_multipole_strength
-    return at.Quadrupole(prop.name, length=prop.length, k=k)
+    print(f"Quadrupole {k=} {prop=}")
+    r = at.Quadrupole(prop.name, length=prop.length, k=k)
+    assert np.isfinite(r.K)
+    return r
 
 
 #
@@ -92,7 +99,11 @@ def instanitate_sextupole(prop: Element):
         check which convention h follows?
     """
     h = prop.main_multipole_strength
-    return at.Sextupole(prop.name, length=prop.length, h=h)
+    print(f"Sextupole {h=} {prop=}")
+    r = at.Sextupole(prop.name, length=prop.length, h=h)
+    assert r.H is not None
+    print(f"Sextupole {h=} {prop=} {r=}")
+    return r
 
 
 class SteererOrientation(enum.Enum):
