@@ -23,18 +23,46 @@ file1_elements = ring  # List of elements from the first file
 file2_elements = ring2  # List of elements from the second file
 
 differences = []
-
 for i in range(1188):  # Assuming 1188 elements in each file
     element1 = file1_elements[i]
     element2 = file2_elements[i]
 
-    # Compare attributes of the elements
-    if element1 != element2:
-        differences.append((i, element1, element2))
+    # Get all field names for each element as sets
+    element1_fields = set(vars(element1).keys())
+    element2_fields = set(vars(element2).keys())
+
+    # Compare fields present in element1 but not in element2
+    for field in element1_fields - element2_fields:
+        differences.append((i, field, getattr(element1, field), None))
+
+    # Compare fields present in element2 but not in element1
+    for field in element2_fields - element1_fields:
+        differences.append((i, field, None, getattr(element2, field)))
+
+    # Compare common fields
+    for field in element1_fields.intersection(element2_fields):
+        value1 = getattr(element1, field)
+        value2 = getattr(element2, field)
+
+        if isinstance(value1, np.ndarray) and isinstance(value2, np.ndarray):
+            # Compare arrays element-wise
+            if not np.array_equal(value1, value2):
+                differences.append((i, field, value1, value2))
+        elif value1 != value2:
+            differences.append((i, field, value1, value2))
 
 if differences:
     print("Differences found:")
     for diff in differences:
-        print(f"At index {diff[0]}: {diff[1]} != {diff[2]}")
+        index = diff[0]
+        field_name = diff[1]
+        value1 = diff[2]
+        value2 = diff[3]
+        if value1 is None:
+            print(f"At index {index}: '{field_name}' is in file1 but not in file2")
+        elif value2 is None:
+            print(f"At index {index}: '{field_name}' is in file2 but not in file1")
+        else:
+            print(f"At index {index}: '{field_name}' differs: {value1} != {value2}")
 else:
     print("No differences found. The Lattice files are identical.")
