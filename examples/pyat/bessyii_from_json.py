@@ -14,6 +14,3 @@ seq = factory(lattice_in_json_format[0])
 
 import at
 ring = at.Lattice(seq,name='bessy2',periodicity=1, energy=1.7e9 )
-# acc = at.Lattice(seq, periodicity=1)
-twiss = ring.get_optics(at.All)
-twiss
