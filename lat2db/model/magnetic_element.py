@@ -30,5 +30,5 @@ class MagneticElement(Element):
 
     @property
     def skew_coefficients(self):
-        return [float, self.polynomb.split(" ")]
+        return self.polynoma
 
