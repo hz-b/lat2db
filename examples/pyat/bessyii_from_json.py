@@ -1,7 +1,11 @@
+import sys
+
 from lat2db.tools.factories.pyat import factory
 import json
 import numpy as np
 from pathlib import Path
+
+import at
 from bessy2_sr_reflat import bessy2Lattice
 # Read json from file
 t_dir = Path(__file__).resolve().parent
@@ -12,7 +16,7 @@ with open(bessyii_json_file, "rt") as fp:
 seq = factory(lattice_in_json_format[0])
 
 
-import at
+
 ring = at.Lattice(seq,name='bessy2',periodicity=1, energy=1.7e9 )
 ring2 = bessy2Lattice()
 
@@ -63,6 +67,13 @@ if differences:
         elif value2 is None:
             print(f"At index {index}: '{field_name}' is in file2 but not in file1")
         else:
-            print(f"At index {index}: '{field_name}' differs: {value1} != {value2}")
+            if field_name == "PolynomB":
+                chk1 = np.array(value1, dtype=float)
+                chk2 = np.array(value2, dtype=float)
+                diff = chk1 - chk2
+                if (np.absolute(diff) > 1e-6).any():
+                    print(f"At index  {index}: '{field_name}' differs: {chk1} != {chk2}")
+            else:
+                print(f"At index {index}: '{field_name}' differs: {value1} != {value2}")
 else:
     print("No differences found. The Lattice files are identical.")
