@@ -1,22 +1,14 @@
 from dataclasses import dataclass
-
 from typing import Optional
+from ..model.magnetic_element import MagneticElement
 
 @dataclass
-class Sextupole:
-    name: Optional[str] = None
-    index: Optional[int] = None
+class Sextupole(MagneticElement):
     method: Optional[int] = None
     number_of_integration_steps: Optional[int] = None
-    main_multipole_strength: Optional[float] = None
-    main_multipole_index: Optional[int] = None
+    # main_multipole_strength: Optional[float] = None
 
 
-    corrector: Optional[str] = None
-    kickangle: Optional[str] = None
-    length: Optional[str] = None
-    maxorder: Optional[str] = None
-    passmethod: Optional[str] = None
-    polynoma: Optional[str] = None
-    polynomb: Optional[str] = None
-    type: Optional[str] = None
+    @property
+    def main_multipole_strength(self):
+        return self.NormalCoefficients[2]
