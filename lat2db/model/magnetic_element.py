@@ -7,8 +7,8 @@ from lat2db.model.element import Element
 class MultipoleCoefficients:
     normal_coefficients: Optional[Sequence[float]] = None
     skew_coefficients: Optional[Sequence[float]] = None
-   @property
-    def maxorder(self):
+    @property
+    def maximum_order(self):
         return max(len(self.normal_coefficients), len(self.skew_coefficients))
 
 
@@ -16,16 +16,13 @@ class AddonCorrector:
     """
     or better:
          NebenMagnet Wie Nebenuhr?
-         Piggypackmagnet I think is used at Brookhaben nation lab
+         Piggypackmagnet I think is used at Brookhaven nationl lab
 
     Todo:
         should it have a separate id? e.g. to look up conversion factors
     """
     corrector: Optional[str] = None
-    #: todo should be Optional[Sequence[float]] = None
-    #: furthermore should be rather: PiggyBackMagnet (e.g. add on) or similar
-    #: then stored as assembly consisting of
-    #:  main and add ons
+    #: todo: review if one should not store MagneticElement
     kickangle: Optional[Sequence[float]] = None
 
 
@@ -43,8 +40,13 @@ class MagneticElement:
 
 
 class MagnetAssembly:
+    """does not need to be a single magnet, but can have extra magnets
+
+    """
     magnetic_element: MagneticElement
+    #: physisists often think of these corrector magnets
     corectors : Sequence[AddonCorrector]
+
 class Magnet(Element):
     """
     Todo:
@@ -54,4 +56,6 @@ class Magnet(Element):
         * "InstallableManet"
         * "selbständig nutzbares Gerät"
     """
-    element_configuration =
+    # todo: or distinquish at this place
+    #: element_configuration: Union[MagnetAssembly, MagneticElement]
+    element_configuration: MagnetAssembly
