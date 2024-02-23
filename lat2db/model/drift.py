@@ -6,6 +6,7 @@ from typing import Optional
 
 @dataclass
 class Drift(Element):
-    passmethod: Optional[str] = None
+    #: should go to pyat calc info
+    # passmethod: Optional[str] = None
 
     

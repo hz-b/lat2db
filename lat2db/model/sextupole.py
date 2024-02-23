@@ -11,4 +11,4 @@ class Sextupole(MagneticElement):
 
     @property
     def main_multipole_strength(self):
-        return self.NormalCoefficients[2]
+        return self.normal_coefficients[2]

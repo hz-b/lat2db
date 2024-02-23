@@ -6,5 +6,5 @@ from ..model.magnetic_element import MagneticElement
 
 
 @dataclass
-class Quadrupole(MagneticElement):
-    pass
+class Quadrupole(Element):
+    element_properties : MagneticElementProperties
