@@ -1,12 +1,14 @@
 from dataclasses import dataclass
-from typing import Optional, Sequence, Tuple
+from typing import Optional, Sequence
 
 from lat2db.model.element import Element
+
 
 @dataclass
 class MultipoleCoefficients:
     normal_coefficients: Optional[Sequence[float]] = None
     skew_coefficients: Optional[Sequence[float]] = None
+
     @property
     def maximum_order(self):
         return max(len(self.normal_coefficients), len(self.skew_coefficients))
@@ -31,7 +33,7 @@ class MagneticElement:
     """Info what field a particular magnet component provides
     """
     #: todoo or coefficients
-    coeffs : MultipoleCoefficients
+    coeffs: MultipoleCoefficients
     #: todo: should that not be in describing the calculation
     #:       should it be here anyway? I think it is pyat specific
     passmethod: Optional[str] = None
@@ -45,7 +47,8 @@ class MagnetAssembly:
     """
     magnetic_element: MagneticElement
     #: physisists often think of these corrector magnets
-    corectors : Sequence[AddonCorrector]
+    corectors: Sequence[AddonCorrector]
+
 
 class Magnet(Element):
     """

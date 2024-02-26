@@ -28,6 +28,6 @@ class RFFieldHarmonic:
 @dataclass
 class Cavity(Element):
     #: review : that's a property of the ring
-    harmonic_number: Optional[int] = None
     element_configuration : RFFieldHarmonic
+    harmonic_number: Optional[int] = None
     

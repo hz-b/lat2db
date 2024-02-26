@@ -13,7 +13,7 @@ class Element:
     type: str
     #: everythng describing the element itself beyond to the information given
     #: in the fields above
-    element_configuration: Optional[object]
+    # element_configuration: object
 
 
 __all__ = ["Element"]

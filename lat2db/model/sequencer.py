@@ -1,12 +1,19 @@
 from dataclasses import dataclass
+
 import numpy as np
+
+from .cavity import RFFieldHarmonic
+from .magnetic_element import MagneticElement
 
 nan = np.nan
 
 from typing import Optional
 
+
 @dataclass
 class Sequencer:
+    element_configuration: RFFieldHarmonic
+    element_properties: MagneticElement
     name: str
     index: int
     strength: Optional[float] = None
