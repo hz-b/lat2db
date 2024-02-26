@@ -2,6 +2,8 @@
 from itertools import chain
 from pymongo import MongoClient
 import sys
+import numpy as np
+
 sys.path.append('/Users/safiullahomar/lattice/lat2db test')
 from lat2db.model.quadrupole import Quadrupole
 from lat2db.model.sextupole import Sextupole
@@ -78,11 +80,16 @@ def insert_elements(ring, parent_id=None):
         monitor_fields = [field.name for field in fields(Monitor)]
 
 
-
         for element in ring:
+            
+            element_fields = set(vars(element).keys())
+            
+            
+
+            
             element_str = str(element)
             
-            lines = element_str.split('\n')
+            element_split_by_space = element_str.split('\n')
             
             element_data = {}
             element_quad={}
@@ -99,42 +106,69 @@ def insert_elements(ring, parent_id=None):
             element_dipole={}
             element_monitor={}
 
-            line_number=1
+            _row=1
             typename=""
             changesnumber=0
 
-            for line in lines:
-                if line.strip() == '':
+            
+
+            for row_in_split in element_split_by_space:
+
+                if row_in_split.strip() == '':
                     continue
                 
 
-                key, value = line.split(':', 1)
-                if line_number==1:
+                key, value = row_in_split.split(':', 1)
+                if _row==1:
                     value=key
                     key="type"
-                    line_number+=1
+                    _row+=1
                     typename=value
+                    #key = key.lower().strip()
+                    #value = value.strip()
+                    #element_data[key] = value
                 if key.lower()=="famname":
                     print(key.lower())
                     key="name"
+
                 key = key.lower().strip()
                 value = value.strip()
-              
+                
+
                 element_data[key] = value
-                element_quad[key] = value
-                element_sextupole[key]=value
-                element_drift[key]=value
+                if typename.lower() == "quadrupole":
+                    element_quad[key] = value
+                if typename.lower() == "sextupole":
+                    element_sextupole[key]=value
+                if typename.lower() == "drift":
+                    element_drift[key]=value
+                if typename.lower() == "bending":
+                    element_bending[key]=value
+                if typename.lower() == "marker":
+                    element_marker[key]=value
+                if typename.lower() == "horizontalsteerer":
+                    element_h_steerer[key]=value
+                if typename.lower() == "verticalsteerer":
+                    element_v_steerer[key]=value
+                if typename.lower() == "monitor":
+                    element_beamposition[key]=value
+                if typename.lower() == "rfcavity":
+                    element_cavity[key]=value
+                if typename.lower() == "version":
+                    element_version[key]=value
+                if typename.lower() == "dipole":
+                    element_dipole[key]=value
+                if typename.lower() == "monitor2":
+                    element_monitor[key]=value
 
-                element_bending[key]=value
-                element_marker[key]=value
-                element_h_steerer[key]=value
-                element_v_steerer[key]=value
-                element_beamposition[key]=value
-                element_cavity[key]=value
-                element_version[key]=value
-                element_dipole[key]=value
-                element_monitor[key]=value
-
+            for field in element_fields:
+                    
+                field_value = getattr(element, field)
+                if isinstance(field_value, np.ndarray):
+                    # If the field value is a NumPy array, convert it to a list
+                    field_value = field_value.tolist()
+                # Assign the field value to element_data
+                element_data[field] = field_value
 
             if typename.lower() == "quadrupole":
                 element_quad["main_multipole_strength"] = element_quad.pop("k",None)
@@ -292,10 +326,10 @@ def insert_elements(ring, parent_id=None):
                 element_dipole["name"] = element_dipole.pop("famname")
                 element_dipole["index"]=index
                 dipole_elements.append(element_dipole)
-            if typename.lower() == "monitor":
+            """ if typename.lower() == "monitor":
                 element_monitor["name"] = element_monitor.pop("famname")
                 element_monitor["index"]=index
-                monitor_elements.append(element_monitor)
+                monitor_elements.append(element_monitor) """
             index+=1
 
         unique_id = str(uuid.uuid4())
@@ -320,7 +354,7 @@ def insert_elements(ring, parent_id=None):
                                         #"dipoles":dipole_elements,
                                 
                                 })
-        print(f"Number of changes made: {changesnumber}")
+        #print(f"Number of changes made: {changesnumber}")
 
         #insert_elements(ring)
         #print_elements(ring)
