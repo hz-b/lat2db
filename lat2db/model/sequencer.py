@@ -12,10 +12,10 @@ from typing import Optional
 
 @dataclass
 class Sequencer:
-    element_configuration: RFFieldHarmonic
-    element_properties: MagneticElement
     name: str
     index: int
+    element_configuration: Optional[RFFieldHarmonic] = None
+    element_properties: Optional[MagneticElement] = None
     strength: Optional[float] = None
     length: Optional[float] = None
     method: Optional[int] = None

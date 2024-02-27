@@ -1288,7 +1288,7 @@ def bessy2Lattice() -> at.Lattice:
     
     # Set main cavity phases
     ring.set_cavity_phase(cavpts='CAV*')
-    
+    print(ring)
     return ring
 
 if __name__ == '__main__':

@@ -40,6 +40,13 @@ class MagneticElement:
     #: todo, rename to normal_coefficients should be Optional[Sequence[float]] = None
     main_multipole_index: Optional[int] = None
 
+    def to_dict(self):
+        return {
+            "coeffs": self.coeffs.__dict__,
+            "passmethod": self.passmethod,
+            "main_multipole_index": self.main_multipole_index
+        }
+
 
 class MagnetAssembly:
     """does not need to be a single magnet, but can have extra magnets
