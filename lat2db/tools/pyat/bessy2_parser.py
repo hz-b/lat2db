@@ -263,9 +263,9 @@ def insert_elements(ring, parent_id=None):
             multipole_coefficients.normal_coefficients = [float(x) for x in element_bending.pop("PolynomA")]
             multipole_coefficients.skew_coefficients = [float(x) for x in element_bending.pop("PolynomB")]
             magnetic_element = MagneticElement(coeffs=multipole_coefficients,passmethod=element_bending.pop("PassMethod"))
-            element_sextupole["element_properties"] = magnetic_element.to_dict()
-            element_sextupole["number_of_integration_steps"] = element_bending.pop("NumIntSteps", None)
-            element_sextupole["name"] = element_bending.pop("FamName", None)
+            element_bending["element_properties"] = magnetic_element.to_dict()
+            element_bending["number_of_integration_steps"] = element_bending.pop("NumIntSteps", None)
+            element_bending["name"] = element_bending.pop("FamName", None)
 
 
 
@@ -275,28 +275,28 @@ def insert_elements(ring, parent_id=None):
                     element_bending[field] = None
         if typename.lower() == "marker":
             # element_marker["passmethod"] = element_quad.pop("method")
-            element_drift["name"] = element_drift.pop("FamName", None)
+            element_marker["name"] = element_marker.pop("FamName", None)
 
             for field in marker_fields:
                 if field not in element_marker:
                     # Add missing property with null value
                     element_marker[field] = None
         if typename.lower() == "horizontalsteerer":
-            element_drift["name"] = element_drift.pop("FamName", None)
+            element_h_steerer["name"] = element_h_steerer.pop("FamName", None)
 
             for field in h_steerer_fields:
                 if field not in element_h_steerer:
                     # Add missing property with null value
                     element_h_steerer[field] = None
         if typename.lower() == "verticalsteerer":
-            element_drift["name"] = element_drift.pop("FamName", None)
+            element_v_steerer["name"] = element_v_steerer.pop("FamName", None)
 
             for field in v_steerer_fields:
                 if field not in element_v_steerer:
                     # Add missing property with null value
                     element_v_steerer[field] = None
         if typename.lower() == "monitor":
-            element_drift["name"] = element_drift.pop("FamName", None)
+            element_beamposition["name"] = element_beamposition.pop("FamName", None)
 
             for field in beamposition_fields:
                 if field not in element_beamposition:
@@ -338,7 +338,7 @@ def insert_elements(ring, parent_id=None):
                     # Add missing property with null value
                     element_version[field] = None
         if typename.lower() == "dipole":
-            element_drift["name"] = element_drift.pop("FamName", None)
+            element_dipole["name"] = element_dipole.pop("FamName", None)
 
             element_dipole["main_multipole_strength"] = element_dipole.pop("k", None)
 
@@ -347,7 +347,7 @@ def insert_elements(ring, parent_id=None):
                     # Add missing property with null value
                     element_dipole[field] = None
         if typename.lower() == "monitor":
-            element_drift["name"] = element_drift.pop("FamName", None)
+            element_monitor["name"] = element_monitor.pop("FamName", None)
 
             for field in monitor_fields:
                 if field not in element_monitor:
