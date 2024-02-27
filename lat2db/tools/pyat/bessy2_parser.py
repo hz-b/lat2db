@@ -338,14 +338,22 @@ def insert_elements(ring, parent_id=None):
                     # Add missing property with null value
                     element_version[field] = None
         if typename.lower() == "dipole":
-            element_dipole["name"] = element_dipole.pop("FamName", None)
-
             element_dipole["main_multipole_strength"] = element_dipole.pop("k", None)
+            multipole_coefficients = MultipoleCoefficients()
+            multipole_coefficients.normal_coefficients = [float(x) for x in element_dipole.pop("PolynomA")]
+            multipole_coefficients.skew_coefficients = [float(x) for x in element_dipole.pop("PolynomB")]
+            magnetic_element = MagneticElement(coeffs=multipole_coefficients,passmethod=element_dipole.pop("PassMethod"))
+            element_dipole["element_properties"] = magnetic_element.to_dict()
+            element_dipole["number_of_integration_steps"] = element_dipole.pop("NumIntSteps", None)
+            element_dipole["name"] = element_bending.pop("FamName", None)
 
-            for field in dipole_fields:
+
+
+            for field in bending_fields:
                 if field not in element_dipole:
                     # Add missing property with null value
                     element_dipole[field] = None
+
         if typename.lower() == "monitor":
             element_monitor["name"] = element_monitor.pop("FamName", None)
 
@@ -407,6 +415,8 @@ def insert_elements(ring, parent_id=None):
             #element_bending["name"] = element_bending.pop("famname")
             element_bending["index"] = index
             bending_elements.append(element_bending)
+            print("bending elements")
+            print(bending_elements)
             all_elements.append(element_bending)
         if typename.lower() == "marker":
             #element_marker["name"] = element_marker.pop("famname")
