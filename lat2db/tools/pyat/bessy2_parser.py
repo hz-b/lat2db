@@ -353,13 +353,14 @@ def insert_elements(ring, parent_id=None):
             element_dipole["fullgap"] = element_dipole.pop("FullGap", None)
             element_dipole["entranceangle"] = element_dipole.pop("EntranceAngle", None)
             element_dipole["exitangle"] = element_dipole.pop("ExitAngle", None)
+            element_dipole["bending_angle"] = element_dipole.pop("BendingAngle", None)
 
 
             for field in bending_fields:
                 if field not in element_dipole:
                     # Add missing property with null value
                     element_dipole[field] = None
-
+            
         if typename.lower() == "monitor":
             element_monitor["name"] = element_monitor.pop("FamName", None)
             element_monitor["length"] = element_monitor.pop("Length", None)
@@ -460,6 +461,7 @@ def insert_elements(ring, parent_id=None):
             element_dipole["index"] = index
             dipole_elements.append(element_dipole)
             all_elements.append(element_dipole)
+            
         """ if typename.lower() == "monitor":
             element_monitor["name"] = element_monitor.pop("famname")
             element_monitor["index"]=index
