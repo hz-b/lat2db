@@ -223,6 +223,7 @@ def insert_elements(ring, parent_id=None):
             element_quad["element_properties"] = magnetic_element.to_dict()
             element_quad["number_of_integration_steps"] = element_quad.pop("NumIntSteps", None)
             element_quad["name"] = element_quad.pop("FamName", None)
+            element_quad["length"] = element_quad.pop("Length", None)
 
             for field in quadrupole_fields:
                 if field not in element_quad:
@@ -241,7 +242,7 @@ def insert_elements(ring, parent_id=None):
             element_sextupole["element_properties"] = magnetic_element.to_dict()
             element_sextupole["number_of_integration_steps"] = element_sextupole.pop("NumIntSteps", None)
             element_sextupole["name"] = element_sextupole.pop("FamName", None)
-
+            element_sextupole["length"] = element_sextupole.pop("Length", None)
             for field in sextupole_fields:
                 if field != "element_properties" and field not in element_sextupole:
                     # Add missing property with null value
@@ -250,7 +251,7 @@ def insert_elements(ring, parent_id=None):
         if typename.lower() == "drift":
             # element_drift["passmethod"] = element_quad.pop("method")
             element_drift["name"] = element_drift.pop("FamName", None)
-
+            element_drift["length"] = element_drift.pop("Length", None)
             for field in drift_fields:
                 if field not in element_drift:
                     # Add missing property with null value
@@ -266,7 +267,7 @@ def insert_elements(ring, parent_id=None):
             element_bending["element_properties"] = magnetic_element.to_dict()
             element_bending["number_of_integration_steps"] = element_bending.pop("NumIntSteps", None)
             element_bending["name"] = element_bending.pop("FamName", None)
-
+            element_bending["length"] = element_bending.pop("Length", None)
 
 
             for field in bending_fields:
@@ -276,34 +277,34 @@ def insert_elements(ring, parent_id=None):
         if typename.lower() == "marker":
             # element_marker["passmethod"] = element_quad.pop("method")
             element_marker["name"] = element_marker.pop("FamName", None)
-
+            element_marker["length"] = element_marker.pop("Length", None)
             for field in marker_fields:
                 if field not in element_marker:
                     # Add missing property with null value
                     element_marker[field] = None
         if typename.lower() == "horizontalsteerer":
             element_h_steerer["name"] = element_h_steerer.pop("FamName", None)
-
+            element_h_steerer["length"] = element_h_steerer.pop("Length", None)
             for field in h_steerer_fields:
                 if field not in element_h_steerer:
                     # Add missing property with null value
                     element_h_steerer[field] = None
         if typename.lower() == "verticalsteerer":
             element_v_steerer["name"] = element_v_steerer.pop("FamName", None)
-
+            element_v_steerer["length"] = element_v_steerer.pop("Length", None)
             for field in v_steerer_fields:
                 if field not in element_v_steerer:
                     # Add missing property with null value
                     element_v_steerer[field] = None
         if typename.lower() == "monitor":
             element_beamposition["name"] = element_beamposition.pop("FamName", None)
-
+            element_beamposition["length"] = element_beamposition.pop("Length", None)
             for field in beamposition_fields:
                 if field not in element_beamposition:
                     # Add missing property with null value
                     element_beamposition[field] = None
         if typename.lower() == "rfcavity":
-
+            
             
            
             """ harmonic_fields = RFFieldHarmonic(voltage=element_cavity.pop("Voltage"), 
@@ -326,7 +327,7 @@ def insert_elements(ring, parent_id=None):
 
             element_cavity["name"] = element_cavity.pop("FamName", None)
             element_cavity["harmonic_number"] = element_cavity.pop("HarmNumber", None)
-
+            element_cavity["length"] = element_cavity.pop("Length", None)
             for field in cavity_fields:
                 if field not in element_cavity:
                     # Add missing property with null value
@@ -346,7 +347,7 @@ def insert_elements(ring, parent_id=None):
             element_dipole["element_properties"] = magnetic_element.to_dict()
             element_dipole["number_of_integration_steps"] = element_dipole.pop("NumIntSteps", None)
             element_dipole["name"] = element_bending.pop("FamName", None)
-
+            element_dipole["length"] = element_bending.pop("Length", None)
 
 
             for field in bending_fields:
@@ -356,7 +357,7 @@ def insert_elements(ring, parent_id=None):
 
         if typename.lower() == "monitor":
             element_monitor["name"] = element_monitor.pop("FamName", None)
-
+            element_monitor["length"] = element_monitor.pop("Length", None)
             for field in monitor_fields:
                 if field not in element_monitor:
                     # Add missing property with null value
