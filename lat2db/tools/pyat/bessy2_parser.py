@@ -349,6 +349,11 @@ def insert_elements(ring, parent_id=None):
             element_dipole["name"] = element_dipole.pop("FamName", None)
             element_dipole["length"] = element_dipole.pop("Length", None)
 
+            element_dipole["fringeint1"] = element_dipole.pop("FringeInt1", None)
+            element_dipole["fullgap"] = element_dipole.pop("FullGap", None)
+            element_dipole["entranceangle"] = element_dipole.pop("EntranceAngle", None)
+            element_dipole["exitangle"] = element_dipole.pop("ExitAngle", None)
+
 
             for field in bending_fields:
                 if field not in element_dipole:
