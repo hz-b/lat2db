@@ -19,11 +19,20 @@ seq = factory(lattice_in_json_format[0])
 
 
 ring = at.Lattice(seq,name='bessy2',periodicity=1, energy=1.7e9 )
+if True:
+    # set up of calculation choice
+    ring.enable_6d()  # Should 6D be default?
+    # Set main cavity phases
+    ring.set_cavity_phase(cavpts='CAV*')
+
 ring2 = bessy2Lattice()
 
-# twiss = ring.get_optics(at.All)
+orbit = ring.find_orbit(at.All)
+twiss = ring.get_optics(at.All)
 ring
 ring2
+
+
 
 file1_elements = ring  # List of elements from the first file
 file2_elements = ring2  # List of elements from the second file

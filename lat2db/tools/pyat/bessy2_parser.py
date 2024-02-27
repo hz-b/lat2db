@@ -65,7 +65,6 @@ def insert_elements(ring, parent_id=None):
     beamposition_fields = [field.name for field in fields(BeamPositionMonitor)]
     cavity_fields = [field.name for field in fields(Cavity)]
     version_fields = [field.name for field in fields(Version)]
-    #dipole_fields = [field.name for field in fields(Dipole)]
     monitor_fields = [field.name for field in fields(Monitor)]
 
     for element in ring:
