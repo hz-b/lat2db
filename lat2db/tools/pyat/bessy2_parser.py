@@ -346,8 +346,8 @@ def insert_elements(ring, parent_id=None):
             magnetic_element = MagneticElement(coeffs=multipole_coefficients,passmethod=element_dipole.pop("PassMethod"))
             element_dipole["element_properties"] = magnetic_element.to_dict()
             element_dipole["number_of_integration_steps"] = element_dipole.pop("NumIntSteps", None)
-            element_dipole["name"] = element_bending.pop("FamName", None)
-            element_dipole["length"] = element_bending.pop("Length", None)
+            element_dipole["name"] = element_dipole.pop("FamName", None)
+            element_dipole["length"] = element_dipole.pop("Length", None)
 
 
             for field in bending_fields:
