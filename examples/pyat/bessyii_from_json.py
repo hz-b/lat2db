@@ -9,21 +9,22 @@ import at
 from bessy2_sr_reflat import bessy2Lattice
 # Read json from file
 t_dir = Path(__file__).resolve().parent
-#bessyii_json_file = t_dir / "bessyii_2_json_f44e7064-ba80-4f0c-a193-80997aa33d553.json"
-#with open(bessyii_json_file, "rt") as fp:
-    #lattice_in_json_format = json.load(fp)
+bessyii_json_file = t_dir / "bessyii_lattice_json.json"
+with open(bessyii_json_file, "rt") as fp:
+    lattice_in_json_format = json.load(fp)
 
-#seq = factory(lattice_in_json_format[0])
+seq = factory(lattice_in_json_format[0])
 
 
 
-#ring = at.Lattice(seq,name='bessy2',periodicity=1, energy=1.7e9 )
+ring = at.Lattice(seq,name='bessy2',periodicity=1, energy=1.7e9 )
 ring2 = bessy2Lattice()
 
-ring2
+# twiss = ring.get_optics(at.All)
+ring
 ring2
 
-file1_elements = ring2  # List of elements from the first file
+file1_elements = ring  # List of elements from the first file
 file2_elements = ring2  # List of elements from the second file
 
 differences = []
@@ -63,9 +64,10 @@ if differences:
         value1 = diff[2]
         value2 = diff[3]
         if value1 is None:
-            print(f"At index {index}: '{field_name}' is in file1 but not in file2")
+            print(f"At index {index}: '{field_name}' is in AT but not in BESSY")
         elif value2 is None:
-            print(f"At index {index}: '{field_name}' is in file2 but not in file1")
+            pass
+            # print(f"At index {index}: '{field_name}' is in AT but not in BESSYII")
         else:
             if field_name == "PolynomB":
                 chk1 = np.array(value1, dtype=float)

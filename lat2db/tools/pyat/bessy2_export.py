@@ -16,7 +16,6 @@ from lat2db.model.vertical_steerer import VerticalSteerer
 from lat2db.model.beam_position_monitor import BeamPositionMonitor
 from lat2db.model.cavity import Cavity
 from lat2db.model.version import Version
-from lat2db.model.dipole import Dipole
 from lat2db.model.monitor import Monitor
 import uuid
 

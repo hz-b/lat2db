@@ -10,11 +10,11 @@ import at
 import jsons
 
 from ...model.cavity import Cavity
-from ...model.dipole import Dipole
 from ...model.element import Element
 from ...model.sextupole import Sextupole
 from ...model.quadrupole import Quadrupole
 
+from ...model.bending import Bending as Dipole
 
 logger = logging.getLogger("lat2db")
 __all__ = ["factory"]
@@ -76,9 +76,11 @@ def instantiate_bending(prop: dict):
         h=h,
         ExitAngle=p.exitangle,
         EntranceAngle=p.entranceangle,
-        bending_angle=p.bendingangle,
+        bending_angle=p.BendingAngle,
         k=0.0,
         length=p.length,
+        PolynomA=p.element_properties.coeffs.normal_coefficients,
+        PolynomB = p.element_properties.coeffs.skew_coefficients
     )
 
 
@@ -94,7 +96,7 @@ def instanitate_quadrupole(prop: dict):
         logger.error(f"Could not load Quadrupole using properties {prop}")
         raise
     k = p.main_multipole_strength
-    r = at.Quadrupole(p.name, length=p.length, k=k, PolynomB=p.normal_coefficients)
+    r = at.Quadrupole(p.name, length=p.length, k=k, PolynomA= p.element_properties.coeffs.normal_coefficients,PolynomB=p.element_properties.coeffs.skew_coefficients)
     assert np.isfinite(r.K)
     return r
 
@@ -114,7 +116,7 @@ def instanitate_sextupole(prop: dict):
     except jsons.exceptions.DeserializationError:
         logger.error(f"Could not load Sextupole using properties {prop}")
         raise
-    r = at.Sextupole(p.name, p.length, PolynomB=p.normal_coefficients)
+    r = at.Sextupole(p.name, p.length,PolynomA= p.element_properties.coeffs.normal_coefficients , PolynomB=p.element_properties.coeffs.skew_coefficients)
     assert np.isfinite(r.H)
     return r
 
@@ -154,14 +156,14 @@ def instaniate_cavity(prop: dict, *, energy):
     """
     logger.debug(f"cavity property {prop=}")
     p = jsons.load(prop, Cavity)
-    voltage = p.voltage
+    voltage = p.element_configuration.voltage
 
     energy = energy
     return at.RFCavity(
         p.name,
         length=p.length,
-        frequency=p.frequency,
-        harmonic_number=p.harmnumber,
+        frequency=p.element_configuration.frequency,
+        harmonic_number=p.harmonic_number,
         voltage=voltage,
         energy=energy,
     )

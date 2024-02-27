@@ -14,7 +14,6 @@ from lat2db.model.vertical_steerer import VerticalSteerer
 from lat2db.model.beam_position_monitor import BeamPositionMonitor
 from lat2db.model.cavity import Cavity,RFFieldHarmonic
 from lat2db.model.version import Version
-from lat2db.model.dipole import Dipole
 from lat2db.model.monitor import Monitor
 from lat2db.model.magnetic_element import MagneticElement
 from lat2db.model.magnetic_element import MultipoleCoefficients
@@ -29,7 +28,7 @@ from lat2db.tools.pyat.bessy2_export import bessy2Lattice
 
 def insert_elements(ring, parent_id=None):
     client = MongoClient('mongodb://localhost:27017/')
-    db = client['db1']
+    db = client['bessyii']
     collection = db['machines']
 
     # previosu machine databasse and its collection
