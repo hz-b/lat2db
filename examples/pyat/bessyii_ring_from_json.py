@@ -1,14 +1,16 @@
+import json
+from pathlib import Path
+
 import at
 from lat2db.tools.factories.pyat import factory
-from pymongo import MongoClient
 
-# get database
-client = MongoClient("mongodb://127.0.0.1:27017/")
-db = client["bessyii"]
-collection = db["machines"]
-lattice_in_json_format = collection.find_one()
+# Read json from file
+t_dir = Path(__file__).resolve().parent
+bessyii_json_file = t_dir / "bessyii_lattice_json.json"
+with open(bessyii_json_file, "rt") as fp:
+    lattice_in_json_format = json.load(fp)
 
-seq = factory(lattice_in_json_format)
+seq = factory(lattice_in_json_format[0])
 
 ring = at.Lattice(seq, name='bessy2', periodicity=1, energy=1.7e9)
 if True:
