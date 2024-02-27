@@ -1,4 +1,5 @@
 import sys
+sys.path.append('/Users/safiullahomar/lattice/lat2db test')
 
 from lat2db.tools.factories.pyat import factory
 import json
@@ -38,6 +39,8 @@ for i in range(1188):  # Assuming 1188 elements in each file
 
     # Compare fields present in element1 but not in element2
     for field in element1_fields - element2_fields:
+        if field=="bending_angle":
+            field="BendingAngle"
         differences.append((i, field, getattr(element1, field), None))
 
     # Compare fields present in element2 but not in element1
@@ -46,6 +49,8 @@ for i in range(1188):  # Assuming 1188 elements in each file
 
     # Compare common fields
     for field in element1_fields.intersection(element2_fields):
+        if field=="bending_angle":
+            field="BendingAngle"
         value1 = getattr(element1, field)
         value2 = getattr(element2, field)
 
