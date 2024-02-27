@@ -76,7 +76,7 @@ def instantiate_bending(prop: dict):
         h=h,
         ExitAngle=p.exitangle,
         EntranceAngle=p.entranceangle,
-        bending_angle=p.BendingAngle,
+        bending_angle=p.bending_angle,
         k=0.0,
         length=p.length,
         PolynomA=p.element_properties.coeffs.normal_coefficients,
