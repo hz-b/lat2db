@@ -14,6 +14,6 @@ class Element:
     #: everythng describing the element itself beyond to the information given
     #: in the fields above
     # element_configuration: object
-
+    md: object
 
 __all__ = ["Element"]

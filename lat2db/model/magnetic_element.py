@@ -14,19 +14,6 @@ class MultipoleCoefficients:
         return max(len(self.normal_coefficients), len(self.skew_coefficients))
 
 
-class AddonCorrector:
-    """
-    or better:
-         NebenMagnet Wie Nebenuhr?
-         Piggypackmagnet I think is used at Brookhaven nationl lab
-
-    Todo:
-        should it have a separate id? e.g. to look up conversion factors
-    """
-    corrector: Optional[str] = None
-    #: todo: review if one should not store MagneticElement
-    kickangle: Optional[Sequence[float]] = None
-
 
 @dataclass
 class MagneticElement:
@@ -34,10 +21,6 @@ class MagneticElement:
     """
     #: todoo or coefficients
     coeffs: MultipoleCoefficients
-    #: todo: should that not be in describing the calculation
-    #:       should it be here anyway? I think it is pyat specific
-    passmethod: Optional[str] = None
-    #: todo, rename to normal_coefficients should be Optional[Sequence[float]] = None
     main_multipole_index: Optional[int] = None
 
     def to_dict(self):
@@ -48,22 +31,46 @@ class MagneticElement:
         }
 
 
+class AddonCorrector(Element):
+    """
+    or better:
+         NebenMagnet Wie Nebenuhr?
+         Piggypackmagnet I think is used at Brookhaven nationl lab
+
+
+    Todo:
+        * length: set it to None if it is identical with the
+           Main magnet
+    """
+    #: corrector: add as metadata?
+    # corrector: Optional[str] = None
+    #: todo: review if one should not store MagneticElement
+    # kickangle: Optional[Sequence[float]] = None
+    """
+    Kickangle: single angle
+    Coefficients Angles with errors
+    """
+    #: see if that could be part of the Element
+    element_properties: Optional[MagneticElement] = None
+
+
 class MagnetAssembly:
     """does not need to be a single magnet, but can have extra magnets
 
     """
     magnetic_element: MagneticElement
     #: physisists often think of these corrector magnets
-    corectors: Sequence[AddonCorrector]
+    correctors: Optional[Sequence[AddonCorrector]]
 
 
 class Magnet(Element):
     """
     Todo:
         * Magnet assembly
-        * "Muttermagnet"
+        * "Muttermagnet": Bahnhof: MutterUhr, Nebenuhr
         * "Hauptmagnet"
         * "InstallableManet"
+        * "Host Magnet"
         * "selbständig nutzbares Gerät"
     """
     # todo: or distinquish at this place
