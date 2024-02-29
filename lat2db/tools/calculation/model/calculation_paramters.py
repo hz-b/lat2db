@@ -20,7 +20,7 @@ class StateSpaceCoordinates(enum.Intenum):
 
 
 @dataclass
-class CalculationSyntacticSugar:
+class CalculationParametersRepository:
     per_element: Sequence[ElementCalculationParameters]
     state_space_coordinates: StateSpaceCoordinates
     with_radiation: bool
