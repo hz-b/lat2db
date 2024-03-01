@@ -1,14 +1,18 @@
 from dataclasses import dataclass, field
 
-from lat2db.model.classical_magnet import ClassicalMagnet
+from typing import Optional
+from .element import Element
+from .magnetic_element import MagneticElement
+from typing import Optional
 
 
 @dataclass
-class Bending(ClassicalMagnet):
-    #: typical lattice file name this value "T"
-    bending_angle: float = 0.0
-    #: typical lattice file name this value "T1"
-    entry_angle: float = 0.0
-    #: typical lattice file name this value "T2"
-    exit_angle: float = 0.0
-    main_multipole_index: int = 1
+class Bending(Element):
+    element_properties: Optional[MagneticElement]=None
+    number_of_integration_steps: Optional[int] = None
+    bending_angle: Optional[float] = 0.0
+    entranceangle: Optional[float] = 0.0
+    exitangle: Optional[float] = 0
+    Energy: Optional[float] = None
+    fringeint1: Optional[float] = None
+    fullgap: Optional[float] = None

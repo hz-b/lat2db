@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 
-from lat2db.model.classical_magnet import ClassicalMagnet
-
+from .element import Element
+from ..model.magnetic_element import MagneticElement
+from typing import Optional
 
 @dataclass
-class Quadrupole(ClassicalMagnet):
-    main_multipole_index: int = 2
-
+class Quadrupole(Element):
+    element_properties: Optional[MagneticElement]=None

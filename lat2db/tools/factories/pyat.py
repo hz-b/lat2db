@@ -1,14 +1,22 @@
 """build sequence of accelerator toolbox lattice elements
 """
+import enum
+import math
+from functools import partial
+
+import numpy as np
+import logging
 import at
 import jsons
+
+from ...model.cavity import Cavity
 from ...model.element import Element
+from ...model.sextupole import Sextupole
+from ...model.quadrupole import Quadrupole
 
-import enum
-from functools import partial
-import math
+from ...model.bending import Bending as Dipole
 
-
+logger = logging.getLogger("lat2db")
 __all__ = ["factory"]
 
 
@@ -18,38 +26,38 @@ def factory(expr: dict):
         energy: energy of the accelerator: only used by the cavities
     """
 
-    energy_prop = expr["physics_info"]["energy"]
-    assert energy_prop["egu"] == "GeV"
-    assert energy_prop["name"] == "energy"
-    energy = float(energy_prop["value"]) * 1e9
+    # energy_prop = expr["physics_info"]["energy"]
+    # assert energy_prop["egu"] == "GeV"
+    # assert energy_prop["name"] == "energy"
+    energy = 1.7e9  # float(energy_prop["value"]) * 1e9
 
     factory_dict = factory_dict_default.copy()
-    factory_dict["Cavity"] = partial(instaniate_cavity, energy=energy)
+    factory_dict["RFCavity"] = partial(instaniate_cavity, energy=energy)
     seq_expr = expr["sequences"]
     elements = [instantiate_element(e, factory_dict=factory_dict) for e in seq_expr]
     return elements
 
 
 def instantiate_element(prop, *, factory_dict):
-    p = jsons.load(prop, Element)
-    return factory_dict[p.type](p)
+    type_ = prop["type"]
+    return factory_dict[type_](prop)
 
 
-def instantiate_marker(prop: Element):
+def instantiate_marker(prop: dict):
     #: Todo re
-    return at.Marker(prop.name, length=0)
+    return at.Marker(prop["name"], length=0)
 
 
-def instantiate_monitor(prop: Element):
+def instantiate_monitor(prop: dict):
     #: Todo re
-    return at.Monitor(prop.name, length=0)
+    return at.Monitor(prop["name"], length=0)
 
 
-def instantiate_drift(prop: Element):
-    return at.Drift(prop.name, length=prop.length)
+def instantiate_drift(prop: dict):
+    return at.Drift(prop["name"], length=prop["length"])
 
 
-def instantiate_bending(prop: Element):
+def instantiate_bending(prop: dict):
     """
 
 
@@ -61,38 +69,56 @@ def instantiate_bending(prop: Element):
         Check what the definition of h is
     """
     h = 0.0
-
+    p = jsons.load(prop, Dipole)
     #: Todo: should irho be checked then
     return at.Dipole(
-        prop.name,
+        p.name,
         h=h,
-        ExitAngle=prop.exit_angle,
-        EntranceAngle=prop.entry_angle,
-        bending_angle=prop.bending_angle,
+        ExitAngle=p.exitangle,
+        EntranceAngle=p.entranceangle,
+        bending_angle=p.bending_angle,
         k=0.0,
-        length=prop.length,
+        length=p.length,
+        PolynomA=p.element_properties.coeffs.normal_coefficients,
+        PolynomB = p.element_properties.coeffs.skew_coefficients
     )
 
 
-def instanitate_quadrupole(prop: Element):
+def instanitate_quadrupole(prop: dict):
     """
     Todo:
     check which convention k follows
     """
-    k = prop.main_multipole_strength
-    return at.Quadrupole(prop.name, length=prop.length, k=k)
+    logger.debug(f"Quadrupole {prop=}")
+    try:
+        p = jsons.load(prop, Quadrupole)
+    except jsons.exceptions.DeserializationError:
+        logger.error(f"Could not load Quadrupole using properties {prop}")
+        raise
+    k = p.main_multipole_strength
+    r = at.Quadrupole(p.name, length=p.length, k=k, PolynomA= p.element_properties.coeffs.normal_coefficients,PolynomB=p.element_properties.coeffs.skew_coefficients)
+    assert np.isfinite(r.K)
+    return r
 
 
 #
 
 
-def instanitate_sextupole(prop: Element):
+def instanitate_sextupole(prop: dict):
     """
     Todo:
         check which convention h follows?
     """
-    h = prop.main_multipole_strength
-    return at.Sextupole(prop.name, length=prop.length, h=h)
+    # h = prop.main_multipole_strength
+    logger.debug(f"Sextupole {prop=}")
+    try:
+        p = jsons.load(prop, Sextupole)
+    except jsons.exceptions.DeserializationError:
+        logger.error(f"Could not load Sextupole using properties {prop}")
+        raise
+    r = at.Sextupole(p.name, p.length,PolynomA= p.element_properties.coeffs.normal_coefficients , PolynomB=p.element_properties.coeffs.skew_coefficients)
+    assert np.isfinite(r.H)
+    return r
 
 
 class SteererOrientation(enum.Enum):
@@ -117,7 +143,7 @@ def instanitate_steerer(prop: Element, *, orientation: SteererOrientation):
     return at.Corrector(prop.name, length=prop.length, test=test, kick_angle=[0, 0])
 
 
-def instaniate_cavity(prop: Element, *, energy):
+def instaniate_cavity(prop: dict, *, energy):
     """Instanitate a heavily broken element
 
     Using voltage is inconsistent with using K values for quad
@@ -128,14 +154,16 @@ def instaniate_cavity(prop: Element, *, energy):
         check why voltage are 0
 
     """
-    voltage = prop.voltage
-    voltage = 0
+    logger.debug(f"cavity property {prop=}")
+    p = jsons.load(prop, Cavity)
+    voltage = p.element_configuration.voltage
+
     energy = energy
     return at.RFCavity(
-        prop.name,
-        length=prop.length,
-        frequency=prop.frequency,
-        harmonic_number=prop.harmonic_number,
+        p.name,
+        length=p.length,
+        frequency=p.element_configuration.frequency,
+        harmonic_number=p.harmonic_number,
         voltage=voltage,
         energy=energy,
     )
@@ -143,9 +171,9 @@ def instaniate_cavity(prop: Element, *, energy):
 
 factory_dict_default = dict(
     Marker=instantiate_marker,
-    Bpm=instantiate_monitor,
+    Monitor=instantiate_monitor,
     Drift=instantiate_drift,
-    Bending=instantiate_bending,
+    Dipole=instantiate_bending,
     Quadrupole=instanitate_quadrupole,
     Sextupole=instanitate_sextupole,
     Horizontalsteerer=partial(
@@ -159,4 +187,4 @@ factory_dict_default = dict(
 # due to historic reasons: need to get the that cleaned away
 factory_dict_default["HorizontalSteerer"] = factory_dict_default["Horizontalsteerer"]
 factory_dict_default["VerticalSteerer"] = factory_dict_default["Verticalsteerer"]
-factory_dict_default["BPM"] = factory_dict_default["Bpm"]
+factory_dict_default["Monitor"] = factory_dict_default["Monitor"]
