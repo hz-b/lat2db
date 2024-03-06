@@ -30,7 +30,7 @@ class MagneticElement:
             "main_multipole_index": self.main_multipole_index
         }
 
-
+@dataclass
 class AddonCorrector(Element):
     """
     or better:
@@ -53,7 +53,7 @@ class AddonCorrector(Element):
     #: see if that could be part of the Element
     element_properties: Optional[MagneticElement] = None
 
-
+@dataclass
 class MagnetAssembly:
     """does not need to be a single magnet, but can have extra magnets
 
@@ -61,18 +61,3 @@ class MagnetAssembly:
     magnetic_element: MagneticElement
     #: physisists often think of these corrector magnets
     correctors: Optional[Sequence[AddonCorrector]]
-
-
-class Magnet(Element):
-    """
-    Todo:
-        * Magnet assembly
-        * "Muttermagnet": Bahnhof: MutterUhr, Nebenuhr
-        * "Hauptmagnet"
-        * "InstallableManet"
-        * "Host Magnet"
-        * "selbständig nutzbares Gerät"
-    """
-    # todo: or distinquish at this place
-    #: element_configuration: Union[MagnetAssembly, MagneticElement]
-    element_configuration: MagnetAssembly
