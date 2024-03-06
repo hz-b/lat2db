@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional
+from typing import Sequence
 
 
 @dataclass
@@ -17,6 +17,7 @@ class Element:
     md: object
     # tags are given by specific lattice developers to later sort their elements during measurements
     # e.g. corrector in some lattice data
-    tag: str
+    tags: Sequence[str]
+
 
 __all__ = ["Element"]

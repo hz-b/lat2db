@@ -7,7 +7,7 @@ from .magnetic_element import MagneticElement, MagnetAssembly
 
 nan = np.nan
 
-from typing import Optional
+from typing import Optional, Sequence
 
 
 @dataclass
@@ -29,7 +29,7 @@ class Sequencer:
     voltage: Optional[float] = None
     phase: Optional[float] = None
     harmonic_number: Optional[int] = None
-    tag: Optional[str] = None
+    tags: Optional[Sequence[str]] = None
 
     def set_properties(self, item):
         """
