@@ -15,8 +15,8 @@ class Element:
     #: in the fields above
     # element_configuration: object
     md: object
-    # tags are given by specific lattice developers to later sort their elements during measurements
-    # e.g. corrector in some lattice data
+    # tags are given by specific lattice developers to later sort/filter/categorised/group or wild card search their
+    # elements
     tags: Sequence[str]
 
 
