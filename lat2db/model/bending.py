@@ -1,14 +1,13 @@
-from dataclasses import dataclass, field
-
+from dataclasses import dataclass
 from typing import Optional
+
 from .element import Element
 from .magnetic_element import MagneticElement
-from typing import Optional
 
 
 @dataclass
 class Bending(Element):
-    element_properties: Optional[MagneticElement]=None
+    element_properties: Optional[MagneticElement] = None
     number_of_integration_steps: Optional[int] = None
     bending_angle: Optional[float] = 0.0
     entranceangle: Optional[float] = 0.0

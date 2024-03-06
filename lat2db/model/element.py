@@ -14,6 +14,9 @@ class Element:
     #: everythng describing the element itself beyond to the information given
     #: in the fields above
     # element_configuration: object
-    # md: object
+    md: object
+    # tags are given by specific lattice developers to later sort their elements during measurements
+    # e.g. corrector in some lattice data
+    tag: str
 
 __all__ = ["Element"]

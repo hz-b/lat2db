@@ -14,7 +14,6 @@ class MultipoleCoefficients:
         return max(len(self.normal_coefficients), len(self.skew_coefficients))
 
 
-
 @dataclass
 class MagneticElement:
     """Info what field a particular magnet component provides
@@ -22,6 +21,7 @@ class MagneticElement:
     #: todoo or coefficients
     coeffs: MultipoleCoefficients
     main_multipole_index: Optional[int] = None
+    main_multipole_strength: Optional[float] = None
 
     def to_dict(self):
         return {
@@ -29,6 +29,7 @@ class MagneticElement:
             "passmethod": self.passmethod,
             "main_multipole_index": self.main_multipole_index
         }
+
 
 @dataclass
 class AddonCorrector(Element):
@@ -45,13 +46,27 @@ class AddonCorrector(Element):
     #: corrector: add as metadata?
     # corrector: Optional[str] = None
     #: todo: review if one should not store MagneticElement
-    # kickangle: Optional[Sequence[float]] = None
+    # kickangle: Optional[Tuple[float]] = None
     """
     Kickangle: single angle
     Coefficients Angles with errors
     """
-    #: see if that could be part of the Element
     element_properties: Optional[MagneticElement] = None
+
+
+@dataclass
+class KickAngles:
+    """statisfy PyAT design flaws
+
+    see if that could be part of the Element
+    todo: revisit if implemetation as Corrector would
+        be more consitent on the long run
+    """
+    #: maps to MagneticElement.skew_coefficient[0]
+    x: Optional[float] = 0
+    #: maps to MagneticElement.normal_coefficient[0]
+    y: Optional[float] = 0
+
 
 @dataclass
 class MagnetAssembly:
@@ -61,3 +76,5 @@ class MagnetAssembly:
     magnetic_element: MagneticElement
     #: physisists often think of these corrector magnets
     correctors: Optional[Sequence[AddonCorrector]]
+
+    kickangle: KickAngles
