@@ -27,8 +27,6 @@ class Machine():
     drifts: List[Drift] = Field(default_factory=list)
     bendings: List[Bending] = Field(default_factory=list)
     markers: List[Marker] = Field(default_factory=list)
-    # horizontal_steerers: List[HorizontalSteerer] = Field(default_factory=list)
-    # vertical_steerers: List[VerticalSteerer] = Field(default_factory=list)
     beam_position_monitors: List[BeamPositionMonitor] = Field(default_factory=list)
     cavities: List[Cavity] = Field(default_factory=list)
     version: Version = Field(default=None)
@@ -51,12 +49,6 @@ class Machine():
 
     def add_marker(self, marker):
         self.markers.append(marker)
-
-    def add_horizontal_steerer(self, horizontal_steerer):
-        self.horizontal_steerers.append(horizontal_steerer)
-
-    def add_vertical_steerer(self, vertical_steerer):
-        self.vertical_steerers.append(vertical_steerer)
 
     def add_beam_position_monitor(self, beam_position_monitor):
         self.beam_position_monitors.append(beam_position_monitor)
@@ -87,8 +79,6 @@ class Machine():
                 "drifts": [],
                 "bendings": [],
                 "markers": [],
-                "horizontal_steerers": [],
-                "vertical_steerers": [],
                 "beam_position_monitors": [],
                 "cavities": [],
                 "version": "",

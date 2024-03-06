@@ -22,14 +22,6 @@ class TestMachine:
         assert False
 
     @pytest.mark.skip
-    def test_add_horizontal_steerer(self):
-        assert False
-
-    @pytest.mark.skip
-    def test_add_vertical_steerer(self):
-        assert False
-
-    @pytest.mark.skip
     def test_add_beam_position_monitor(self):
         assert False
 

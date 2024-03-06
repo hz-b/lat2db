@@ -9,8 +9,6 @@ from lat2db.model.sextupole import Sextupole
 from lat2db.model.drift import Drift
 from lat2db.model.bending import Bending
 from lat2db.model.marker import Marker
-from lat2db.model.horizontal_steerer import HorizontalSteerer
-from lat2db.model.vertical_steerer import VerticalSteerer
 from lat2db.model.beam_position_monitor import BeamPositionMonitor
 from lat2db.model.cavity import Cavity, RFFieldHarmonic
 from lat2db.model.version import Version
@@ -60,6 +58,7 @@ def insert_elements(ring, parent_id=None):
 
     bending_fields = [field.name for field in fields(Bending)]
     marker_fields = [field.name for field in fields(Marker)]
+    #todo: horizontalSteerer and verticle steerer are removed
     h_steerer_fields = [field.name for field in fields(HorizontalSteerer)]
     v_steerer_fields = [field.name for field in fields(VerticalSteerer)]
     beamposition_fields = [field.name for field in fields(BeamPositionMonitor)]

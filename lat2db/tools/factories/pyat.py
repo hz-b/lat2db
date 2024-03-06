@@ -175,16 +175,8 @@ factory_dict_default = dict(
     Drift=instantiate_drift,
     Dipole=instantiate_bending,
     Quadrupole=instanitate_quadrupole,
-    Sextupole=instanitate_sextupole,
-    Horizontalsteerer=partial(
-        instanitate_steerer, orientation=SteererOrientation.horizontal
-    ),
-    Verticalsteerer=partial(
-        instanitate_steerer, orientation=SteererOrientation.horizontal
-    ),
+    Sextupole=instanitate_sextupole
 )
 
 # due to historic reasons: need to get the that cleaned away
-factory_dict_default["HorizontalSteerer"] = factory_dict_default["Horizontalsteerer"]
-factory_dict_default["VerticalSteerer"] = factory_dict_default["Verticalsteerer"]
 factory_dict_default["Monitor"] = factory_dict_default["Monitor"]
