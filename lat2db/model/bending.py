@@ -3,6 +3,7 @@ from typing import Optional
 
 from .element import Element
 from .magnetic_element import MagneticElement
+from typing import Sequence
 
 
 @dataclass
@@ -15,3 +16,6 @@ class Bending(Element):
     Energy: Optional[float] = None
     fringeint1: Optional[float] = None
     fullgap: Optional[float] = None
+    md: Optional[object] = None
+    tags: Optional[Sequence[str]] = None
+    

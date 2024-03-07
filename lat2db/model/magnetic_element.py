@@ -22,13 +22,14 @@ class MagneticElement:
     coeffs: MultipoleCoefficients
     main_multipole_index: Optional[int] = None
     main_multipole_strength: Optional[float] = None
-
-    def to_dict(self):
+    
+    """   def to_dict(self):
         return {
             "coeffs": self.coeffs.__dict__,
-            "passmethod": self.passmethod,
-            "main_multipole_index": self.main_multipole_index
-        }
+            #"passmethod": self.passmethod,
+            "main_multipole_index": self.main_multipole_index,
+            "main_multipole_strength":self.main_multipole_strength
+        } """
 
 
 @dataclass
@@ -75,6 +76,7 @@ class MagnetAssembly:
     """
     magnetic_element: MagneticElement
     #: physisists often think of these corrector magnets
-    correctors: Optional[Sequence[AddonCorrector]]
+    kickangle: Optional[KickAngles]=None
+    correctors: Optional[Sequence[AddonCorrector]]=None
 
-    kickangle: KickAngles
+    

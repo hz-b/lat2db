@@ -8,6 +8,7 @@ from bson import BSON
 from bson.codec_options import TypeRegistry, CodecOptions
 from bson.raw_bson import RawBSONDocument
 from dataclasses import asdict
+from typing import Sequence
 
 
 @dataclass
@@ -40,5 +41,8 @@ class Cavity(Element):
     #: review : that's a property of the ring
     element_configuration :Optional[RFFieldHarmonic]=None
     harmonic_number: Optional[int] = None
+
+    md: Optional[object] = None
+    tags: Optional[Sequence[str]] = None
     
 

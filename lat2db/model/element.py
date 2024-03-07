@@ -14,7 +14,7 @@ class Element:
     #: everythng describing the element itself beyond to the information given
     #: in the fields above
     # element_configuration: object
-    md: object
+    md:  object
     # tags are given by specific lattice developers to later sort/filter/categorised/group or wild card search their
     # elements
     tags: Sequence[str]
