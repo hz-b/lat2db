@@ -17,6 +17,4 @@ class Bending(Element):
     fringeint1: Optional[float] = None
     fringeint2: Optional[float] = None
     fullgap: Optional[float] = None
-    md: Optional[object] = None
-    tags: Optional[Sequence[str]] = None
     

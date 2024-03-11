@@ -10,5 +10,3 @@ class Marker(Element):
     Used to get data at any point within the machine
     """
     passmethod: Optional[str] = None
-    md: Optional[object] = None
-    tags: Optional[Sequence[str]] = None

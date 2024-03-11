@@ -162,13 +162,13 @@ def instaniate_cavity(prop: dict, *, energy):
     """
     logger.debug(f"cavity property {prop=}")
     p = jsons.load(prop, Cavity)
-    voltage = p.element_configuration.voltage
+    voltage = p.cavity_configuration.voltage
 
     energy = energy
     return at.RFCavity(
         p.name,
         length=p.length,
-        frequency=p.element_configuration.frequency,
+        frequency=p.cavity_configuration.frequency,
         harmonic_number=p.harmonic_number,
         voltage=voltage,
         energy=energy,

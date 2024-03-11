@@ -39,10 +39,7 @@ class RFFieldHarmonic:
 @dataclass
 class Cavity(Element):
     #: review : that's a property of the ring
-    element_configuration :Optional[RFFieldHarmonic]=None
+    cavity_configuration :Optional[RFFieldHarmonic]=None
     harmonic_number: Optional[int] = None
-
-    md: Optional[object] = None
-    tags: Optional[Sequence[str]] = None
     
 
