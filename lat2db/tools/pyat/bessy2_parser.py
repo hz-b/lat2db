@@ -9,14 +9,12 @@ from lat2db.model.sextupole import Sextupole
 from lat2db.model.drift import Drift
 from lat2db.model.bending import Bending
 from lat2db.model.marker import Marker
-from lat2db.model.horizontal_steerer import HorizontalSteerer
-from lat2db.model.vertical_steerer import VerticalSteerer
 from lat2db.model.beam_position_monitor import BeamPositionMonitor
 from lat2db.model.cavity import Cavity, RFFieldHarmonic
 from lat2db.model.version import Version
 from lat2db.model.monitor import Monitor
 from lat2db.model.magnetic_element import MagneticElement
-from lat2db.model.magnetic_element import MultipoleCoefficients
+from lat2db.model.magnetic_element import MultipoleCoefficients ,KickAngles
 import uuid
 from dataclasses import fields
 
@@ -60,8 +58,9 @@ def insert_elements(ring, parent_id=None):
 
     bending_fields = [field.name for field in fields(Bending)]
     marker_fields = [field.name for field in fields(Marker)]
-    h_steerer_fields = [field.name for field in fields(HorizontalSteerer)]
-    v_steerer_fields = [field.name for field in fields(VerticalSteerer)]
+    #todo: horizontalSteerer and verticle steerer are removed
+    #h_steerer_fields = [field.name for field in fields(HorizontalSteerer)]
+    #v_steerer_fields = [field.name for field in fields(VerticalSteerer)]
     beamposition_fields = [field.name for field in fields(BeamPositionMonitor)]
     cavity_fields = [field.name for field in fields(Cavity)]
     version_fields = [field.name for field in fields(Version)]
@@ -205,16 +204,49 @@ def insert_elements(ring, parent_id=None):
                 element_quad[field] = field_value
 
         if typename.lower() == "quadrupole":
-            element_quad["main_multipole_strength"] = element_quad.pop("k", None)
-            # element_quad["passmethod"] = element_quad.pop("method")
+            #element_quad["main_multipole_strength"] = element_quad.pop("k", None)
+            #element_quad["passmethod"] = element_quad.pop("method")
             multipole_coefficients = MultipoleCoefficients()
             multipole_coefficients.normal_coefficients = [float(x) for x in element_quad.pop("PolynomA")]
             multipole_coefficients.skew_coefficients = [float(x) for x in element_quad.pop("PolynomB")]
-            magnetic_element = MagneticElement(coeffs=multipole_coefficients, passmethod=element_quad.pop("PassMethod"))
-            element_quad["element_properties"] = magnetic_element.to_dict()
+
+            kickAngles = KickAngles()
+            if "KickAngle" in element_quad:
+                float_array = [float(x) for x in element_quad.pop("KickAngle")]
+
+            if len(float_array) >= 2:  # Ensure there are at least two values in the array
+                kickAngles.x = float_array[0]
+                kickAngles.y = float_array[1]
+
+            kick_angles_dict = {
+                "x": kickAngles.x,
+                "y": kickAngles.y
+            }
+            magnetic_element = MagneticElement(coeffs=multipole_coefficients,
+                                               main_multipole_strength=element_quad.pop("k", None),
+                                               main_multipole_index=None
+                                               #passmethod=element_sextupole.pop("PassMethod")
+
+                                               )
+            magnetic_element_dict = {
+                "coeffs": {
+                    "normal_coefficients": magnetic_element.coeffs.normal_coefficients,
+                    "skew_coefficients": magnetic_element.coeffs.skew_coefficients
+                },
+                "main_multipole_index": magnetic_element.main_multipole_index,
+                "main_multipole_strength": magnetic_element.main_multipole_strength
+            }
+            configuation_attributes = {
+                "magnetic_element": magnetic_element_dict,  # No need to call to_dict()
+                "kickangle": kick_angles_dict if kickAngles.x is not None or kickAngles.y is not None else None,
+                "correctors": None
+            }
+
+            element_quad["element_configuration"] = configuation_attributes
             element_quad["number_of_integration_steps"] = element_quad.pop("NumIntSteps", None)
             element_quad["name"] = element_quad.pop("FamName", None)
             element_quad["length"] = element_quad.pop("Length", None)
+            element_quad["tags"] = [element_quad.pop("Corrector", "")]
 
             for field in quadrupole_fields:
                 if field not in element_quad:
@@ -226,15 +258,52 @@ def insert_elements(ring, parent_id=None):
 
         if typename.lower() == "sextupole":
 
+
             multipole_coefficients = MultipoleCoefficients()
             multipole_coefficients.normal_coefficients = [float(x) for x in element_sextupole.pop("PolynomA")]
             multipole_coefficients.skew_coefficients = [float(x) for x in element_sextupole.pop("PolynomB")]
+
+            kickAngles = KickAngles()
+            if "KickAngle" in element_sextupole:
+
+                float_array = [float(x) for x in element_sextupole.pop("KickAngle")]
+
+            if len(float_array) >= 2:  # Ensure there are at least two values in the array
+                kickAngles.x = float_array[0]
+                kickAngles.y = float_array[1]
+
+            kick_angles_dict = {
+                "x": kickAngles.x,
+                "y": kickAngles.y
+            }
             magnetic_element = MagneticElement(coeffs=multipole_coefficients,
-                                               passmethod=element_sextupole.pop("PassMethod"))
-            element_sextupole["element_properties"] = magnetic_element.to_dict()
+                                               main_multipole_strength=element_sextupole.pop("k", None),
+                                               main_multipole_index=None
+                                               #passmethod=element_sextupole.pop("PassMethod")
+
+                                               )
+            magnetic_element_dict = {
+                "coeffs": {
+                    "normal_coefficients": magnetic_element.coeffs.normal_coefficients,
+                    "skew_coefficients": magnetic_element.coeffs.skew_coefficients
+                },
+                "main_multipole_index": magnetic_element.main_multipole_index,
+                "main_multipole_strength": magnetic_element.main_multipole_strength
+            }
+            configuation_attributes = {
+                "magnetic_element": magnetic_element_dict,  # No need to call to_dict()
+                "kickangle": kick_angles_dict if kickAngles.x is not None or kickAngles.y is not None else None,
+                "correctors": None
+            }
+
+            element_sextupole["element_configuration"] = configuation_attributes
             element_sextupole["number_of_integration_steps"] = element_sextupole.pop("NumIntSteps", None)
             element_sextupole["name"] = element_sextupole.pop("FamName", None)
             element_sextupole["length"] = element_sextupole.pop("Length", None)
+
+            element_sextupole["passmethod"] = element_sextupole.pop("PassMethod")
+            element_sextupole["tags"] = [element_sextupole.pop("Corrector", "")]
+
             for field in sextupole_fields:
                 if field != "element_properties" and field not in element_sextupole:
                     # Add missing property with null value
@@ -248,53 +317,62 @@ def insert_elements(ring, parent_id=None):
                 if field not in element_drift:
                     # Add missing property with null value
                     element_drift[field] = None
-
+        # : to dipole
         if typename.lower() == "bending":
             # element_bending["passmethod"] = element_quad.pop("method")
             element_bending["main_multipole_strength"] = element_bending.pop("k", None)
             multipole_coefficients = MultipoleCoefficients()
             multipole_coefficients.normal_coefficients = [float(x) for x in element_bending.pop("PolynomA")]
             multipole_coefficients.skew_coefficients = [float(x) for x in element_bending.pop("PolynomB")]
-            magnetic_element = MagneticElement(coeffs=multipole_coefficients,
-                                               passmethod=element_bending.pop("PassMethod"))
-            element_bending["element_properties"] = magnetic_element.to_dict()
+            magnetic_element = MagneticElement(coeffs=multipole_coefficients
+                                               #passmethod=element_bending.pop("PassMethod")
+
+                                               )
+
+            #element_bending["element_properties"] = magnetic_element
             element_bending["number_of_integration_steps"] = element_bending.pop("NumIntSteps", None)
             element_bending["name"] = element_bending.pop("FamName", None)
             element_bending["length"] = element_bending.pop("Length", None)
+            element_bending["tags"] = [element_bending.pop("Corrector", "")]
 
             for field in bending_fields:
                 if field not in element_bending:
                     # Add missing property with null value
                     element_bending[field] = None
+
         if typename.lower() == "marker":
             # element_marker["passmethod"] = element_quad.pop("method")
             element_marker["name"] = element_marker.pop("FamName", None)
             element_marker["length"] = element_marker.pop("Length", None)
+            element_marker["tags"] = [element_marker.pop("Corrector", "")]
             for field in marker_fields:
                 if field not in element_marker:
                     # Add missing property with null value
                     element_marker[field] = None
-        if typename.lower() == "horizontalsteerer":
+        """ if typename.lower() == "horizontalsteerer":
             element_h_steerer["name"] = element_h_steerer.pop("FamName", None)
             element_h_steerer["length"] = element_h_steerer.pop("Length", None)
             for field in h_steerer_fields:
                 if field not in element_h_steerer:
                     # Add missing property with null value
-                    element_h_steerer[field] = None
-        if typename.lower() == "verticalsteerer":
+                    element_h_steerer[field] = None """
+        """ if typename.lower() == "verticalsteerer":
             element_v_steerer["name"] = element_v_steerer.pop("FamName", None)
             element_v_steerer["length"] = element_v_steerer.pop("Length", None)
             for field in v_steerer_fields:
                 if field not in element_v_steerer:
                     # Add missing property with null value
-                    element_v_steerer[field] = None
+                    element_v_steerer[field] = None """
+
         if typename.lower() == "monitor":
             element_beamposition["name"] = element_beamposition.pop("FamName", None)
             element_beamposition["length"] = element_beamposition.pop("Length", None)
+            element_beamposition["tags"] = [element_beamposition.pop("Corrector", "")]
             for field in beamposition_fields:
                 if field not in element_beamposition:
                     # Add missing property with null value
                     element_beamposition[field] = None
+
         if typename.lower() == "rfcavity":
 
             """ harmonic_fields = RFFieldHarmonic(voltage=element_cavity.pop("Voltage"), 
@@ -311,11 +389,12 @@ def insert_elements(ring, parent_id=None):
             }
             # harmonic_fields["phase"]=element_cavity.pop("Voltage")
 
-            element_cavity["element_configuration"] = harmonic_fields_dict
+            element_cavity["cavity_configuration"] = harmonic_fields_dict
 
             element_cavity["name"] = element_cavity.pop("FamName", None)
             element_cavity["harmonic_number"] = element_cavity.pop("HarmNumber", None)
             element_cavity["length"] = element_cavity.pop("Length", None)
+            element_cavity["tags"] = [element_cavity.pop("Corrector", "")]
             for field in cavity_fields:
                 if field not in element_cavity:
                     # Add missing property with null value
@@ -326,19 +405,52 @@ def insert_elements(ring, parent_id=None):
                 if field not in element_version:
                     # Add missing property with null value
                     element_version[field] = None
+
         if typename.lower() == "dipole":
-            element_dipole["main_multipole_strength"] = element_dipole.pop("k", None)
+            element_dipole["passmethod"] = element_dipole.pop("PassMethod", None)
+            element_dipole["tags"] = [element_dipole.pop("Corrector", "")]
             multipole_coefficients = MultipoleCoefficients()
             multipole_coefficients.normal_coefficients = [float(x) for x in element_dipole.pop("PolynomA")]
             multipole_coefficients.skew_coefficients = [float(x) for x in element_dipole.pop("PolynomB")]
+
+            kickAngles = KickAngles()
+            if "KickAngle" in element_dipole:
+                float_array = [float(x) for x in element_dipole.pop("KickAngle")]
+
+            if len(float_array) >= 2:  # Ensure there are at least two values in the array
+                kickAngles.x = float_array[0]
+                kickAngles.y = float_array[1]
+
+            kick_angles_dict = {
+                "x": kickAngles.x,
+                "y": kickAngles.y
+            }
             magnetic_element = MagneticElement(coeffs=multipole_coefficients,
-                                               passmethod=element_dipole.pop("PassMethod"))
-            element_dipole["element_properties"] = magnetic_element.to_dict()
+                                               main_multipole_strength=element_dipole.pop("k", None),
+                                               main_multipole_index=None
+                                               #passmethod=element_sextupole.pop("PassMethod")
+
+                                               )
+            magnetic_element_dict = {
+                "coeffs": {
+                    "normal_coefficients": magnetic_element.coeffs.normal_coefficients,
+                    "skew_coefficients": magnetic_element.coeffs.skew_coefficients
+                },
+                "main_multipole_index": magnetic_element.main_multipole_index,
+                "main_multipole_strength": magnetic_element.main_multipole_strength
+            }
+            configuation_attributes = {
+                "magnetic_element": magnetic_element_dict,  # No need to call to_dict()
+                "kickangle": kick_angles_dict if kickAngles.x is not None or kickAngles.y is not None else None,
+                "correctors": None
+            }
+
+            element_dipole["element_configuration"] = configuation_attributes
             element_dipole["number_of_integration_steps"] = element_dipole.pop("NumIntSteps", None)
             element_dipole["name"] = element_dipole.pop("FamName", None)
             element_dipole["length"] = element_dipole.pop("Length", None)
-
             element_dipole["fringeint1"] = element_dipole.pop("FringeInt1", None)
+            element_dipole["fringeint2"] = element_dipole.pop("FringeInt2", None)
             element_dipole["fullgap"] = element_dipole.pop("FullGap", None)
             element_dipole["entranceangle"] = element_dipole.pop("EntranceAngle", None)
             element_dipole["exitangle"] = element_dipole.pop("ExitAngle", None)
@@ -352,6 +464,7 @@ def insert_elements(ring, parent_id=None):
         if typename.lower() == "monitor":
             element_monitor["name"] = element_monitor.pop("FamName", None)
             element_monitor["length"] = element_monitor.pop("Length", None)
+            element_monitor["tags"] = [element_monitor.pop("Corrector", "")]
             for field in monitor_fields:
                 if field not in element_monitor:
                     # Add missing property with null value
@@ -403,6 +516,8 @@ def insert_elements(ring, parent_id=None):
         if typename.lower() == "drift":
             # element_drift["name"] = element_drift.pop("famname")
             element_drift["index"] = index
+            element_drift["tags"] = [element_drift.pop("Corrector", "")]
+            drift_elements.append(element_drift)
             drift_elements.append(element_drift)
             all_elements.append(element_drift)
 
@@ -470,8 +585,8 @@ def insert_elements(ring, parent_id=None):
                            # "bendings":bending_elements,
                            "bendings": dipole_elements,
                            "markers": marker_elements,
-                           "horizontal_steerers": h_steerer_elements,
-                           "vertical_steerers": v_steerer_elements,
+                           #"horizontal_steerers": h_steerer_elements,
+                           #"vertical_steerers": v_steerer_elements,
                            # "beam_position_monitors":beamposition_elements,
                            "beam_position_monitors": beamposition_elements,
                            "cavities": cavity_elements

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional
+from typing import Sequence
 
 
 @dataclass
@@ -14,6 +14,9 @@ class Element:
     #: everythng describing the element itself beyond to the information given
     #: in the fields above
     # element_configuration: object
+    # tags are given by specific lattice developers to later sort/filter/categorised/group or wild card search their
+    # elements
+    tags: Sequence[str]
 
 
 __all__ = ["Element"]

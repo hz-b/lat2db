@@ -10,6 +10,7 @@ import at
 from bessy2_sr_reflat import bessy2Lattice
 # Read json from file
 t_dir = Path(__file__).resolve().parent
+ring2 = bessy2Lattice()
 bessyii_json_file = t_dir / "bessyii_lattice_json.json"
 with open(bessyii_json_file, "rt") as fp:
     lattice_in_json_format = json.load(fp)
@@ -19,7 +20,7 @@ seq = factory(lattice_in_json_format[0])
 
 
 ring = at.Lattice(seq,name='bessy2',periodicity=1, energy=1.7e9 )
-ring2 = bessy2Lattice()
+
 
 file1_elements = ring  # List of elements from the first file
 file2_elements = ring2  # List of elements from the second file
@@ -75,8 +76,9 @@ if differences:
                 chk2 = np.array(value2, dtype=float)
                 diff = chk1 - chk2
                 if (np.absolute(diff) > 1e-6).any():
-                    print(f"At index  {index}: '{field_name}' differs: {chk1} != {chk2}")
-            else:
-                print(f"At index {index}: '{field_name}' differs: {value1} != {value2}")
+                    pass
+                    # print(f"At index  {index}: '{field_name}' differs: {chk1} != {chk2}")
+            # else:
+                # print(f"At index {index}: '{field_name}' differs: {value1} != {value2}")
 else:
     print("No differences found. The Lattice files are identical.")

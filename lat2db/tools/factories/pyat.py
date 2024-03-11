@@ -1,20 +1,19 @@
 """build sequence of accelerator toolbox lattice elements
 """
 import enum
+import logging
 import math
 from functools import partial
 
-import numpy as np
-import logging
 import at
 import jsons
+import numpy as np
 
+from ...model.bending import Bending
 from ...model.cavity import Cavity
 from ...model.element import Element
-from ...model.sextupole import Sextupole
 from ...model.quadrupole import Quadrupole
-
-from ...model.bending import Bending as Dipole
+from ...model.sextupole import Sextupole
 
 logger = logging.getLogger("lat2db")
 __all__ = ["factory"]
@@ -69,7 +68,7 @@ def instantiate_bending(prop: dict):
         Check what the definition of h is
     """
     h = 0.0
-    p = jsons.load(prop, Dipole)
+    p = jsons.load(prop, Bending)
     #: Todo: should irho be checked then
     return at.Dipole(
         p.name,
@@ -79,8 +78,11 @@ def instantiate_bending(prop: dict):
         bending_angle=p.bending_angle,
         k=0.0,
         length=p.length,
-        PolynomA=p.element_properties.coeffs.normal_coefficients,
-        PolynomB = p.element_properties.coeffs.skew_coefficients
+        FringeInt2=getattr(p, 'fringeInt2', 0.0),
+        FringeInt1=getattr(p, 'fringeInt1', 0.0),
+        FullGap=getattr(p, 'fullgap', 0.0),
+        PolynomA=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
+        PolynomB=p.element_configuration.magnetic_element.coeffs.skew_coefficients
     )
 
 
@@ -95,8 +97,10 @@ def instanitate_quadrupole(prop: dict):
     except jsons.exceptions.DeserializationError:
         logger.error(f"Could not load Quadrupole using properties {prop}")
         raise
-    k = p.main_multipole_strength
-    r = at.Quadrupole(p.name, length=p.length, k=k, PolynomA= p.element_properties.coeffs.normal_coefficients,PolynomB=p.element_properties.coeffs.skew_coefficients)
+    k = p.element_configuration.magnetic_element.main_multipole_strength
+    r = at.Quadrupole(p.name, length=p.length, k=k,
+                      PolynomA=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
+                      PolynomB=p.element_configuration.magnetic_element.coeffs.skew_coefficients)
     assert np.isfinite(r.K)
     return r
 
@@ -116,7 +120,9 @@ def instanitate_sextupole(prop: dict):
     except jsons.exceptions.DeserializationError:
         logger.error(f"Could not load Sextupole using properties {prop}")
         raise
-    r = at.Sextupole(p.name, p.length,PolynomA= p.element_properties.coeffs.normal_coefficients , PolynomB=p.element_properties.coeffs.skew_coefficients)
+    r = at.Sextupole(p.name, p.length, PolynomA=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
+                     PolynomB=p.element_configuration.magnetic_element.coeffs.skew_coefficients, Corrector=p.tags[0],
+                     KickAngle=[p.element_configuration.kickangle.x, p.element_configuration.kickangle.y])
     assert np.isfinite(r.H)
     return r
 
@@ -156,13 +162,13 @@ def instaniate_cavity(prop: dict, *, energy):
     """
     logger.debug(f"cavity property {prop=}")
     p = jsons.load(prop, Cavity)
-    voltage = p.element_configuration.voltage
+    voltage = p.cavity_configuration.voltage
 
     energy = energy
     return at.RFCavity(
         p.name,
         length=p.length,
-        frequency=p.element_configuration.frequency,
+        frequency=p.cavity_configuration.frequency,
         harmonic_number=p.harmonic_number,
         voltage=voltage,
         energy=energy,
@@ -175,16 +181,8 @@ factory_dict_default = dict(
     Drift=instantiate_drift,
     Dipole=instantiate_bending,
     Quadrupole=instanitate_quadrupole,
-    Sextupole=instanitate_sextupole,
-    Horizontalsteerer=partial(
-        instanitate_steerer, orientation=SteererOrientation.horizontal
-    ),
-    Verticalsteerer=partial(
-        instanitate_steerer, orientation=SteererOrientation.horizontal
-    ),
+    Sextupole=instanitate_sextupole
 )
 
 # due to historic reasons: need to get the that cleaned away
-factory_dict_default["HorizontalSteerer"] = factory_dict_default["Horizontalsteerer"]
-factory_dict_default["VerticalSteerer"] = factory_dict_default["Verticalsteerer"]
 factory_dict_default["Monitor"] = factory_dict_default["Monitor"]

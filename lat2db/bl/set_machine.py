@@ -10,13 +10,11 @@ from lat2db.model.beam_position_monitor import BeamPositionMonitor
 from lat2db.model.bending import Bending
 from lat2db.model.cavity import Cavity
 from lat2db.model.drift import Drift
-from lat2db.model.horizontal_steerer import HorizontalSteerer
 from lat2db.model.machine import Machine
 from lat2db.model.marker import Marker
 from lat2db.model.quadrupole import Quadrupole
 from lat2db.model.sequencer import Sequencer
 from lat2db.model.sextupole import Sextupole
-from lat2db.model.vertical_steerer import VerticalSteerer
 
 
 app = FastAPI()
@@ -47,7 +45,7 @@ def _machine(lat):
         row.setdefault("length", row.pop("L", 0e0))  # rename "L" to "length"
         type_name = row['type']
 
-        if type_name in ["Bending", "Quadrupole", "Sextupole", "Horizontalsteerer", "Verticalsteerer"]:
+        if type_name in ["Bending", "Quadrupole", "Sextupole"]:
             row.setdefault("main_multipole_strength", row.pop("K", 0e0))  # rename "K" to "main_multipole_strength"
             row.setdefault("number_of_integration_steps",
                            row.pop("N", 1))  # rename "N" to "number_of_integration_steps"
@@ -76,8 +74,6 @@ def _machine(lat):
             "Bending": (Bending, machine.add_bending),
             "Quadrupole": (Quadrupole, machine.add_quadrupole),
             "Bpm": (BeamPositionMonitor, machine.add_beam_position_monitor),
-            "Verticalsteerer": (VerticalSteerer, machine.add_vertical_steerer),
-            "Horizontalsteerer": (HorizontalSteerer, machine.add_horizontal_steerer),
             "Cavity": (Cavity, machine.add_cavity),
         }
 

@@ -1,18 +1,20 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from typing import Optional
 
-from typing import Optional
 from .element import Element
-from .magnetic_element import MagneticElement
-from typing import Optional
+from .magnetic_element import MagnetAssembly
+from typing import Sequence
 
 
 @dataclass
 class Bending(Element):
-    element_properties: Optional[MagneticElement]=None
+    element_configuration: Optional[MagnetAssembly] = None
     number_of_integration_steps: Optional[int] = None
     bending_angle: Optional[float] = 0.0
     entranceangle: Optional[float] = 0.0
     exitangle: Optional[float] = 0
     Energy: Optional[float] = None
     fringeint1: Optional[float] = None
+    fringeint2: Optional[float] = None
     fullgap: Optional[float] = None
+    
