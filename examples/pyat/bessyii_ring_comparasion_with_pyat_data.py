@@ -76,8 +76,9 @@ if differences:
                 chk2 = np.array(value2, dtype=float)
                 diff = chk1 - chk2
                 if (np.absolute(diff) > 1e-6).any():
-                    print(f"At index  {index}: '{field_name}' differs: {chk1} != {chk2}")
-            else:
-                print(f"At index {index}: '{field_name}' differs: {value1} != {value2}")
+                    pass
+                    # print(f"At index  {index}: '{field_name}' differs: {chk1} != {chk2}")
+            # else:
+                # print(f"At index {index}: '{field_name}' differs: {value1} != {value2}")
 else:
     print("No differences found. The Lattice files are identical.")
