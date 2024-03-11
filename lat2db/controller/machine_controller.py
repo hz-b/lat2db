@@ -1,13 +1,12 @@
-from typing import List
+from typing import List, Dict
 
-from fastapi import APIRouter, Body, Request, Response, HTTPException, status
+from fastapi import APIRouter, Body, Request, Response, HTTPException, status, Query
 from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
+from pymongo.collection import Collection
 
 from lat2db.model.machine import Machine, Quadrupole
 from lat2db.model.update_machine import MachineUpdate
-from fastapi.responses import JSONResponse
-from pymongo.collection import Collection
-from fastapi.encoders import jsonable_encoder
 
 router = APIRouter()
 
@@ -48,11 +47,27 @@ def find_a_machine(id: str, request: Request):
 
 
 @router.get("/machine/{id}/quad", response_description="Get a single machine by id", response_model=List[Quadrupole])
-def find_a_machine(id: str, request: Request):
+def find_quads(id: str, request: Request):
     if (machine := request.app.database["machines"].find_one({"id": id})) is not None:
         return machine["quadrupoles"]
 
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {id} not found")
+
+
+def filter_quads(tags: List[str], quads: List[Quadrupole]) -> Dict[str, List[Dict]]:
+    result = {}
+    for quad in quads:
+        if any(tag in quad.get('tags', []) for tag in tags):
+            result.setdefault("quadrupole", []).append(quad)
+    return result
+
+
+# todo: make it generic so that any field name is provided on the filter and it should return result
+# todo: create other device filters such as sextupole dipole and steerer filters
+@router.get("/machine/{id}/quad/filter/")
+async def filter_quads_by_tags(id: str, request: Request, tags: List[str] = Query(..., min_length=1)) -> JSONResponse:
+    if (machine := request.app.database["machines"].find_one({"id": id})) is not None:
+        return filter_quads(tags, machine["quadrupoles"])
 
 
 @router.put("/machine/{id}", response_description="Update a machine", response_model=Machine)
@@ -193,7 +208,7 @@ def update_quadrupole_from_sequence(id: str, target_drift: str, quad_name: str, 
                         print("------prev of quad is ", get_qud_prev["sequences"][0]["length"])
                         print("----new valu of qud is ", update_data["length"])
                         update_drift_value = prev_value_drift_length + (
-                                    get_qud_prev["sequences"][0].get("length", 0) - update_data.get("length", 0))
+                                get_qud_prev["sequences"][0].get("length", 0) - update_data.get("length", 0))
                         print("updated -------drfit val", update_drift_value)
                         print("updated drift new value is  ", update_drift_value)
                         result = database.update_one(
@@ -214,7 +229,7 @@ def update_quadrupole_from_sequence(id: str, target_drift: str, quad_name: str, 
                         print("prev value of dirf------", prev_value_drift_length)
                         print("new value of qud-", get_qud_prev["sequences"][0]["length"])
                         update_drift_value = prev_value_drift_length - (
-                                    update_data.get("length", 0) - get_qud_prev["sequences"][0].get("length", 0))
+                                update_data.get("length", 0) - get_qud_prev["sequences"][0].get("length", 0))
                         print("new vlaue of drift is ", update_drift_value)
                         result = database.update_one(
                             {"id": id},
