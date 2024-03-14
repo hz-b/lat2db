@@ -28,3 +28,8 @@ def filter_machine_element_by_tags(machine_id: str, element_name: str, tags: Lis
     machine = mongo_init.get_collection("machines").find_one({"id": machine_id})
     element_list = machine[f'{element_name}']
     return filter_an_element(tags, element_list, element_name)
+
+
+def filter_element_by_tags(machine: List[Dict], element_name: str, tags: List[str]):
+    element_list = machine[f'{element_name}']
+    return filter_an_element(tags, element_list, element_name)
