@@ -1,5 +1,7 @@
 from typing import List
 
+import jsons
+from bson import ObjectId
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 
@@ -41,18 +43,18 @@ def list_machines(request: Request):
     return machines
 
 
-@router.get("/machine/{id}", response_description="Get a single machine by id", response_model=Machine)
-def find_a_machine(id: str, request: Request):
-    if (machine := request.app.database["machines"].find_one({"id": id})) is not None:
+@router.get("/machine/{_id}", response_description="Get a single machine by id", response_model=Machine)
+def find_a_machine(_id: str, request: Request):
+    if (machine := request.app.database["machines"].find_one({"_id": ObjectId(_id)})) is not None:
         return machine
 
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {id} not found")
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {_id} not found")
 
 
 #get all Quads
 @router.get("/machine/{id}/quad", response_description="Get a single machine by id", response_model=List[Quadrupole])
 def find_a_machine(id: str, request: Request):
-    if (machine := request.app.database["machines"].find_one({"id": id})) is not None:
+    if (machine := request.app.database["machines"].find_one({"_id": ObjectId(id)})) is not None:
         return machine["quadrupoles"]
 
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {id} not found")
@@ -60,27 +62,28 @@ def find_a_machine(id: str, request: Request):
 
 @router.put("/machine/{id}", response_description="Update a machine", response_model=Machine)
 def update_machine(id: str, request: Request, machine: MachineUpdate = Body(...)):
-    machine = {k: v for k, v in machine.dict().items() if v is not None}
+    machine_dict = machine.dict(exclude_unset=True)
 
-    if len(machine) >= 1:
+    if len(machine_dict) >= 1:
         update_result = request.app.database["machines"].update_one(
-            {"_id": id}, {"$set": machine}
+            {"_id": ObjectId(id)}, {"$set": machine_dict}
         )
 
         if update_result.modified_count == 0:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {id} not found")
 
-    if (
-            existing_machine := request.app.database["machines"].find_one({"_id": id})
-    ) is not None:
-        return existing_machine
+    # Retrieve the updated machine
+    updated_machine = request.app.database["machines"].find_one({"_id": ObjectId(id)})
+
+    if updated_machine:
+        return updated_machine
 
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {id} not found")
 
 
 @router.delete("/machine/{id}", response_description="Delete a machine")
 def delete_machine(id: str, request: Request, response: Response):
-    delete_result = request.app.database["machines"].delete_one({"_id": id})
+    delete_result = request.app.database["machines"].delete_one({"_id": ObjectId(id)})
 
     if delete_result.deleted_count == 1:
         response.status_code = status.HTTP_204_NO_CONTENT

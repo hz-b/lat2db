@@ -1,8 +1,10 @@
 import uuid
-from pydantic.dataclasses import dataclass
-from typing import List
 
-from pydantic import Field
+from bson import ObjectId
+from pydantic.dataclasses import dataclass
+from typing import List, Optional
+
+from pydantic import Field, BaseModel
 from datetime import datetime
 
 from lat2db.model.beam_position_monitor import BeamPositionMonitor
@@ -20,7 +22,7 @@ from lat2db.model.geometric_info import GeometricInfo
 
 
 @dataclass()
-class Machine():
+class Machine(BaseModel):
     sequences: List[Sequencer] = Field(default_factory=list)
     quadrupoles: List[Quadrupole] = Field(default_factory=list)
     sextupoles: List[Sextupole] = Field(default_factory=list)
@@ -29,11 +31,9 @@ class Machine():
     markers: List[Marker] = Field(default_factory=list)
     beam_position_monitors: List[BeamPositionMonitor] = Field(default_factory=list)
     cavities: List[Cavity] = Field(default_factory=list)
-    version: Version = Field(default=None)
-    geometric_info: GeometricInfo = Field(default=None)
-    physics_info: PhysicsInfo = Field(default=None)
     name: str = "unknown"
     id: str = Field(default_factory=uuid.uuid4)
+
 
     def add_drift(self, drift):
         self.drifts.append(drift)
@@ -59,6 +59,9 @@ class Machine():
     def add_to_sequence(self, sequence_item):
         self.sequences.append(sequence_item)
 
+    def to_dict(self):
+        machine = {k: v for k, v in self.dict().items() if v is not None}
+        return machine
     def set_base_parameters(self, lat):
         self.name = lat.lattice_standard_metadata.machine_name
         lat_version = lat.lattice_standard_metadata.lattice_version
