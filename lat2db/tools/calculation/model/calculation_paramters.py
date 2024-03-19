@@ -2,7 +2,7 @@
 
 """
 import enum
-from dataclasses import dataclass
+from pydantic.dataclasses import dataclass
 from typing import Sequence
 
 

@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from pydantic.dataclasses import dataclass
 from typing import Optional
 
 from .element import Element
@@ -13,7 +13,6 @@ class Bending(Element):
     bending_angle: Optional[float] = 0.0
     entranceangle: Optional[float] = 0.0
     exitangle: Optional[float] = 0
-    Energy: Optional[float] = None
     fringeint1: Optional[float] = None
     fringeint2: Optional[float] = None
     fullgap: Optional[float] = None

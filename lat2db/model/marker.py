@@ -1,7 +1,7 @@
-from dataclasses import dataclass
+from pydantic.dataclasses import dataclass
+
 from lat2db.model.element import Element
-from typing import Optional
-from typing import Sequence
+
 
 @dataclass
 class Marker(Element):
@@ -9,4 +9,4 @@ class Marker(Element):
 
     Used to get data at any point within the machine
     """
-    passmethod: Optional[str] = None
+    pass

@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from pydantic.dataclasses import dataclass
 from typing import Optional, Dict,Any
 from lat2db.model.element import Element
 from typing import Optional

@@ -12,6 +12,7 @@ import numpy as np
 from ...model.bending import Bending
 from ...model.cavity import Cavity
 from ...model.element import Element
+from ...model.magnetic_element import MagneticElement, KickAngles, AddonCorrector, MagnetAssembly
 from ...model.quadrupole import Quadrupole
 from ...model.sextupole import Sextupole
 
@@ -108,17 +109,17 @@ def instanitate_quadrupole(prop: dict):
 #
 
 
-def instanitate_sextupole(prop: dict):
+def instanitate_sextupole(props: dict):
     """
     Todo:
         check which convention h follows?
     """
     # h = prop.main_multipole_strength
-    logger.debug(f"Sextupole {prop=}")
+    logger.debug(f"Sextupole {props=}")
     try:
-        p = jsons.load(prop, Sextupole)
+        p = jsons.load(props, Sextupole)
     except jsons.exceptions.DeserializationError:
-        logger.error(f"Could not load Sextupole using properties {prop}")
+        logger.error(f"Could not load Sextupole using properties {props}")
         raise
     r = at.Sextupole(p.name, p.length, PolynomA=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
                      PolynomB=p.element_configuration.magnetic_element.coeffs.skew_coefficients, Corrector=p.tags[0],

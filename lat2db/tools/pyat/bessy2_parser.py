@@ -205,7 +205,7 @@ def insert_elements(ring, parent_id=None):
 
         if typename.lower() == "quadrupole":
             #element_quad["main_multipole_strength"] = element_quad.pop("k", None)
-            #element_quad["passmethod"] = element_quad.pop("method")
+            element_quad["passmethod"] = element_quad.pop("PassMethod")
             multipole_coefficients = MultipoleCoefficients()
             multipole_coefficients.normal_coefficients = [float(x) for x in element_quad.pop("PolynomA")]
             multipole_coefficients.skew_coefficients = [float(x) for x in element_quad.pop("PolynomB")]
@@ -313,6 +313,7 @@ def insert_elements(ring, parent_id=None):
             # element_drift["passmethod"] = element_quad.pop("method")
             element_drift["name"] = element_drift.pop("FamName", None)
             element_drift["length"] = element_drift.pop("Length", None)
+            element_drift["passmethod"] = element_drift.pop("PassMethod")
             for field in drift_fields:
                 if field not in element_drift:
                     # Add missing property with null value
@@ -321,6 +322,7 @@ def insert_elements(ring, parent_id=None):
         if typename.lower() == "bending":
             # element_bending["passmethod"] = element_quad.pop("method")
             element_bending["main_multipole_strength"] = element_bending.pop("k", None)
+            element_bending["passmethod"] = element_bending.pop("PassMethod")
             multipole_coefficients = MultipoleCoefficients()
             multipole_coefficients.normal_coefficients = [float(x) for x in element_bending.pop("PolynomA")]
             multipole_coefficients.skew_coefficients = [float(x) for x in element_bending.pop("PolynomB")]
@@ -343,6 +345,7 @@ def insert_elements(ring, parent_id=None):
         if typename.lower() == "marker":
             # element_marker["passmethod"] = element_quad.pop("method")
             element_marker["name"] = element_marker.pop("FamName", None)
+            element_marker["passmethod"] = element_marker.pop("PassMethod")
             element_marker["length"] = element_marker.pop("Length", None)
             element_marker["tags"] = [element_marker.pop("Corrector", "")]
             for field in marker_fields:
@@ -367,6 +370,7 @@ def insert_elements(ring, parent_id=None):
         if typename.lower() == "monitor":
             element_beamposition["name"] = element_beamposition.pop("FamName", None)
             element_beamposition["length"] = element_beamposition.pop("Length", None)
+            element_beamposition["passmethod"] = element_beamposition.pop("PassMethod")
             element_beamposition["tags"] = [element_beamposition.pop("Corrector", "")]
             for field in beamposition_fields:
                 if field not in element_beamposition:
@@ -392,6 +396,7 @@ def insert_elements(ring, parent_id=None):
             element_cavity["cavity_configuration"] = harmonic_fields_dict
 
             element_cavity["name"] = element_cavity.pop("FamName", None)
+            element_cavity["passmethod"] = element_cavity.pop("PassMethod")
             element_cavity["harmonic_number"] = element_cavity.pop("HarmNumber", None)
             element_cavity["length"] = element_cavity.pop("Length", None)
             element_cavity["tags"] = [element_cavity.pop("Corrector", "")]

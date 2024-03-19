@@ -1,22 +1,26 @@
-from dataclasses import dataclass
-from typing import Sequence
+
+from pydantic.dataclasses import dataclass
+from typing import Sequence, Optional
+
+from pydantic import BaseModel
 
 
-@dataclass
+@dataclass()
 class Element:
     #: actually an identifier
-    name: str
-    index: int
+    name: Optional[str]
+    index: Optional[int]
     #: in meter
-    length: float
+    length: Optional[float]
     #: to be interpreted by the factories building a lattice from the database
-    type: str
+    type: Optional[str]
     #: everythng describing the element itself beyond to the information given
     #: in the fields above
     # element_configuration: object
     # tags are given by specific lattice developers to later sort/filter/categorised/group or wild card search their
     # elements
-    tags: Sequence[str]
+    passmethod: Optional[str]
+    tags: Optional[Sequence[str]]
 
 
 __all__ = ["Element"]
