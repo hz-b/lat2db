@@ -5,13 +5,14 @@ from bson import ObjectId
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 
-from lat2db.model.machine import Machine, Quadrupole
+from lat2db.model.machine import Machine, Quadrupole,Sextupole
 from lat2db.model.update_machine import MachineUpdate
 from fastapi.responses import JSONResponse
 from pymongo.collection import Collection
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 
+from dataclasses import asdict
 
 router = APIRouter()
 
@@ -54,8 +55,19 @@ def find_a_machine(_id: str, request: Request):
 #get all Quads
 @router.get("/machine/{id}/quad", response_description="Get a single machine by id", response_model=List[Quadrupole])
 def find_a_machine(id: str, request: Request):
-    if (machine := request.app.database["machines"].find_one({"_id": ObjectId(id)})) is not None:
+    print("inside the quad get function")
+    if (machine := request.app.database["machines"].find_one({"id": str(id)})) is not None:
         return machine["quadrupoles"]
+
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {id} not found")
+
+#get all Sextupoles
+
+@router.get("/machine/{id}/sextupole", response_description="Get a single machine by id", response_model=List[Sextupole])
+def find_a_machine(id: str, request: Request):
+    print("inside the quad get function")
+    if (machine := request.app.database["machines"].find_one({"id": str(id)})) is not None:
+        return machine["sextupoles"]
 
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {id} not found")
 
@@ -111,6 +123,9 @@ def find_a_machine(id: str, request: Request):
 
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {id} not found") """
 
+
+#update Quadrupoles
+
 class Quadrupole_request_update(BaseModel):
     affected_quad: str
     updated_data: Quadrupole
@@ -119,9 +134,9 @@ class Quadrupole_request_update(BaseModel):
 def update_quadrupole_details(id: str, quad_name: str, request_body: Quadrupole_request_update,request: Request):
     print("Inside the update function ")
     database: Collection = request.app.database["machines"]
-    print("databse name is ",database)
+    print("pass id is  ",id)
     machine = database.find_one({"id": id})
-
+    print("machien is ",machine)
     if machine:
         print("Found machine with ID:", id)
         if "quadrupoles" in machine:
@@ -144,27 +159,92 @@ def update_quadrupole_details(id: str, quad_name: str, request_body: Quadrupole_
                             difference=float(request_body.updated_data.length)-float(quad_length)
 
                         removed_quadrupole = quadrupoles_list.pop(quad_index)
+                        update_data_dict = request_body.updated_data
                         print("&&&&&&&& removed ",removed_quadrupole)
-                        update_data_dict = request_body.updated_data.to_dict()
+                        print("Type of update_data_dict:", type(request_body.updated_data))
+                        print("Attributes of update_data_dict:", dir(request_body.updated_data))
+                        
 
-                        print("^^^^^^^^^^^^ json converted",update_data_dict)
-                        quadrupoles_list.insert(quad_index, update_data_dict)
+                        print("^^^^^^^^^^^^ json converted",asdict(request_body.updated_data))
+                        quadrupoles_list.insert(quad_index, asdict(request_body.updated_data))
                         print("inserted.")
                         break
                
                 
                 database.update_one({"id": id}, {"$set": {"quadrupoles": quadrupoles_list}})
-                for quad_index, quad in enumerate(quadrupoles_list):
-                    if int(quad.get("index")) == int(request_body.affected_quad):
-                        if operations == "+":
-                            quad["length"] = float(quad.get("length")) + difference
-                        else:
-                            quad["length"] = float(quad.get("length")) - difference
+                if request_body.affected_quad!="-1":
+                    for quad_index, quad in enumerate(quadrupoles_list):
+                        if int(quad.get("index")) == int(request_body.affected_quad):
+                            if operations == "+":
+                                quad["length"] = float(quad.get("length")) + difference
+                            else:
+                                quad["length"] = float(quad.get("length")) - difference
 
-                database.update_one({"id": id}, {"$set": {"quadrupoles": quadrupoles_list}})
+                    database.update_one({"id": id}, {"$set": {"quadrupoles": quadrupoles_list}})
 
 
                 return JSONResponse(status_code=200,content={"message": f"Quadrupole updated"})
+
+
+#update Sextuploles
+            
+class Sextupole_request_update(BaseModel):
+    affected_sext: str
+    updated_data: Sextupole
+
+@router.put("/machine/{id}/sext/{sext_name}", response_description="Update a sextupole's details")
+def update_sextupole_details(id: str, sext_name: str, request_body: Sextupole_request_update,request: Request):
+    print("Inside the update function ")
+    database: Collection = request.app.database["machines"]
+    print("pass id is  ",id)
+    machine = database.find_one({"id": id})
+    print("machien is ",machine)
+    if machine:
+        print("Found machine with ID:", id)
+        if "sextupoles" in machine:
+            print("sextupoles field exists in the machine document")
+            if "sextupoles" in machine:
+                sextupole_list = machine.get("sextupoles", [])
+                operations=None
+                difference=0
+                print("######passed index is ",request_body.updated_data.index)
+                for sext_index, sext in enumerate(sextupole_list):
+                    print("sext indexis ",sext_index)
+                    if sext.get("name") == request_body.updated_data.name:  
+                        sext_length=sext.get("length")
+                        if float(sext_length)>float(request_body.updated_data.length):
+                            operations="+"
+                            difference=float(sext_length)-float(request_body.updated_data.length)
+                        else:
+                            operations="-"
+                            difference=float(request_body.updated_data.length)-float(sext_length)
+
+                        removed_sextupoles = sextupole_list.pop(sext_index)
+                        update_data_dict = request_body.updated_data
+                        print("&&&&&&&& removed ",removed_sextupoles)
+                        print("Type of update_data_dict:", type(request_body.updated_data))
+                        print("Attributes of update_data_dict:", dir(request_body.updated_data))
+                        
+
+                        print("^^^^^^^^^^^^ json converted",asdict(request_body.updated_data))
+                        sextupole_list.insert(quad_index, asdict(request_body.updated_data))
+                        print("inserted.")
+                        break
+               
+                
+                database.update_one({"id": id}, {"$set": {"sextupoles": sextupole_list}})
+                if request_body.affected_quad!="-1":
+                    for sext_index, sext in enumerate(sextupole_list):
+                        if int(sext.get("index")) == int(request_body.affected_quad):
+                            if operations == "+":
+                                sext["length"] = float(sext.get("length")) + difference
+                            else:
+                                sext["length"] = float(sext.get("length")) - difference
+
+                    database.update_one({"id": id}, {"$set": {"sextupoles": sextupole_list}})
+
+
+                return JSONResponse(status_code=200,content={"message": f"Sextupoles updated"})
 
 
 # get the relevenet quad detail from sequence lsit
