@@ -5,7 +5,7 @@ from bson import ObjectId
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 
-from lat2db.model.machine import Machine, Quadrupole,Sextupole
+from lat2db.model.machine import Machine, Quadrupole,Sextupole,Drift,Marker,BeamPositionMonitor
 from lat2db.model.update_machine import MachineUpdate
 from fastapi.responses import JSONResponse
 from pymongo.collection import Collection
@@ -61,15 +61,6 @@ def find_a_machine(id: str, request: Request):
 
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {id} not found")
 
-#get all Sextupoles
-
-@router.get("/machine/{id}/sextupole", response_description="Get a single machine by id", response_model=List[Sextupole])
-def find_a_machine(id: str, request: Request):
-    print("inside the quad get function")
-    if (machine := request.app.database["machines"].find_one({"id": str(id)})) is not None:
-        return machine["sextupoles"]
-
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {id} not found")
 
 
 @router.put("/machine/{id}", response_description="Update a machine", response_model=Machine)
@@ -122,6 +113,7 @@ def find_a_machine(id: str, request: Request):
         return machine["quadrupoles"]
 
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {id} not found") """
+
 
 
 #update Quadrupoles
@@ -185,6 +177,16 @@ def update_quadrupole_details(id: str, quad_name: str, request_body: Quadrupole_
 
                 return JSONResponse(status_code=200,content={"message": f"Quadrupole updated"})
 
+#get all Sextupoles
+
+@router.get("/machine/{id}/sextupole", response_description="Get a single machine by id", response_model=List[Sextupole])
+def find_a_machine(id: str, request: Request):
+    print("inside the quad get function")
+    if (machine := request.app.database["machines"].find_one({"id": str(id)})) is not None:
+        return machine["sextupoles"]
+
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {id} not found")
+
 
 #update Sextuploles
             
@@ -227,15 +229,15 @@ def update_sextupole_details(id: str, sext_name: str, request_body: Sextupole_re
                         
 
                         print("^^^^^^^^^^^^ json converted",asdict(request_body.updated_data))
-                        sextupole_list.insert(quad_index, asdict(request_body.updated_data))
+                        sextupole_list.insert(sext_index, asdict(request_body.updated_data))
                         print("inserted.")
                         break
                
                 
                 database.update_one({"id": id}, {"$set": {"sextupoles": sextupole_list}})
-                if request_body.affected_quad!="-1":
+                if request_body.affected_sext!="-1":
                     for sext_index, sext in enumerate(sextupole_list):
-                        if int(sext.get("index")) == int(request_body.affected_quad):
+                        if int(sext.get("index")) == int(request_body.affected_sext):
                             if operations == "+":
                                 sext["length"] = float(sext.get("length")) + difference
                             else:
@@ -245,6 +247,220 @@ def update_sextupole_details(id: str, sext_name: str, request_body: Sextupole_re
 
 
                 return JSONResponse(status_code=200,content={"message": f"Sextupoles updated"})
+
+#get all Drifts
+
+@router.get("/machine/{id}/drifts", response_description="Get a single machine by id", response_model=List[Drift])
+def find_a_machine(id: str, request: Request):
+    print("inside the drif get function")
+    if (machine := request.app.database["machines"].find_one({"id": str(id)})) is not None:
+        return machine["drifts"]
+
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {id} not found")
+
+
+#update Drifts
+            
+class Drift_request_update(BaseModel):
+    affected_drift: str
+    updated_data: Drift
+
+@router.put("/machine/{id}/drift/{drift_name}", response_description="Update a Drift's details")
+def update_drift_details(id: str, drift_name: str, request_body: Drift_request_update,request: Request):
+    print("Inside the update function ")
+    database: Collection = request.app.database["machines"]
+    print("pass id is  ",id)
+    machine = database.find_one({"id": id})
+    print("machien is ",machine)
+    if machine:
+        print("Found machine with ID:", id)
+        if "drifts" in machine:
+            print("drifts field exists in the machine document")
+            if "drifts" in machine:
+                drift_list = machine.get("drifts", [])
+                operations=None
+                difference=0
+                print("######passed index is ",request_body.updated_data.index)
+                for drift_index, drift in enumerate(drift_list):
+                    print("drift indexis ",drift_index)
+                    if drift.get("name") == request_body.updated_data.name:  
+                        drift_length=drift.get("length")
+                        if float(drift_length)>float(request_body.updated_data.length):
+                            operations="+"
+                            difference=float(drift_length)-float(request_body.updated_data.length)
+                        else:
+                            operations="-"
+                            difference=float(request_body.updated_data.length)-float(drift_length)
+
+                        removed_drift = drift_list.pop(drift_index)
+                        update_data_dict = request_body.updated_data
+                        print("&&&&&&&& removed ",removed_drift)
+                        print("Type of update_data_dict:", type(request_body.updated_data))
+                        print("Attributes of update_data_dict:", dir(request_body.updated_data))
+                        
+
+                        print("^^^^^^^^^^^^ json converted",asdict(request_body.updated_data))
+                        drift_list.insert(drift_index, asdict(request_body.updated_data))
+                        print("inserted.")
+                        break
+               
+                
+                database.update_one({"id": id}, {"$set": {"drifts": drift_list}})
+                if request_body.affected_drift!="-1":
+                    for drift_index, drift in enumerate(drift_list):
+                        if int(drift.get("index")) == int(request_body.affected_drift):
+                            if operations == "+":
+                                drift["length"] = float(drift.get("length")) + difference
+                            else:
+                                drift["length"] = float(drift.get("length")) - difference
+
+                    database.update_one({"id": id}, {"$set": {"drifts": drift_list}})
+
+
+                return JSONResponse(status_code=200,content={"message": f"drifts updated"})
+
+#get all Markers
+
+@router.get("/machine/{id}/markers", response_description="Get a single machine by id", response_model=List[Marker])
+def find_a_machine(id: str, request: Request):
+    print("inside the drif get function")
+    if (machine := request.app.database["machines"].find_one({"id": str(id)})) is not None:
+        return machine["markers"]
+
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {id} not found")
+
+#update Markers
+            
+class Marker_request_update(BaseModel):
+    affected_marker: str
+    updated_data: Marker
+
+@router.put("/machine/{id}/marker/{marker_name}", response_description="Update a markers's details")
+def update_drift_details(id: str, marker_name: str, request_body: Marker_request_update,request: Request):
+    print("Inside the update function ")
+    database: Collection = request.app.database["machines"]
+    print("pass id is  ",id)
+    machine = database.find_one({"id": id})
+    print("machien is ",machine)
+    if machine:
+        print("Found machine with ID:", id)
+        if "markers" in machine:
+            print("markers field exists in the machine document")
+            if "markers" in machine:
+                marker_list = machine.get("markers", [])
+                operations=None
+                difference=0
+                print("######passed index is ",request_body.updated_data.index)
+                for marker_index, marker in enumerate(marker_list):
+                    print("marker indexis ",marker_index)
+                    if marker.get("name") == request_body.updated_data.name:  
+                        marker_length=marker.get("length")
+                        if float(marker_length)>float(request_body.updated_data.length):
+                            operations="+"
+                            difference=float(marker_length)-float(request_body.updated_data.length)
+                        else:
+                            operations="-"
+                            difference=float(request_body.updated_data.length)-float(marker_length)
+
+                        removed_marker = marker_list.pop(marker_index)
+                        update_data_dict = request_body.updated_data
+                        print("&&&&&&&& removed ",removed_marker)
+                        print("Type of update_data_dict:", type(request_body.updated_data))
+                        print("Attributes of update_data_dict:", dir(request_body.updated_data))
+                        
+
+                        print("^^^^^^^^^^^^ json converted",asdict(request_body.updated_data))
+                        marker_list.insert(marker_index, asdict(request_body.updated_data))
+                        print("inserted.")
+                        break
+               
+                
+                database.update_one({"id": id}, {"$set": {"markers": marker_list}})
+                if request_body.affected_marker!="-1":
+                    for marker_index, marker in enumerate(marker_list):
+                        if int(marker.get("index")) == int(request_body.affected_marker):
+                            if operations == "+":
+                                marker["length"] = float(marker.get("length")) + difference
+                            else:
+                                marker["length"] = float(marker.get("length")) - difference
+
+                    database.update_one({"id": id}, {"$set": {"markers": marker_list}})
+
+
+                return JSONResponse(status_code=200,content={"message": f"markers updated"})
+
+
+#get all Monitors
+
+@router.get("/machine/{id}/monitors", response_description="Get a single machine by id", response_model=List[BeamPositionMonitor])
+def find_a_machine(id: str, request: Request):
+    print("inside the drif get function")
+    if (machine := request.app.database["machines"].find_one({"id": str(id)})) is not None:
+        return machine["beam_position_monitors"]
+
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {id} not found")
+
+#update Monitors
+            
+class Monitor_request_update(BaseModel):
+    affected_monitor: str
+    updated_data: BeamPositionMonitor
+
+@router.put("/machine/{id}/monitor/{monitor_name}", response_description="Update a monitor's details")
+def update_monitor_details(id: str, monitor_name: str, request_body: Monitor_request_update,request: Request):
+    print("Inside the update function ")
+    database: Collection = request.app.database["machines"]
+    print("pass id is  ",id)
+    machine = database.find_one({"id": id})
+    print("machien is ",machine)
+    if machine:
+        print("Found machine with ID:", id)
+        if "beam_position_monitors" in machine:
+            print("markers field exists in the machine document")
+            if "beam_position_monitors" in machine:
+                monitor_list = machine.get("beam_position_monitors", [])
+                operations=None
+                difference=0
+                print("######passed index is ",request_body.updated_data.index)
+                for monitor_index, monitor in enumerate(monitor_list):
+                    print("monitor indexis ",monitor_index)
+                    if monitor.get("name") == request_body.updated_data.name:  
+                        monitor_length=monitor.get("length")
+                        if float(monitor_length)>float(request_body.updated_data.length):
+                            operations="+"
+                            difference=float(monitor_length)-float(request_body.updated_data.length)
+                        else:
+                            operations="-"
+                            difference=float(request_body.updated_data.length)-float(monitor_length)
+
+                        removed_monitor = monitor_list.pop(monitor_index)
+                        update_data_dict = request_body.updated_data
+                        print("&&&&&&&& removed ",removed_monitor)
+                        print("Type of update_data_dict:", type(request_body.updated_data))
+                        print("Attributes of update_data_dict:", dir(request_body.updated_data))
+                        
+
+                        print("^^^^^^^^^^^^ json converted",asdict(request_body.updated_data))
+                        monitor_list.insert(monitor_index, asdict(request_body.updated_data))
+                        print("inserted.")
+                        break
+               
+                
+                database.update_one({"id": id}, {"$set": {"beam_position_monitors": monitor_list}})
+                if request_body.affected_monitor!="-1":
+                    for monitor_index, monitor in enumerate(monitor_list):
+                        if int(monitor.get("index")) == int(request_body.affected_monitor):
+                            if operations == "+":
+                                monitor["length"] = float(monitor.get("length")) + difference
+                            else:
+                                monitor["length"] = float(monitor.get("length")) - difference
+
+                    database.update_one({"id": id}, {"$set": {"beam_position_monitors": monitor_list}})
+
+
+                return JSONResponse(status_code=200,content={"message": f"monitor updated"})
+
+
 
 
 # get the relevenet quad detail from sequence lsit
