@@ -174,7 +174,15 @@ def update_quadrupole_details(id: str, quad_name: str, request_body: Quadrupole_
 
                     database.update_one({"id": id}, {"$set": {"quadrupoles": quadrupoles_list}})
 
+                if "sequences" in machine:
+                    sequences_list = machine.get("sequences", [])
+                    for item_index, item in enumerate(sequences_list):
+                        if item.get("name") == request_body.updated_data.name and item.get("type")=="Quadrupole":
+                             removed_quadrupole = sequences_list.pop(item_index)
+                             sequences_list.insert(item_index, asdict(request_body.updated_data))
+                             break
 
+                database.update_one({"id": id}, {"$set": {"sequences": sequences_list}})
                 return JSONResponse(status_code=200,content={"message": f"Quadrupole updated"})
 
 #get all Sextupoles
@@ -245,7 +253,15 @@ def update_sextupole_details(id: str, sext_name: str, request_body: Sextupole_re
 
                     database.update_one({"id": id}, {"$set": {"sextupoles": sextupole_list}})
 
+                if "sequences" in machine:
+                    sequences_list = machine.get("sequences", [])
+                    for item_index, item in enumerate(sequences_list):
+                        if item.get("name") == request_body.updated_data.name and item.get("type")=="Sextupole":
+                             removed_sextupole = sequences_list.pop(item_index)
+                             sequences_list.insert(item_index, asdict(request_body.updated_data))
+                             break
 
+                database.update_one({"id": id}, {"$set": {"sequences": sequences_list}})
                 return JSONResponse(status_code=200,content={"message": f"Sextupoles updated"})
 
 #get all Drifts
@@ -315,7 +331,13 @@ def update_drift_details(id: str, drift_name: str, request_body: Drift_request_u
                                 drift["length"] = float(drift.get("length")) - difference
 
                     database.update_one({"id": id}, {"$set": {"drifts": drift_list}})
-
+                if "sequences" in machine:
+                    sequences_list = machine.get("sequences", [])
+                    for item_index, item in enumerate(sequences_list):
+                        if item.get("name") == request_body.updated_data.name and item.get("type")=="Drift":
+                             removed_Drift = sequences_list.pop(item_index)
+                             sequences_list.insert(item_index, asdict(request_body.updated_data))
+                             break
 
                 return JSONResponse(status_code=200,content={"message": f"drifts updated"})
 
@@ -385,7 +407,13 @@ def update_drift_details(id: str, marker_name: str, request_body: Marker_request
                                 marker["length"] = float(marker.get("length")) - difference
 
                     database.update_one({"id": id}, {"$set": {"markers": marker_list}})
-
+                if "sequences" in machine:
+                    sequences_list = machine.get("sequences", [])
+                    for item_index, item in enumerate(sequences_list):
+                        if item.get("name") == request_body.updated_data.name and item.get("type")=="Marker":
+                             removed_Marker = sequences_list.pop(item_index)
+                             sequences_list.insert(item_index, asdict(request_body.updated_data))
+                             break
 
                 return JSONResponse(status_code=200,content={"message": f"markers updated"})
 
@@ -457,7 +485,13 @@ def update_monitor_details(id: str, monitor_name: str, request_body: Monitor_req
 
                     database.update_one({"id": id}, {"$set": {"beam_position_monitors": monitor_list}})
 
-
+                if "sequences" in machine:
+                    sequences_list = machine.get("sequences", [])
+                    for item_index, item in enumerate(sequences_list):
+                        if item.get("name") == request_body.updated_data.name and item.get("type")=="Monitor":
+                             removed_Monitor = sequences_list.pop(item_index)
+                             sequences_list.insert(item_index, asdict(request_body.updated_data))
+                             break
                 return JSONResponse(status_code=200,content={"message": f"monitor updated"})
 
 
