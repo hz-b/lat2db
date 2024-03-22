@@ -1,0 +1,30 @@
+# Dependency directories
+node_modules/
+npm-debug.log
+
+# Environment variables
+.env
+
+# Build files
+/build
+.DS_Store
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+
+# Cache files
+*.pem
+
+# OS generated files
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
