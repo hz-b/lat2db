@@ -1,5 +1,9 @@
 import sys
-sys.path.append('/Users/safiullahomar/lattice/lat2db') 
+
+
+from fastapi.staticfiles import StaticFiles
+
+sys.path.append('/Users/safiullahomar/lattice/lat2db')
 
 from fastapi import FastAPI
 from pymongo import MongoClient
@@ -11,17 +15,10 @@ import uvicorn
 
 app = FastAPI()
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-#app.include_router(machine_router)
+app.include_router(machine_controller.router, tags=["machines"], prefix="/machine")
+app.include_router(index_controller.router, tags=["index"], prefix="/index")
 
-# a comment only
-
+app.mount("/", StaticFiles(directory="../UI/build", html=True))
 
 @app.on_event("startup")
 def startup_db_client():
@@ -36,9 +33,6 @@ def shutdown_db_client():
     pass
     # app.mongodb_client.close()
 
-
-app.include_router(machine_controller.router, tags=["machines"], prefix="/machine")
-app.include_router(index_controller.router, tags=["index"], prefix="/index")
 
 
 @app.get("/healthcheck/")
