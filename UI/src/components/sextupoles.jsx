@@ -25,6 +25,7 @@ const MyComponent = () => {
   const [sextupoles, setSextupoles] = useState([]);
   const [selectedMachine, setSelectedMachine] = useState("");
   const [selectedSext, setSelectedSext] = useState(null);
+  const [showRow, setShowRow] = useState(false);
 
   const [formData, setFormData] = useState({
     updateLength: '',
@@ -191,7 +192,7 @@ const MyComponent = () => {
   
 
     if (formData.updateLength !== selectedSext.length.toString()) {
-      if (!selected_drift_RadioOption) {
+      if (showRow && !selected_drift_RadioOption) {
         Swal.fire({
           icon: "warning",
           title:"Select Quadrupole Option",
@@ -249,8 +250,15 @@ const MyComponent = () => {
   };
 
   return (
-    <Container className="mt-5">
-      <Row>
+    <Container className="mt-1">
+          <Row>
+    <Col>
+      <div className="heading-container">
+        <h1 className="heading-text">Select Machine and Sextupoles</h1>
+      </div>
+    </Col>
+  </Row >
+      <Row className="mt-1">
         <Col md={6}>
           <Row>
             <Col md={6}>
@@ -384,7 +392,14 @@ const MyComponent = () => {
             <Form.Group controlId="sextSelect_radios">
               <Form.Label>Select Drift Option:</Form.Label>
               <div>
-                {
+              <Form.Check
+                  type="checkbox"
+                  id="showRowCheckbox"
+                  label="Show Drift Option to edit"
+                  checked={showRow}
+                  onChange={(e) => setShowRow(e.target.checked)}
+                />
+                {showRow && (
                   (() => {
                     let index = sextupoles.findIndex((sext) => sext.name === formData.name);
                     let previousQuad = sextupoles[index - 1];
@@ -421,7 +436,7 @@ const MyComponent = () => {
                       </>
                     );
                   })()
-                }
+                )}
               </div>
 
 

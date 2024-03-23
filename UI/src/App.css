@@ -36,3 +36,22 @@
     transform: rotate(360deg);
   }
 }
+
+.heading-container {
+  background-color: #f0f0f0;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+    padding: 20px;
+}
+
+.heading-text {
+  font-family: Arial, sans-serif;
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}

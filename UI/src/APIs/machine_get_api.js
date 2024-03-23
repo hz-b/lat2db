@@ -61,7 +61,7 @@ export const updateQuadrupole = async (machineId, quadName, affected_quad, formD
     console.log("updated object for submission is ",updated_data)
     const response = await axios.put(`${baseUrl}/machine/machine/${machineId}/quad/${quadName}`,
     {
-      affected_quad: affected_quad === "" ? "-1" : affected_quad,
+      affected_drift: affected_quad === "" ? "-1" : affected_quad,
       updated_data: updated_data
     });
     return response.data;
@@ -99,7 +99,7 @@ export const updateSextupole = async (machineId, SextName, affected_sext, formDa
     console.log("updated object for submission is ",updated_data)
     const response = await axios.put(`${baseUrl}/machine/machine/${machineId}/sext/${SextName}`,
     {
-      affected_sext: affected_sext === "" ? "-1" : affected_sext,
+      affected_drift: affected_sext === "" ? "-1" : affected_sext,
       updated_data: updated_data
     });
     return response.data;

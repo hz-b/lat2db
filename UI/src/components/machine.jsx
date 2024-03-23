@@ -26,6 +26,8 @@ const MyComponent = () => {
   const [selectedMachine, setSelectedMachine] = useState("");
   const [selectedQuad, setSelectedQuad] = useState(null);
 
+  const [showRow, setShowRow] = useState(false);
+
   const [formData, setFormData] = useState({
     updateLength: '',
     updateCorrector: '',
@@ -188,13 +190,13 @@ const MyComponent = () => {
 
 
   const handleUpdateQuad = async () => {
-  
+
 
     if (formData.updateLength !== selectedQuad.length.toString()) {
-      if (!selected_drift_RadioOption) {
+      if (showRow && !selected_drift_RadioOption) {
         Swal.fire({
           icon: "warning",
-          title:"Select Quadrupole Option",
+          title: "Select Quadrupole Option",
           text: "Please select a drift option before updating.",
         });
         setSelected_drift_RadioOption(-1)
@@ -249,8 +251,15 @@ const MyComponent = () => {
   };
 
   return (
-    <Container className="mt-5">
-      <Row>
+       <Container className="mt-1">
+          <Row>
+    <Col>
+      <div className="heading-container">
+        <h1 className="heading-text">Select Machine and Quadrupoles</h1>
+      </div>
+    </Col>
+  </Row >
+      <Row className="mt-1">
         <Col md={6}>
           <Row>
             <Col md={6}>
@@ -384,11 +393,20 @@ const MyComponent = () => {
             <Form.Group controlId="quadSelect_radios">
               <Form.Label>Select Drift Option:</Form.Label>
               <div>
-                {
+                <Form.Check
+                  type="checkbox"
+                  id="showRowCheckbox"
+                  label="Show Drift Option to edit"
+                  checked={showRow}
+                  onChange={(e) => setShowRow(e.target.checked)}
+                />
+                {showRow && (
                   (() => {
                     let index = quadrupoles.findIndex((quad) => quad.name === formData.name);
                     let previousQuad = quadrupoles[index - 1];
+                    let previous_index=parseInt(quadrupoles[index].index)-1;
                     let nextQuad = quadrupoles[index + 1];
+                    let next_index=parseInt(quadrupoles[index].index)+1;
                     console.log("current quad index is ", index);
                     console.log("previous quad is ", previousQuad);
                     console.log("next quad is ", nextQuad);
@@ -398,11 +416,11 @@ const MyComponent = () => {
                         {previousQuad && (
                           <Form.Check
                             type="radio"
-                            id="quad1"
-                            name="quad"
-                            label={`Previous Quad (${previousQuad.name})`}
-                            value={previousQuad.index}
-                            checked={selected_drift_RadioOption === previousQuad.index.toString()}
+                            id="drift1"
+                            name="drift"
+                            label={`Previous Drift on index (${previous_index})`}
+                            value={previous_index}
+                            checked={selected_drift_RadioOption === previous_index.toString()}
                             onChange={(e) => setSelected_drift_RadioOption(e.target.value)}
                           />
                         )}
@@ -410,18 +428,18 @@ const MyComponent = () => {
                         {nextQuad && (
                           <Form.Check
                             type="radio"
-                            id="quad2"
-                            name="quad"
-                            label={`Next Quad (${nextQuad.name})`}
-                            value={nextQuad.index}
-                            checked={selected_drift_RadioOption === nextQuad.index.toString()}
+                            id="drift2"
+                            name="drift"
+                            label={`Next Drift on index (${next_index})`}
+                            value={next_index}
+                            checked={selected_drift_RadioOption === next_index.toString()}
                             onChange={(e) => setSelected_drift_RadioOption(e.target.value)}
                           />
                         )}
                       </>
                     );
                   })()
-                }
+                )}
               </div>
 
 

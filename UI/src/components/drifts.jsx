@@ -12,7 +12,7 @@ import {
   fetchMachines,
   fetchDrifts,
   updateDrifts,
-  
+
 } from "../APIs/machine_get_api";
 import $ from "jquery";
 import "select2/dist/js/select2.min.js";
@@ -104,7 +104,7 @@ const MyComponent = () => {
       console.log("data is of the selected quad is ", driftDetails)
       setFormData({
         updateLength: driftDetails.length.toString(),
-        
+
         passMethod: driftDetails.passmethod.toString(),
         tags: driftDetails.tags.toString(),
 
@@ -163,19 +163,19 @@ const MyComponent = () => {
 
 
   const handleUpdateDrift = async () => {
-  
 
-    if (formData.updateLength !== selectedDrift.length.toString()) {
-      if (!selected_drift_RadioOption) {
-        Swal.fire({
-          icon: "warning",
-          title:"Select Drift Option",
-          text: "Please select a drift option before updating.",
-        });
-        setSelected_drift_RadioOption(-1)
-        return;
-      }
-    }
+
+    /*  if (formData.updateLength !== selectedDrift.length.toString()) {
+       if (!selected_drift_RadioOption) {
+         Swal.fire({
+           icon: "warning",
+           title:"Select Drift Option",
+           text: "Please select a drift option before updating.",
+         });
+         setSelected_drift_RadioOption(-1)
+         return;
+       }
+     } */
 
     if (selectedDrift) {
       console.log("calling the form data ", formData)
@@ -210,7 +210,7 @@ const MyComponent = () => {
   const resetUpdatedState = () => {
     setUpdatedLength("");
     setUpdatedMethod("");
-   
+
     setUpdatedName("");
     setUpdatedType("");
     setUpdatedIndex("");
@@ -222,8 +222,14 @@ const MyComponent = () => {
   };
 
   return (
-    <Container className="mt-5">
+    <Container className="mt-1">
       <Row>
+        <Col>
+          <div className="heading-container">
+            <h1 className="heading-text">Select Machine and Drift</h1>
+          </div>
+        </Col>
+      </Row >      <Row className="mt-1">
         <Col md={6}>
           <Row>
             <Col md={6}>
@@ -254,7 +260,7 @@ const MyComponent = () => {
                   value={selectedDrift ? selectedDrift.index : ""}
                 >
                   <option value="">Select...</option>
-                  {drifts.map((drift,index) => (
+                  {drifts.map((drift, index) => (
                     <option key={index} value={drift.index}>
                       {`${drift.name} - ${drift.index}`}
                     </option>
@@ -299,7 +305,7 @@ const MyComponent = () => {
                         </td>
                         <td>{selectedDrift.length}</td>
                       </tr>
-                   
+
                     </tbody>
                   </table>
                 </Card.Text>
@@ -318,7 +324,7 @@ const MyComponent = () => {
           <Modal.Title>update Drifts</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Row className="mb-3">
+          {/*   <Row className="mb-3">
             <Form.Group controlId="sextSelect_radios">
               <Form.Label>Select Drift Option:</Form.Label>
               <div>
@@ -364,7 +370,7 @@ const MyComponent = () => {
 
 
             </Form.Group>
-          </Row>
+          </Row> */}
 
           <Row>
 
@@ -402,11 +408,11 @@ const MyComponent = () => {
               />
             </Form.Group>
 
-         
+
 
           </Row>
 
-        
+
 
 
         </Modal.Body>

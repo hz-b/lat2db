@@ -12,7 +12,7 @@ import {
   fetchMachines,
   fetchMonitor,
   updateMonitors,
-  
+
 } from "../APIs/machine_get_api";
 import $ from "jquery";
 import "select2/dist/js/select2.min.js";
@@ -104,7 +104,7 @@ const MyComponent = () => {
       console.log("data is of the selected quad is ", monitorDetails)
       setFormData({
         updateLength: monitorDetails.length.toString(),
-        
+
         passMethod: monitorDetails.passmethod.toString(),
         tags: monitorDetails.tags.toString(),
 
@@ -163,19 +163,19 @@ const MyComponent = () => {
 
 
   const handleUpdateMonitor = async () => {
-  
 
-    if (formData.updateLength !== selectedMonitor.length.toString()) {
-      if (!selected_drift_RadioOption) {
-        Swal.fire({
-          icon: "warning",
-          title:"Select Monitor Option",
-          text: "Please select a monitor option before updating.",
-        });
-        setSelected_drift_RadioOption(-1)
-        return;
-      }
-    }
+    /* 
+        if (formData.updateLength !== selectedMonitor.length.toString()) {
+          if (!selected_drift_RadioOption) {
+            Swal.fire({
+              icon: "warning",
+              title:"Select Monitor Option",
+              text: "Please select a monitor option before updating.",
+            });
+            setSelected_drift_RadioOption(-1)
+            return;
+          }
+        } */
 
     if (selectedMonitor) {
       console.log("calling the form data ", formData)
@@ -210,7 +210,7 @@ const MyComponent = () => {
   const resetUpdatedState = () => {
     setUpdatedLength("");
     setUpdatedMethod("");
-   
+
     setUpdatedName("");
     setUpdatedType("");
     setUpdatedIndex("");
@@ -222,8 +222,15 @@ const MyComponent = () => {
   };
 
   return (
-    <Container className="mt-5">
+    <Container className="mt-1">
       <Row>
+    <Col>
+      <div className="heading-container">
+        <h1 className="heading-text">Select Machine and Monitors</h1>
+      </div>
+    </Col>
+  </Row>
+      <Row className="mt-1">
         <Col md={6}>
           <Row>
             <Col md={6}>
@@ -254,7 +261,7 @@ const MyComponent = () => {
                   value={selectedMonitor ? selectedMonitor.index : ""}
                 >
                   <option value="">Select...</option>
-                  {monitors.map((monitor,index) => (
+                  {monitors.map((monitor, index) => (
                     <option key={index} value={monitor.index}>
                       {`${monitor.name} - ${monitor.index}`}
                     </option>
@@ -299,7 +306,7 @@ const MyComponent = () => {
                         </td>
                         <td>{selectedMonitor.length}</td>
                       </tr>
-                   
+
                     </tbody>
                   </table>
                 </Card.Text>
@@ -318,7 +325,7 @@ const MyComponent = () => {
           <Modal.Title>update Monitor</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Row className="mb-3">
+          {/*   <Row className="mb-3">
             <Form.Group controlId="sextSelect_radios">
               <Form.Label>Select marker Option:</Form.Label>
               <div>
@@ -365,7 +372,7 @@ const MyComponent = () => {
 
 
             </Form.Group>
-          </Row>
+          </Row> */}
 
           <Row>
 
@@ -403,11 +410,11 @@ const MyComponent = () => {
               />
             </Form.Group>
 
-         
+
 
           </Row>
 
-        
+
 
 
         </Modal.Body>

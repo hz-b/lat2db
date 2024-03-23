@@ -165,7 +165,7 @@ const MyComponent = () => {
   const handleUpdateMarker = async () => {
   
 
-    if (formData.updateLength !== selectedMarker.length.toString()) {
+    /* if (formData.updateLength !== selectedMarker.length.toString()) {
       if (!selected_drift_RadioOption) {
         Swal.fire({
           icon: "warning",
@@ -175,7 +175,7 @@ const MyComponent = () => {
         setSelected_drift_RadioOption(-1)
         return;
       }
-    }
+    } */
 
     if (selectedMarker) {
       console.log("calling the form data ", formData)
@@ -222,8 +222,15 @@ const MyComponent = () => {
   };
 
   return (
-    <Container className="mt-5">
-      <Row>
+    <Container className="mt-1">
+          <Row>
+    <Col>
+      <div className="heading-container">
+        <h1 className="heading-text">Select Machine and Markers</h1>
+      </div>
+    </Col>
+  </Row >
+      <Row className="mt-1">
         <Col md={6}>
           <Row>
             <Col md={6}>
@@ -318,7 +325,7 @@ const MyComponent = () => {
           <Modal.Title>update Marker</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Row className="mb-3">
+         {/*  <Row className="mb-3">
             <Form.Group controlId="sextSelect_radios">
               <Form.Label>Select marker Option:</Form.Label>
               <div>
@@ -364,7 +371,7 @@ const MyComponent = () => {
 
 
             </Form.Group>
-          </Row>
+          </Row> */}
 
           <Row>
 
