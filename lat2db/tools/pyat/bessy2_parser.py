@@ -207,8 +207,8 @@ def insert_elements(ring, parent_id=None):
             #element_quad["main_multipole_strength"] = element_quad.pop("k", None)
             #element_quad["passmethod"] = element_quad.pop("method")
             multipole_coefficients = MultipoleCoefficients()
-            multipole_coefficients.normal_coefficients = [float(x) for x in element_quad.pop("PolynomA")]
-            multipole_coefficients.skew_coefficients = [float(x) for x in element_quad.pop("PolynomB")]
+            multipole_coefficients.normal_coefficients = [float(x) for x in element_quad.pop("PolynomB")]
+            multipole_coefficients.skew_coefficients = [float(x) for x in element_quad.pop("PolynomA")]
 
             kickAngles = KickAngles()
             if "KickAngle" in element_quad:
@@ -260,8 +260,8 @@ def insert_elements(ring, parent_id=None):
 
 
             multipole_coefficients = MultipoleCoefficients()
-            multipole_coefficients.normal_coefficients = [float(x) for x in element_sextupole.pop("PolynomA")]
-            multipole_coefficients.skew_coefficients = [float(x) for x in element_sextupole.pop("PolynomB")]
+            multipole_coefficients.normal_coefficients = [float(x) for x in element_sextupole.pop("PolynomB")]
+            multipole_coefficients.skew_coefficients = [float(x) for x in element_sextupole.pop("PolynomA")]
 
             kickAngles = KickAngles()
             if "KickAngle" in element_sextupole:
@@ -322,8 +322,8 @@ def insert_elements(ring, parent_id=None):
             # element_bending["passmethod"] = element_quad.pop("method")
             element_bending["main_multipole_strength"] = element_bending.pop("k", None)
             multipole_coefficients = MultipoleCoefficients()
-            multipole_coefficients.normal_coefficients = [float(x) for x in element_bending.pop("PolynomA")]
-            multipole_coefficients.skew_coefficients = [float(x) for x in element_bending.pop("PolynomB")]
+            multipole_coefficients.normal_coefficients = [float(x) for x in element_bending.pop("PolynomB")]
+            multipole_coefficients.skew_coefficients = [float(x) for x in element_bending.pop("PolynomA")]
             magnetic_element = MagneticElement(coeffs=multipole_coefficients
                                                #passmethod=element_bending.pop("PassMethod")
 
@@ -410,8 +410,8 @@ def insert_elements(ring, parent_id=None):
             element_dipole["passmethod"] = element_dipole.pop("PassMethod", None)
             element_dipole["tags"] = [element_dipole.pop("Corrector", "")]
             multipole_coefficients = MultipoleCoefficients()
-            multipole_coefficients.normal_coefficients = [float(x) for x in element_dipole.pop("PolynomA")]
-            multipole_coefficients.skew_coefficients = [float(x) for x in element_dipole.pop("PolynomB")]
+            multipole_coefficients.normal_coefficients = [float(x) for x in element_dipole.pop("PolynomB")]
+            multipole_coefficients.skew_coefficients = [float(x) for x in element_dipole.pop("PolynomA")]
 
             kickAngles = KickAngles()
             if "KickAngle" in element_dipole:
