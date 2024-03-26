@@ -5,6 +5,7 @@ const baseUrl = 'http://0.0.0.0:8000';
 export const fetchMachines = async () => {
   try {
     const response = await axios.get(`${baseUrl}/machine/machine`);
+    console.log("response:", response.data)
     return response.data;
   } catch (error) {
     console.error('Error fetching machines:', error);

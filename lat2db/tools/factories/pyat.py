@@ -82,8 +82,8 @@ def instantiate_bending(prop: dict):
         FringeInt2=getattr(p, 'fringeInt2', 0.0),
         FringeInt1=getattr(p, 'fringeInt1', 0.0),
         FullGap=getattr(p, 'fullgap', 0.0),
-        PolynomA=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
-        PolynomB=p.element_configuration.magnetic_element.coeffs.skew_coefficients
+        PolynomB=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
+        PolynomA=p.element_configuration.magnetic_element.coeffs.skew_coefficients
     )
 
 
@@ -100,8 +100,8 @@ def instanitate_quadrupole(prop: dict):
         raise
     k = p.element_configuration.magnetic_element.main_multipole_strength
     r = at.Quadrupole(p.name, length=p.length, k=k,
-                      PolynomA=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
-                      PolynomB=p.element_configuration.magnetic_element.coeffs.skew_coefficients)
+                      PolynomB=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
+                      PolynomA=p.element_configuration.magnetic_element.coeffs.skew_coefficients)
     assert np.isfinite(r.K)
     return r
 
@@ -121,8 +121,8 @@ def instanitate_sextupole(props: dict):
     except jsons.exceptions.DeserializationError:
         logger.error(f"Could not load Sextupole using properties {props}")
         raise
-    r = at.Sextupole(p.name, p.length, PolynomA=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
-                     PolynomB=p.element_configuration.magnetic_element.coeffs.skew_coefficients, Corrector=p.tags[0],
+    r = at.Sextupole(p.name, p.length, PolynomB=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
+                     PolynomA=p.element_configuration.magnetic_element.coeffs.skew_coefficients, Corrector=p.tags[0],
                      KickAngle=[p.element_configuration.kickangle.x, p.element_configuration.kickangle.y])
     assert np.isfinite(r.H)
     return r
