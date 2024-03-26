@@ -37,14 +37,12 @@ def create_machine(request: Request, machine: Machine = Body(...)):
 @router.get("/machine", response_description="List all Machines", response_model=List[Machine])
 def list_machines(request: Request):
     machines = list(request.app.database["machines"].find(limit=100))
-    print(f"machine from db is: {machines[0]}")
     return machines
 
 
 @router.get("/machine/{id}", response_description="Get a single machine by id", response_model=Machine)
 def find_a_machine(id: str, request: Request):
     if (machine := request.app.database["machines"].find_one({"_id": str(id)})) is not None:
-        print(f"machine from db is: {machine}")
         return machine
 
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {id} not found")
@@ -53,7 +51,6 @@ def find_a_machine(id: str, request: Request):
 # get all Quads
 @router.get("/machine/{id}/quad", response_description="Get machine quads by id", response_model=List[Quadrupole])
 def find_quads(id: str, request: Request):
-    print(f"Inside here: id: {id} ")
     if (machine := request.app.database["machines"].find_one({"id": str(id)})) is not None:
         return machine["quadrupoles"]
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {id} not found")
@@ -116,7 +113,6 @@ class Quadrupole_request_update(BaseModel):
 
 @router.put("/machine/{id}/quad/{quad_name}", response_description="Update a quadrupole's details")
 def update_quadrupole_details(id: str, quad_name: str, request_body: Quadrupole_request_update, request: Request):
-    print("Inside the update function ")
     database: Collection = request.app.database["machines"]
     print("pass id is  ", id)
     machine = database.find_one({"id": str(id)})
