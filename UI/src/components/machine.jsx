@@ -27,6 +27,7 @@ const MyComponent = () => {
   const [selectedQuad, setSelectedQuad] = useState(null);
 
   const [showRow, setShowRow] = useState(false);
+  const [quadrupolesFetched, setQuadrupolesFetched] = useState(false);
 
   const [formData, setFormData] = useState({
     updateLength: '',
@@ -76,10 +77,18 @@ const MyComponent = () => {
 
 
   const handleMachineChange = (event) => {
-
-
-    const selectedMachineId = event.target.value.toString();
+    let selectedMachineId;
+    console.log("type of machine is ",event)
+    if(typeof event==="string"){
+      console.log("1223123s")
+      selectedMachineId=event;
+      setSelectedMachine(event);
+    }else{
+    
+     selectedMachineId = event.target.value.toString();
+    console.log("geting the ",selectedMachineId)
     setSelectedMachine(selectedMachineId);
+  }
 
     console.log("quad is called .......", selectedMachine)
     const fetchQuadrupoles_func = async (selectedMachineId) => {
@@ -88,7 +97,7 @@ const MyComponent = () => {
         console.log("the quad details are ...", quadrupolesData)
         setQuadrupoles(quadrupolesData);
 
-
+        setQuadrupolesFetched(true);
       } catch (error) {
         console.error("Error fetching quadrupoles:", error);
       }
@@ -96,7 +105,10 @@ const MyComponent = () => {
 
 
     // why the set state is not called 
+    console.log("wainting for the machine id ",selectedMachineId)
     if (selectedMachineId) {
+      console.log("called the quad all func")
+
       fetchQuadrupoles_func(selectedMachineId);
     }
 
@@ -104,15 +116,29 @@ const MyComponent = () => {
   };
 
   const handleQuadChange = async (event) => {
-    console.log("1")
-    const selectedQuadIndex = event.target.value;
-    console.log("2")
-    const quadDetails = quadrupoles.find(
-      (quad) => quad.index === parseInt(selectedQuadIndex)
-    );
-    console.log("3")
-    setSelectedQuad(quadDetails);
-    console.log("4")
+    console.log("inside the change of the quad",event)
+    console.log("type is ",typeof event)
+     var quadDetails;
+   
+     if (typeof event === "number") {
+      console.log("2",event)
+      quadDetails = quadrupoles.find(
+       (quad) => quad.index === parseInt(event)
+     );
+     setSelectedQuad(quadDetails);
+
+      
+
+     
+    } else   { if (event!=""){
+      const selectedQuadIndex = event.target.value;
+      console.log(selectedQuadIndex)
+       quadDetails = quadrupoles.find(
+        (quad) => quad.index === parseInt(selectedQuadIndex)
+      );
+
+      setSelectedQuad(quadDetails);
+    }}
     if (quadDetails) {
       console.log("5")
       console.log("data is of the selected quad is ", quadDetails)
@@ -204,25 +230,33 @@ const MyComponent = () => {
       }
     }
 
-    if (selectedQuad) {
-      console.log("calling the form data ", formData)
-      try {
-        await updateQuadrupole(
-          selectedMachine,
-          selectedQuad.name,
-          selected_drift_RadioOption,
-          formData
-        );
+      if (selectedQuad) {
+        console.log("update data is  ", formData)
+        setQuadrupolesFetched(false);
 
-        setQuadrupoles(await fetchQuadrupoles(selectedMachine));
-        console.log("Quadrupole updated successfully");
-        toggleModal();
+        try {
+          await updateQuadrupole(
+            selectedMachine,
+            selectedQuad.name,
+            selected_drift_RadioOption,
+            formData
+          );
 
-        Swal.fire({
-          icon: "success",
-          title: "Quadrupole Updated",
-          text: "The quadrupole parameters have been successfully updated.",
-        });
+          console.log("fethc value is ..",quadrupolesFetched)
+          handleMachineChange(selectedMachine)
+          //setQuadrupoles(await fetchQuadrupoles(selectedMachine));
+          console.log("valeu are.... ", selectedQuad ? selectedQuad.index : "")
+          if (quadrupolesFetched) {
+          handleQuadChange(selectedQuad ? selectedQuad.index : "")
+          console.log("Quadrupole updated successfully");
+          toggleModal();
+
+          Swal.fire({
+            icon: "success",
+            title: "Quadrupole Updated",
+            text: "The quadrupole parameters have been successfully updated.",
+          });
+        }
       } catch (error) {
         console.error("Error updating quadrupole:", error);
         Swal.fire({
@@ -233,6 +267,12 @@ const MyComponent = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (quadrupolesFetched) {
+      handleQuadChange(selectedQuad ? selectedQuad.index : "");
+    }
+  }, [quadrupolesFetched]);
 
   const resetUpdatedState = () => {
     setUpdatedLength("");
@@ -251,14 +291,14 @@ const MyComponent = () => {
   };
 
   return (
-       <Container className="mt-1">
-          <Row>
-    <Col>
-      <div className="heading-container">
-        <h1 className="heading-text">Select Machine and Quadrupoles</h1>
-      </div>
-    </Col>
-  </Row >
+    <Container className="mt-1">
+      <Row>
+        <Col>
+          <div className="heading-container">
+            <h1 className="heading-text">Select Machine and Quadrupoles</h1>
+          </div>
+        </Col>
+      </Row >
       <Row className="mt-1">
         <Col md={6}>
           <Row>
@@ -404,9 +444,9 @@ const MyComponent = () => {
                   (() => {
                     let index = quadrupoles.findIndex((quad) => quad.name === formData.name);
                     let previousQuad = quadrupoles[index - 1];
-                    let previous_index=parseInt(quadrupoles[index].index)-1;
+                    let previous_index = parseInt(quadrupoles[index].index) - 1;
                     let nextQuad = quadrupoles[index + 1];
-                    let next_index=parseInt(quadrupoles[index].index)+1;
+                    let next_index = parseInt(quadrupoles[index].index) + 1;
                     console.log("current quad index is ", index);
                     console.log("previous quad is ", previousQuad);
                     console.log("next quad is ", nextQuad);
@@ -485,8 +525,7 @@ const MyComponent = () => {
             <Form.Group as={Col} md="6" size="sm" controlId="updateCorrector">
               <Form.Label>Correctors:</Form.Label>
               <Form.Control
-                type="number"
-                step="0.01"
+                type="text"
                 value={selectedQuad ? formData.updateCorrector : ""}
                 onChange={handleInputChange}
               />
