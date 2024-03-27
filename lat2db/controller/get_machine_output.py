@@ -1,6 +1,12 @@
 from typing import List, Dict
 
+<<<<<<< HEAD
 from bson import ObjectId
+=======
+import jsons
+from bson import ObjectId
+
+>>>>>>> dev/feature/element_position
 from lat2db.db.mongo_repository import InitializeMongo
 from lat2db.model.machine import Machine
 
@@ -9,7 +15,11 @@ mongo_init = InitializeMongo()
 
 def get_machine(machine_id: str) -> Machine:
     machine = mongo_init.get_collection("machines").find_one({"_id": ObjectId(machine_id)})
+<<<<<<< HEAD
     return machine
+=======
+    return jsons.load(machine, Machine)
+>>>>>>> dev/feature/element_position
 
 
 def get_machine_element_list(machine: List[Dict], element_name: str):

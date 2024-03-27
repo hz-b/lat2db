@@ -1,9 +1,7 @@
 import uuid
-from typing import List
-
-from pydantic import Field, BaseModel
 from datetime import datetime
-
+from typing import List
+from pydantic import Field
 from lat2db.model.beam_position_monitor import BeamPositionMonitor
 from lat2db.model.bending import Bending
 from lat2db.model.cavity import Cavity
@@ -17,6 +15,14 @@ from lat2db.model.version import Version
 from lat2db.model.energy import Energy
 from lat2db.model.geometric_info import GeometricInfo
 from pydantic.dataclasses import dataclass
+
+
+class ElementPosition:
+    def __init__(self, element_name: str, index: int, start_position: float, end_position: float):
+        self.element_name = element_name
+        self.index = index
+        self.start_position = start_position
+        self.end_position = end_position
 
 
 @dataclass()
@@ -67,6 +73,20 @@ class Machine():
         self.version = Version(lat_version.major, lat_version.minor, lat_version.patch_level, datetime.utcnow())
         self.physics_info = PhysicsInfo(Energy(lat_energy.egu, lat_energy.name, lat_energy.value))
         self.geometric_info = GeometricInfo(lat.properties.geometric.is_ring)
+
+    def retrieve_element_coordinate(self, element_name):
+        element = self.get_element(element_name)[0]
+        start_position = 0
+        for item in self.sequences:
+            if item.name == element.name:
+                break
+            start_position += item.length
+
+        return ElementPosition(element_name=element_name, index=element.index,start_position=start_position, end_position=start_position + element.length)
+
+    def get_element(self, element_name):
+        return list(filter(lambda x: x.name == element_name, self.sequences))
+
     class Config:
         arbitrary_types_allowed: True
         allow_population_by_field_name = True
@@ -75,7 +95,7 @@ class Machine():
                 "id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "name": "name of machine",
                 "sequences": [],
-                "quadrupoles":[],
+                "quadrupoles": [],
                 "sextupoles": [],
                 "drifts": [],
                 "bendings": [],
