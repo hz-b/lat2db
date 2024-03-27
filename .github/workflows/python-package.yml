@@ -47,4 +47,4 @@ jobs:
     - name: Test instaniate example
       run: |
         # For debug see tree
-        python examples/pyat/bessyii_ring_from_json.py
+        python examples/pyat/bessyii_from_json.py
