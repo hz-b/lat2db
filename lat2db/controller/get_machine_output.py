@@ -1,13 +1,14 @@
 from typing import List, Dict
 
+from bson import ObjectId
 from lat2db.db.mongo_repository import InitializeMongo
 from lat2db.model.machine import Machine
 
 mongo_init = InitializeMongo()
 
 
-def get_machine(id: str) -> Machine:
-    machine = mongo_init.get_collection("machines").find_one({"id": id})
+def get_machine(machine_id: str) -> Machine:
+    machine = mongo_init.get_collection("machines").find_one({"_id": ObjectId(machine_id)})
     return machine
 
 
@@ -25,7 +26,7 @@ def filter_an_element(tags: List[str], element_list: List[Dict], element_name: s
 
 
 def filter_machine_element_by_tags(machine_id: str, element_name: str, tags: List[str]):
-    machine = mongo_init.get_collection("machines").find_one({"id": machine_id})
+    machine = mongo_init.get_collection("machines").find_one({"_id": ObjectId(machine_id)})
     element_list = machine[f'{element_name}']
     return filter_an_element(tags, element_list, element_name)
 

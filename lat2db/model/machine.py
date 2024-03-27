@@ -1,8 +1,5 @@
 import uuid
-
-from bson import ObjectId
-from pydantic.dataclasses import dataclass
-from typing import List, Optional
+from typing import List
 
 from pydantic import Field, BaseModel
 from datetime import datetime
@@ -19,10 +16,11 @@ from lat2db.model.sextupole import Sextupole
 from lat2db.model.version import Version
 from lat2db.model.energy import Energy
 from lat2db.model.geometric_info import GeometricInfo
+from pydantic.dataclasses import dataclass
 
 
 @dataclass()
-class Machine(BaseModel):
+class Machine():
     sequences: List[Sequencer] = Field(default_factory=list)
     quadrupoles: List[Quadrupole] = Field(default_factory=list)
     sextupoles: List[Sextupole] = Field(default_factory=list)
