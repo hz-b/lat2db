@@ -12,7 +12,7 @@ import {
   fetchMachines,
   fetchSextupoles,
   updateSextupole,
-  
+
 } from "../APIs/machine_get_api";
 import $ from "jquery";
 import "select2/dist/js/select2.min.js";
@@ -26,6 +26,8 @@ const MyComponent = () => {
   const [selectedMachine, setSelectedMachine] = useState("");
   const [selectedSext, setSelectedSext] = useState(null);
   const [showRow, setShowRow] = useState(false);
+  const [sextupolesFetched, setSextupolesFetched] = useState(false);
+
 
   const [formData, setFormData] = useState({
     updateLength: '',
@@ -75,17 +77,26 @@ const MyComponent = () => {
 
 
   const handleMachineChange = (event) => {
-
-
-    const selectedMachineId = event.target.value.toString();
+    let selectedMachineId;
+    console.log("type of machine is ",event)
+    if(typeof event==="string"){
+      console.log("1223123s")
+      selectedMachineId=event;
+      setSelectedMachine(event);
+    }else{
+    
+     selectedMachineId = event.target.value.toString();
+    console.log("geting the ",selectedMachineId)
     setSelectedMachine(selectedMachineId);
+  }
 
-    console.log("quad is called .......", selectedMachine)
+
     const fetchSextupoles_func = async (selectedMachineId) => {
       try {
         const sextupolesData = await fetchSextupoles(selectedMachineId);
         console.log("the quad details are ...", sextupolesData)
         setSextupoles(sextupolesData);
+        setSextupolesFetched(true);
 
 
       } catch (error) {
@@ -103,15 +114,33 @@ const MyComponent = () => {
   };
 
   const handleQuadChange = async (event) => {
-    console.log("1")
-    const selectedSextIndex = event.target.value;
-    console.log("2")
-    const sextDetails = sextupoles.find(
-      (sext) => sext.index === parseInt(selectedSextIndex)
-    );
-    console.log("3")
-    setSelectedSext(sextDetails);
-    console.log("4")
+
+    var sextDetails;
+
+    if (typeof event === "number") {
+      console.log("2", event)
+      sextDetails = sextupoles.find(
+        (sext) => sext.index === parseInt(event)
+      );
+      setSelectedSext(sextDetails);
+
+
+
+
+    } else {
+      if (event != "") {
+        const selectedSextIndex = event.target.value;
+        console.log(selectedSextIndex)
+        sextDetails = sextupoles.find(
+          (sext) => sext.index === parseInt(selectedSextIndex)
+        );
+
+        setSelectedSext(sextDetails);
+      }
+    }
+
+
+
     if (sextDetails) {
       console.log("5")
       console.log("data is of the selected quad is ", sextDetails)
@@ -189,13 +218,13 @@ const MyComponent = () => {
 
 
   const handleUpdateSext = async () => {
-  
+
 
     if (formData.updateLength !== selectedSext.length.toString()) {
       if (showRow && !selected_drift_RadioOption) {
         Swal.fire({
           icon: "warning",
-          title:"Select Quadrupole Option",
+          title: "Select Quadrupole Option",
           text: "Please select a drift option before updating.",
         });
         setSelected_drift_RadioOption(-1)
@@ -205,6 +234,7 @@ const MyComponent = () => {
 
     if (selectedSext) {
       console.log("calling the form data ", formData)
+      setSextupolesFetched(false);
       try {
         await updateSextupole(
           selectedMachine,
@@ -213,15 +243,19 @@ const MyComponent = () => {
           formData
         );
 
-        setSextupoles(await fetchSextupoles(selectedMachine));
-        console.log("Quadrupole updated successfully");
-        toggleModal();
+        handleMachineChange(selectedMachine)
+        if (sextupolesFetched) {
+          //setSextupoles(await fetchSextupoles(selectedMachine));
+          handleQuadChange(selectedSext ? selectedSext.index : "")
+          console.log("sextupole updated successfully");
+          toggleModal();
 
-        Swal.fire({
-          icon: "success",
-          title: "Sextupole Updated",
-          text: "The Sextupole parameters have been successfully updated.",
-        });
+          Swal.fire({
+            icon: "success",
+            title: "Sextupole Updated",
+            text: "The Sextupole parameters have been successfully updated.",
+          });
+        }
       } catch (error) {
         console.error("Error updating quadrupole:", error);
         Swal.fire({
@@ -232,6 +266,11 @@ const MyComponent = () => {
       }
     }
   };
+  useEffect(() => {
+    if (sextupolesFetched) {
+      handleQuadChange(selectedSext ? selectedSext.index : "");
+    }
+  }, [sextupolesFetched]);
 
   const resetUpdatedState = () => {
     setUpdatedLength("");
@@ -251,13 +290,13 @@ const MyComponent = () => {
 
   return (
     <Container className="mt-1">
-          <Row>
-    <Col>
-      <div className="heading-container">
-        <h1 className="heading-text">Select Machine and Sextupoles</h1>
-      </div>
-    </Col>
-  </Row >
+      <Row>
+        <Col>
+          <div className="heading-container">
+            <h1 className="heading-text">Select Machine and Sextupoles</h1>
+          </div>
+        </Col>
+      </Row >
       <Row className="mt-1">
         <Col md={6}>
           <Row>
@@ -392,7 +431,7 @@ const MyComponent = () => {
             <Form.Group controlId="sextSelect_radios">
               <Form.Label>Select Drift Option:</Form.Label>
               <div>
-              <Form.Check
+                <Form.Check
                   type="checkbox"
                   id="showRowCheckbox"
                   label="Show Drift Option to edit"

@@ -156,7 +156,7 @@ def update_quadrupole_details(id: str, quad_name: str, request_body: Quadrupole_
                             print("******* affected drif index is ", affected_drift)
                             sequences_list.insert(item_index, asdict(request_body.updated_data))
                             break
-                    if affected_drift != -1:
+                    if affected_drift != "-1":
                         for item_index, item in enumerate(sequences_list):
                             if int(item.get("index")) == int(affected_drift):
                                 if operations == "+":
@@ -174,7 +174,9 @@ def update_quadrupole_details(id: str, quad_name: str, request_body: Quadrupole_
 
                 database.update_one({"id": str(id)}, {"$set": {"sequences": sequences_list}})
                 # update drift
-                if "drifts" in machine and affected_drift != -1:
+                print("affected dfridt is ",affected_drift)
+                if "drifts" in machine and affected_drift != "-1":
+                    print("drift update is intiated")
                     drift_list = machine.get("drifts", [])
                     for drift_index, drift in enumerate(drift_list):
                         if int(drift.get("index")) == int(affected_drift):
@@ -186,6 +188,7 @@ def update_quadrupole_details(id: str, quad_name: str, request_body: Quadrupole_
                                 print("drift length is iin drift seq ", drift["length"])
                             break
                     database.update_one({"id": str(id)}, {"$set": {"drifts": drift_list}})
+
                     print("**** drift in the drift list is updated")
 
                 return JSONResponse(status_code=200, content={"message": f"Quadrupole updated"})
@@ -254,7 +257,7 @@ def update_sextupole_details(id: str, sext_name: str, request_body: Sextupole_re
                             removed_sextupole = sequences_list.pop(item_index)
                             sequences_list.insert(item_index, asdict(request_body.updated_data))
                             break
-                    if affected_drift != -1:
+                    if affected_drift != "-1":
                         for item_index, item in enumerate(sequences_list):
                             if int(item.get("index")) == int(affected_drift):
                                 if operations == "+":
@@ -272,7 +275,7 @@ def update_sextupole_details(id: str, sext_name: str, request_body: Sextupole_re
 
                 database.update_one({"id": str(id)}, {"$set": {"sequences": sequences_list}})
                 # update drift
-                if "drifts" in machine and affected_drift != -1:
+                if "drifts" in machine and affected_drift != "-1":
                     drift_list = machine.get("drifts", [])
                     for drift_index, drift in enumerate(drift_list):
                         if int(drift.get("index")) == int(affected_drift):
