@@ -2,6 +2,8 @@ import uuid
 from datetime import datetime
 from typing import List
 from pydantic import Field
+
+from lat2db.tools.helper_function import filter_an_elements
 from lat2db.model.beam_position_monitor import BeamPositionMonitor
 from lat2db.model.bending import Bending
 from lat2db.model.cavity import Cavity
@@ -87,6 +89,9 @@ class Machine():
     def get_element(self, element_name):
         return list(filter(lambda x: x.name == element_name, self.sequences))
 
+    def filter_element_by_tags(self, element_name: str, tags: List[str]):
+        element_list = getattr(self, element_name)
+        return filter_an_elements(tags, element_list, element_name)
     class Config:
         arbitrary_types_allowed: True
         allow_population_by_field_name = True

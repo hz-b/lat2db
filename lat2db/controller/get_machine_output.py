@@ -11,6 +11,9 @@ def get_machine(machine_id: str) -> Machine:
     machine = mongo_init.get_collection("machines").find_one({"_id": ObjectId(machine_id)})
     return jsons.load(machine, Machine)
 
+def get_machine_as_json(machine_id: str):
+    machine = mongo_init.get_collection("machines").find_one({"_id": ObjectId(machine_id)})
+    return machine
 
 def get_machine_element_list(machine: List[Dict], element_name: str):
     element_list = machine[f'{element_name}']
