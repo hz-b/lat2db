@@ -77,6 +77,7 @@ const MyComponent = () => {
 
 
   const handleMachineChange = (event) => {
+
     let selectedMachineId;
     console.log("type of machine is ",event)
     if(typeof event==="string"){
@@ -116,6 +117,7 @@ const MyComponent = () => {
   };
 
   const handleQuadChange = async (event) => {
+    
     console.log("inside the change of the quad",event)
     console.log("type is ",typeof event)
      var quadDetails;
@@ -139,6 +141,8 @@ const MyComponent = () => {
 
       setSelectedQuad(quadDetails);
     }}
+
+
     if (quadDetails) {
       console.log("5")
       console.log("data is of the selected quad is ", quadDetails)

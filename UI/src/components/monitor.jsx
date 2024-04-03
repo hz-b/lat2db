@@ -25,6 +25,7 @@ const MyComponent = () => {
   const [monitors, setMonitors] = useState([]);
   const [selectedMachine, setSelectedMachine] = useState("");
   const [selectedMonitor, setSelectedMonitor] = useState(null);
+  const [monitorsFetched, setMonitorsFetched] = useState(false);
 
   const [formData, setFormData] = useState({
     updateLength: '',
@@ -63,25 +64,30 @@ const MyComponent = () => {
 
   const handleMachineChange = (event) => {
 
+    let selectedMachineId;
+    if(typeof event==="string"){
+      selectedMachineId=event;
+      setSelectedMachine(event);
+    }else{
+    
+     selectedMachineId = event.target.value.toString();
+      setSelectedMachine(selectedMachineId);
+  }
 
-    const selectedMachineId = event.target.value.toString();
-    setSelectedMachine(selectedMachineId);
-
-    console.log("monitors is called .......", selectedMachine)
     const fetchMonitors_func = async (selectedMachineId) => {
       try {
         const monitorsData = await fetchMonitor(selectedMachineId);
-        console.log("the monitor details are ...", monitorsData)
         setMonitors(monitorsData);
 
-
+        setMonitorsFetched(true);
       } catch (error) {
-        console.error("Error fetching monitors:", error);
+        console.error("Error fetching quadrupoles:", error);
       }
     };
 
 
-    // why the set state is not called 
+
+   // why the set state is not called 
     if (selectedMachineId) {
       fetchMonitors_func(selectedMachineId);
     }
@@ -90,15 +96,30 @@ const MyComponent = () => {
   };
 
   const handleMonitorChange = async (event) => {
-    console.log("1")
-    const selectedMonitorIndex = event.target.value;
-    console.log("2")
-    const monitorDetails = monitors.find(
-      (monitor) => monitor.index === parseInt(selectedMonitorIndex)
-    );
-    console.log("3")
-    setSelectedMonitor(monitorDetails);
-    console.log("4")
+
+     var monitorDetails;
+   
+     if (typeof event === "number") {
+      monitorDetails = monitors.find(
+       (monitor) => monitor.index === parseInt(event)
+     );
+     setSelectedMonitor(monitorDetails);
+
+      
+
+     
+    } else   { if (event!=""){
+      const selectedMonitorIndex = event.target.value;
+      console.log(selectedMonitorIndex)
+       monitorDetails = monitors.find(
+        (monitor) => monitor.index === parseInt(selectedMonitorIndex)
+      );
+
+      setSelectedMonitor(monitorDetails);
+    }}
+
+
+    
     if (monitorDetails) {
       console.log("5")
       console.log("data is of the selected quad is ", monitorDetails)
@@ -179,6 +200,8 @@ const MyComponent = () => {
 
     if (selectedMonitor) {
       console.log("calling the form data ", formData)
+      setMonitorsFetched(false);
+
       try {
         await updateMonitors(
           selectedMachine,
@@ -187,15 +210,22 @@ const MyComponent = () => {
           formData
         );
 
-        setMonitors(await fetchMonitor(selectedMachine));
-        console.log("Monitor updated successfully");
-        toggleModal();
+          handleMachineChange(selectedMachine)
+          
+          if (monitorsFetched) {
+          handleMonitorChange(selectedMonitor ? selectedMonitor.index : "")
+          console.log("monitor updated successfully");
+          toggleModal();
+          Swal.fire({
+            icon: "success",
+            title: "Monitor Updated",
+            text: "The Monitor parameters have been successfully updated.",
+          });
+        }
 
-        Swal.fire({
-          icon: "success",
-          title: "Monitor Updated",
-          text: "The Monitor parameters have been successfully updated.",
-        });
+
+
+        
       } catch (error) {
         console.error("Error updating Marker:", error);
         Swal.fire({
@@ -206,6 +236,12 @@ const MyComponent = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (monitorsFetched) {
+      handleMonitorChange(selectedMonitor ? selectedMonitor.index : "");
+    }
+  }, [monitorsFetched]);
 
   const resetUpdatedState = () => {
     setUpdatedLength("");
