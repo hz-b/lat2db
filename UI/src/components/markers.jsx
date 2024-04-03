@@ -45,6 +45,8 @@ const MyComponent = () => {
     useState("");
 
   const [showModal, setShowModal] = useState(false);
+  const [markersFetched, setMarkersFetched] = useState(false);
+
 
   useEffect(() => {
     // Fetch machines on component mount
@@ -63,25 +65,29 @@ const MyComponent = () => {
 
   const handleMachineChange = (event) => {
 
-
-    const selectedMachineId = event.target.value.toString();
+    let selectedMachineId;
+    if(typeof event==="string"){
+      selectedMachineId=event;
+      setSelectedMachine(event);
+    }else{
+    
+     selectedMachineId = event.target.value.toString();
     setSelectedMachine(selectedMachineId);
+  }
 
-    console.log("marker is called .......", selectedMachine)
     const fetchMarkers_func = async (selectedMachineId) => {
       try {
         const markersData = await fetchMarkers(selectedMachineId);
-        console.log("the marker details are ...", markersData)
         setMarkers(markersData);
 
-
+        setMarkersFetched(true);
       } catch (error) {
-        console.error("Error fetching markers:", error);
+        console.error("Error fetching quadrupoles:", error);
       }
     };
 
 
-    // why the set state is not called 
+
     if (selectedMachineId) {
       fetchMarkers_func(selectedMachineId);
     }
@@ -90,15 +96,30 @@ const MyComponent = () => {
   };
 
   const handleMarkerChange = async (event) => {
-    console.log("1")
-    const selectedMarkerIndex = event.target.value;
-    console.log("2")
-    const markerDetails = markers.find(
-      (marker) => marker.index === parseInt(selectedMarkerIndex)
-    );
-    console.log("3")
-    setSelectedMarker(markerDetails);
-    console.log("4")
+
+     var markerDetails;
+   
+     if (typeof event === "number") {
+      
+      markerDetails = markers.find(
+       (marker) => marker.index === parseInt(event)
+     );
+     setSelectedMarker(markerDetails);
+
+      
+
+     
+    } else   { if (event!=""){
+      const selectedMarkerIndex = event.target.value;
+      console.log(selectedMarkerIndex)
+       markerDetails = markers.find(
+        (marker) => marker.index === parseInt(selectedMarkerIndex)
+      );
+
+      setSelectedMarker(markerDetails);
+    }}
+
+
     if (markerDetails) {
       console.log("5")
       console.log("data is of the selected quad is ", markerDetails)
@@ -179,6 +200,8 @@ const MyComponent = () => {
 
     if (selectedMarker) {
       console.log("calling the form data ", formData)
+      setMarkersFetched(false);
+
       try {
         await updateMarkers(
           selectedMachine,
@@ -187,15 +210,22 @@ const MyComponent = () => {
           formData
         );
 
-        setMarkers(await fetchMarkers(selectedMachine));
-        console.log("Marker updated successfully");
-        toggleModal();
+        handleMachineChange(selectedMachine)
+          //setQuadrupoles(await fetchQuadrupoles(selectedMachine));
+          
+        if (markersFetched) {
+          handleMarkerChange(selectedMarker ? selectedMarker.index : "")
+          toggleModal();
+          Swal.fire({
+            icon: "success",
+            title: "Marker Updated",
+            text: "The Marker parameters have been successfully updated.",
+          });
+        }
 
-        Swal.fire({
-          icon: "success",
-          title: "Marker Updated",
-          text: "The Marker parameters have been successfully updated.",
-        });
+
+
+       
       } catch (error) {
         console.error("Error updating Marker:", error);
         Swal.fire({
@@ -206,6 +236,12 @@ const MyComponent = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (markersFetched) {
+      handleMarkerChange(selectedMarker ? selectedMarker.index : "");
+    }
+  }, [markersFetched]);
 
   const resetUpdatedState = () => {
     setUpdatedLength("");

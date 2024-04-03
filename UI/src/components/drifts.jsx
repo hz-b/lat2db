@@ -45,6 +45,8 @@ const MyComponent = () => {
     useState("");
 
   const [showModal, setShowModal] = useState(false);
+  const [driftFetched, setDriftsFetched] = useState(false);
+
 
   useEffect(() => {
     // Fetch machines on component mount
@@ -63,22 +65,31 @@ const MyComponent = () => {
 
   const handleMachineChange = (event) => {
 
-
-    const selectedMachineId = event.target.value.toString();
+    let selectedMachineId;
+    if(typeof event==="string"){
+      selectedMachineId=event;
+      setSelectedMachine(event);
+    }else{
+    
+     selectedMachineId = event.target.value.toString();
+    console.log("geting the ",selectedMachineId)
     setSelectedMachine(selectedMachineId);
+  }
 
-    console.log("drift is called .......", selectedMachine)
     const fetchDrifts_func = async (selectedMachineId) => {
       try {
         const driftsData = await fetchDrifts(selectedMachineId);
-        console.log("the drift details are ...", driftsData)
         setDrifts(driftsData);
 
+        setDriftsFetched(true);
 
       } catch (error) {
-        console.error("Error fetching drifts:", error);
+        console.error("Error fetching quadrupoles:", error);
       }
     };
+
+
+  
 
 
     // why the set state is not called 
@@ -90,15 +101,34 @@ const MyComponent = () => {
   };
 
   const handleDriftChange = async (event) => {
-    console.log("1")
-    const selectedDriftIndex = event.target.value;
-    console.log("2")
-    const driftDetails = drifts.find(
-      (drift) => drift.index === parseInt(selectedDriftIndex)
-    );
-    console.log("3")
-    setSelectedDrift(driftDetails);
-    console.log("4")
+
+     var driftDetails;
+   
+     if (typeof event === "number") {
+      driftDetails = drifts.find(
+       (drift) => drift.index === parseInt(event)
+     );
+     setSelectedDrift(driftDetails);
+
+      
+
+     
+    } else   { if (event!=""){
+      const selectedDriftIndex = event.target.value;
+      console.log(selectedDriftIndex)
+       driftDetails = drifts.find(
+        (drift) => drift.index === parseInt(selectedDriftIndex)
+      );
+
+      setSelectedDrift(driftDetails);
+    }}
+
+
+
+
+
+
+
     if (driftDetails) {
       console.log("5")
       console.log("data is of the selected quad is ", driftDetails)
@@ -179,6 +209,7 @@ const MyComponent = () => {
 
     if (selectedDrift) {
       console.log("calling the form data ", formData)
+      setDriftsFetched(false)
       try {
         await updateDrifts(
           selectedMachine,
@@ -186,16 +217,21 @@ const MyComponent = () => {
           selected_drift_RadioOption,
           formData
         );
+        
 
-        setDrifts(await fetchDrifts(selectedMachine));
-        console.log("Drift updated successfully");
-        toggleModal();
+        handleMachineChange(selectedMachine)
+        if (driftFetched) {
+          handleDriftChange(selectedDrift ? selectedDrift.index : "")
+          
+          toggleModal();
 
-        Swal.fire({
-          icon: "success",
-          title: "Drifts Updated",
-          text: "The Drifts parameters have been successfully updated.",
-        });
+          Swal.fire({
+            icon: "success",
+            title: "Drift Updated",
+            text: "The drift parameters have been successfully updated.",
+          });
+        }
+
       } catch (error) {
         console.error("Error updating Drift:", error);
         Swal.fire({
@@ -206,6 +242,12 @@ const MyComponent = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (driftFetched) {
+      handleDriftChange(selectedDrift ? selectedDrift.index : "");
+    }
+  }, [driftFetched]);
 
   const resetUpdatedState = () => {
     setUpdatedLength("");

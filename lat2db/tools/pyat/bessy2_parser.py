@@ -523,7 +523,6 @@ def insert_elements(ring, parent_id=None):
             element_drift["index"] = index
             element_drift["tags"] = [element_drift.pop("Corrector", "")]
             drift_elements.append(element_drift)
-            drift_elements.append(element_drift)
             all_elements.append(element_drift)
 
         if typename.lower() == "bending":
