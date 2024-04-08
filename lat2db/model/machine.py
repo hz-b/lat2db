@@ -2,6 +2,7 @@ import uuid
 from datetime import datetime
 from typing import List
 from pydantic import Field
+import re
 
 from lat2db.tools.helper_function import filter_an_elements
 from lat2db.model.beam_position_monitor import BeamPositionMonitor
@@ -25,7 +26,15 @@ class ElementPosition:
         self.index = index
         self.start_position = start_position
         self.end_position = end_position
+        self.section = get_section_name(element_name=element_name)
 
+
+def get_section_name(element_name):
+    match = re.search(r'[DTKL][1-8]', element_name)
+    if match:
+        return match.group()
+    else:
+        return ""
 
 @dataclass()
 class Machine():
