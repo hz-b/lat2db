@@ -37,7 +37,8 @@ export const fetchSextupoles = async (machineId) => {
 
 export const updateQuadrupole = async (machineId, quadName, affected_quad, formData) => {
   try {
-    console.log("the value of the form data from the api to call", affected_quad, formData)
+    
+    
     const updated_data = {
       "type":"Quadrupole",
       "index": formData.index,
@@ -53,8 +54,8 @@ export const updateQuadrupole = async (machineId, quadName, affected_quad, formD
           "main_multipole_index": formData.updateMainMultipoleIndex,
           "main_multipole_strength": formData.updateMainMultipoleStrenght,
           "coeffs": {
-            "normal_coefficients": [formData.updatesnormal_coefficientsX, formData.updatenormal_coefficientsY],
-            "skew_coefficients": [formData.updateskew_coefficientsX, formData.updateskew_coefficientsY]
+            "normal_coefficients": formData.updatesnormal_coefficients.split(',').map(parseFloat),
+            "skew_coefficients": formData.updateskew_coefficients.split(',').map(parseFloat)
           }
         }
       }
@@ -91,8 +92,8 @@ export const updateSextupole = async (machineId, SextName, affected_sext, formDa
           "main_multipole_index": formData.updateMainMultipoleIndex,
           "main_multipole_strength": formData.updateMainMultipoleStrenght,
           "coeffs": {
-            "normal_coefficients": [formData.updatesnormal_coefficientsX, formData.updatenormal_coefficientsY],
-            "skew_coefficients": [formData.updateskew_coefficientsX, formData.updateskew_coefficientsY]
+            "normal_coefficients": formData.updatesnormal_coefficients.split(',').map(parseFloat),
+            "skew_coefficients": formData.updateskew_coefficients.split(',').map(parseFloat)
           }
         }
       }

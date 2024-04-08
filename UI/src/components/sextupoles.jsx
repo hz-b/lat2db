@@ -34,10 +34,8 @@ const MyComponent = () => {
     updateCorrector: '',
     updateKickangleX: '',
     updateKickangleY: '',
-    updatesnormal_coefficientsX: '',
-    updatenormal_coefficientsY: '',
-    updateskew_coefficientsX: '',
-    updateskew_coefficientsY: '',
+    updatesnormal_coefficients: '',
+    updateskew_coefficients: '',
     updateMainMultipoleIndex: '',
     updateMainMultipoleStrenght: '',
     passMethod: '',
@@ -151,11 +149,11 @@ const MyComponent = () => {
         updateKickangleX: sextDetails.element_configuration.kickangle.x?.toString() ?? 0,
         updateKickangleY: sextDetails.element_configuration.kickangle.y?.toString() ?? 0,
 
-        updatesnormal_coefficientsX: sextDetails.element_configuration.magnetic_element.coeffs.normal_coefficients[0]?.toString() ?? 0,
-        updatenormal_coefficientsY: sextDetails.element_configuration.magnetic_element.coeffs.normal_coefficients[1]?.toString() ?? 0,
+        updatesnormal_coefficients: sextDetails.element_configuration.magnetic_element.coeffs.normal_coefficients ?? 0,
+        //updatenormal_coefficientsY: sextDetails.element_configuration.magnetic_element.coeffs.normal_coefficients[1]?.toString() ?? 0,
 
-        updateskew_coefficientsX: sextDetails.element_configuration.magnetic_element.coeffs.skew_coefficients[0]?.toString() ?? 0,
-        updateskew_coefficientsY: sextDetails.element_configuration.magnetic_element.coeffs.skew_coefficients[1]?.toString() ?? 0,
+        updateskew_coefficients: sextDetails.element_configuration.magnetic_element.coeffs.skew_coefficients?? 0,
+        //updateskew_coefficientsY: sextDetails.element_configuration.magnetic_element.coeffs.skew_coefficients[1]?.toString() ?? 0,
 
 
         updateMainMultipoleIndex: sextDetails.element_configuration.magnetic_element.main_multipole_index?.toString() ?? 0,
@@ -552,50 +550,28 @@ const MyComponent = () => {
             </Form.Group>
           </Row>
           <Row>
-            <Form.Group as={Col} md="6" controlId="updatesnormal_coefficientsX">
-              <Form.Label>Normal Coefficients (x) :</Form.Label>
+            <Form.Group as={Col} md="12" controlId="updatesnormal_coefficients">
+              <Form.Label>Normal Coefficients (x) :separate each element with a (,)</Form.Label>
               <Form.Control
-                type="number"
-                step="0.01"
-                value={selectedSext ? formData.updatesnormal_coefficientsX : 0}
+                type="text"
+                value={selectedSext ? formData.updatesnormal_coefficients: 0}
                 onChange={handleInputChange}
               />
             </Form.Group>
 
-            <Form.Group as={Col} md="6" controlId="updatenormal_coefficientsY">
-              <Form.Label>  (y):</Form.Label>
-
-              <Form.Control
-                type="number"
-                step="0.01"
-                value={selectedSext ? formData.updatenormal_coefficientsY : 0}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
 
           </Row>
 
           <Row>
-            <Form.Group as={Col} md="6" controlId="updateskew_coefficientsX">
-              <Form.Label>Skew Coefficients (x):</Form.Label>
+            <Form.Group as={Col} md="12" controlId="updateskew_coefficients">
+              <Form.Label>Skew Coefficients (x):separate each element with a (,)</Form.Label>
               <Form.Control
-                type="number"
-                step="0.01"
-                value={selectedSext ? formData.updateskew_coefficientsX : 0}
+                type="text"
+                value={selectedSext ? formData.updateskew_coefficients : 0}
                 onChange={handleInputChange}
               />
             </Form.Group>
 
-            <Form.Group as={Col} md="6" controlId="updateskew_coefficientsY">
-              <Form.Label> (Y) :</Form.Label>
-
-              <Form.Control
-                type="number"
-                step="0.01"
-                value={selectedSext ? formData.updateskew_coefficientsY : 0}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
           </Row>
 
           <Row>
