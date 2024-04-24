@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'http://0.0.0.0:8000';
+const baseUrl = 'http://datascc.trs.bessy.de:8000';
 
 export const fetchMachines = async () => {
   try {
