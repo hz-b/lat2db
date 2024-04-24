@@ -1,10 +1,8 @@
 import axios from 'axios';
 
-const baseUrl = 'http://0.0.0.0:8000';
-
 export const fetchMachines = async () => {
   try {
-    const response = await axios.get(`${baseUrl}/machine/machine`);
+    const response = await axios.get(`/machine/machine`);
     console.log("response:", response.data)
     return response.data;
   } catch (error) {
@@ -16,7 +14,7 @@ export const fetchMachines = async () => {
 // get all quads
 export const fetchQuadrupoles = async (machineId) => {
   try {
-    const response = await axios.get(`${baseUrl}/machine/machine/${machineId}/quad`);
+    const response = await axios.get(`/machine/machine/${machineId}/quad`);
     return response.data;
   } catch (error) {
     console.error('Error fetching quadrupoles:', error);
@@ -27,7 +25,7 @@ export const fetchQuadrupoles = async (machineId) => {
 //get all sextupoles
 export const fetchSextupoles = async (machineId) => {
   try {
-    const response = await axios.get(`${baseUrl}/machine/machine/${machineId}/sextupole`);
+    const response = await axios.get(`/machine/machine/${machineId}/sextupole`);
     return response.data;
   } catch (error) {
     console.error('Error fetching sextupoles:', error);
@@ -61,7 +59,7 @@ export const updateQuadrupole = async (machineId, quadName, affected_quad, formD
       }
     };
     console.log("updated object for submission is ",updated_data)
-    const response = await axios.put(`${baseUrl}/machine/machine/${machineId}/quad/${quadName}`,
+    const response = await axios.put(`/machine/machine/${machineId}/quad/${quadName}`,
     {
       affected_drift: affected_quad === "" ? "-1" : affected_quad,
       updated_data: updated_data
@@ -99,7 +97,7 @@ export const updateSextupole = async (machineId, SextName, affected_sext, formDa
       }
     };
     console.log("updated object for submission is ",updated_data)
-    const response = await axios.put(`${baseUrl}/machine/machine/${machineId}/sext/${SextName}`,
+    const response = await axios.put(`/machine/machine/${machineId}/sext/${SextName}`,
     {
       affected_drift: affected_sext === "" ? "-1" : affected_sext,
       updated_data: updated_data
@@ -115,7 +113,7 @@ export const updateSextupole = async (machineId, SextName, affected_sext, formDa
 //get all drifts
 export const fetchDrifts = async (machineId) => {
   try {
-    const response = await axios.get(`${baseUrl}/machine/machine/${machineId}/drifts`);
+    const response = await axios.get(`/machine/machine/${machineId}/drifts`);
     return response.data;
   } catch (error) {
     console.error('Error fetching drifts:', error);
@@ -137,7 +135,7 @@ export const updateDrifts = async (machineId, DriftName, affected_drift, formDat
       "length": formData.updateLength
     };
     console.log("updated object for submission is ",updated_data)
-    const response = await axios.put(`${baseUrl}/machine/machine/${machineId}/drift/${DriftName}`,
+    const response = await axios.put(`/machine/machine/${machineId}/drift/${DriftName}`,
     {
       affected_drift: affected_drift === "" ? "-1" : affected_drift,
       updated_data: updated_data
@@ -152,7 +150,7 @@ export const updateDrifts = async (machineId, DriftName, affected_drift, formDat
 //get all markers
 export const fetchMarkers = async (machineId) => {
   try {
-    const response = await axios.get(`${baseUrl}/machine/machine/${machineId}/markers`);
+    const response = await axios.get(`/machine/machine/${machineId}/markers`);
     return response.data;
   } catch (error) {
     console.error('Error fetching markers:', error);
@@ -174,7 +172,7 @@ export const updateMarkers = async (machineId, MarkerName, affected_marker, form
       "length": formData.updateLength
     };
     console.log("updated object for submission is ",updated_data)
-    const response = await axios.put(`${baseUrl}/machine/machine/${machineId}/marker/${MarkerName}`,
+    const response = await axios.put(`/machine/machine/${machineId}/marker/${MarkerName}`,
     {
       affected_marker: affected_marker === "" ? "-1" : affected_marker,
       updated_data: updated_data
@@ -190,7 +188,7 @@ export const updateMarkers = async (machineId, MarkerName, affected_marker, form
 //get all monitor
 export const fetchMonitor = async (machineId) => {
   try {
-    const response = await axios.get(`${baseUrl}/machine/machine/${machineId}/monitors`);
+    const response = await axios.get(`/machine/machine/${machineId}/monitors`);
     return response.data;
   } catch (error) {
     console.error('Error fetching monitors:', error);
@@ -212,7 +210,7 @@ export const updateMonitors = async (machineId, MonitorName, affected_monitor, f
       "length": formData.updateLength
     };
     console.log("updated object for submission is ",updated_data)
-    const response = await axios.put(`${baseUrl}/machine/machine/${machineId}/monitor/${MonitorName}`,
+    const response = await axios.put(`/machine/machine/${machineId}/monitor/${MonitorName}`,
     {
       affected_monitor: affected_monitor === "" ? "-1" : affected_monitor,
       updated_data: updated_data
@@ -228,7 +226,7 @@ export const updateMonitors = async (machineId, MonitorName, affected_monitor, f
 
 export const get_quad_from_seq = async (machineId, quadName, updatedData) => {
   try {
-    const response = await axios.put(`${baseUrl}/machine/${machineId}/quad/${quadName}`, updatedData);
+    const response = await axios.put(`/machine/${machineId}/quad/${quadName}`, updatedData);
     return response.data;
   } catch (error) {
     console.error('Error updating quadrupole:', error);
