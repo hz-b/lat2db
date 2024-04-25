@@ -44,7 +44,9 @@ def create_machine(lat):
         # revamp parameters as required for the dataclasses
         row.setdefault("length", row.pop("L", 0e0))  # rename "L" to "length"
         type_name = row['type']
-
+        # Ensure 'passmethod' and 'tags' keys exist in the row dictionary
+        row.setdefault("passmethod", None)
+        row.setdefault("tags", None)
         if type_name in ["Bending", "Quadrupole", "Sextupole"]:
             row.setdefault("main_multipole_strength", row.pop("K", 0e0))  # rename "K" to "main_multipole_strength"
             row.setdefault("number_of_integration_steps",
@@ -79,7 +81,10 @@ def create_machine(lat):
 
         type_class, type_method = type_dict.get(type_name, (None, None))
         if type_class is None or type_method is None:
-            raise KeyError(f"Don't know type {type_name}")
+            if type_name in ['Horizontalsteerer','Verticalsteerer']:
+                continue #ignore the two steerers
+            else:
+                raise KeyError(f"Don't know type {type_name}")
         sequence_item.set_properties(row)
         type_instance = type_class(**row)
         machine.add_to_sequence(sequence_item)
