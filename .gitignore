@@ -12,6 +12,7 @@ __pycache__/
 .DS_Store
 lat2db/.DS_Store
 scripts/.DS_Store
+lat2db/config.cfg
 # Distribution / packaging
 .Python
 build/
