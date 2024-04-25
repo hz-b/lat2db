@@ -38,7 +38,9 @@ export const fetchSextupoles = async (machineId) => {
 export const updateQuadrupole = async (machineId, quadName, affected_quad, formData) => {
   try {
     
-    
+    const normalCoefficients = typeof formData.updatesnormal_coefficients === 'string' ? formData.updatesnormal_coefficients.split(',').map(parseFloat) : [];
+    const skewCoefficients = typeof formData.updateskew_coefficients === 'string' ? formData.updateskew_coefficients.split(',').map(parseFloat) : [];
+
     const updated_data = {
       "type":"Quadrupole",
       "index": formData.index,
@@ -54,8 +56,8 @@ export const updateQuadrupole = async (machineId, quadName, affected_quad, formD
           "main_multipole_index": formData.updateMainMultipoleIndex,
           "main_multipole_strength": formData.updateMainMultipoleStrenght,
           "coeffs": {
-            "normal_coefficients": formData.updatesnormal_coefficients.split(',').map(parseFloat),
-            "skew_coefficients": formData.updateskew_coefficients.split(',').map(parseFloat)
+            "normal_coefficients": normalCoefficients,
+            "skew_coefficients": skewCoefficients
           }
         }
       }
@@ -76,6 +78,9 @@ export const updateQuadrupole = async (machineId, quadName, affected_quad, formD
 //update sextu
 export const updateSextupole = async (machineId, SextName, affected_sext, formData) => {
   try {
+    const normalCoefficients = typeof formData.updatesnormal_coefficients === 'string' ? formData.updatesnormal_coefficients.split(',').map(parseFloat) : [];
+    const skewCoefficients = typeof formData.updateskew_coefficients === 'string' ? formData.updateskew_coefficients.split(',').map(parseFloat) : [];
+
     console.log("the value of the form data from the api to call", affected_sext, formData)
     const updated_data = {
       "type":"Sextupole",
@@ -92,8 +97,8 @@ export const updateSextupole = async (machineId, SextName, affected_sext, formDa
           "main_multipole_index": formData.updateMainMultipoleIndex,
           "main_multipole_strength": formData.updateMainMultipoleStrenght,
           "coeffs": {
-            "normal_coefficients": formData.updatesnormal_coefficients.split(',').map(parseFloat),
-            "skew_coefficients": formData.updateskew_coefficients.split(',').map(parseFloat)
+            "normal_coefficients": normalCoefficients,
+            "skew_coefficients": skewCoefficients
           }
         }
       }
