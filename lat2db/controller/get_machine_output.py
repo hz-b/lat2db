@@ -1,3 +1,4 @@
+import json
 from typing import List, Dict
 import jsons
 from bson import ObjectId
@@ -11,10 +12,19 @@ def get_machine(machine_id: str) -> Machine:
     machine = mongo_init.get_collection("machines").find_one({"_id": ObjectId(machine_id)})
     return jsons.load(machine, Machine)
 
-def get_machine_as_json(machine_id: str):
-    machine = mongo_init.get_collection("machines").find_one({"_id": ObjectId(machine_id)})
-    return machine
+def get_machine_as_json_from_db(machine_id: str):
+    if(machine_id is None ):
+        machine = mongo_init.get_collection("machines").find_one({})
+        return machine
+    else:
+        machine = mongo_init.get_collection("machines").find_one({"_id": ObjectId(machine_id)})
+        return machine
 
+def get_machine_as_json(file_name):
+    if(file_name is None ):
+        file_name ="bessyii_lattice_json.json"
+    with open(file_name, 'r') as file:
+        return json.load(file)
 def get_machine_element_list(machine: List[Dict], element_name: str):
     element_list = machine[f'{element_name}']
     return element_list
