@@ -42,9 +42,10 @@ def list_machines(request: Request):
 
 @router.get("/machine/{id}", response_description="Get a single machine by id", response_model=Machine)
 def find_a_machine(id: str, request: Request):
-    if (machine := request.app.database["machines"].find_one({"_id": str(id)})) is not None:
+    if (machine := request.app.database["machines"].find_one({"id": str(id)})) is not None:
         return machine
-
+    if (machine := request.app.database["machines"].find_one({"_id": ObjectId(id)})) is not None:
+        return machine
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {id} not found")
 
 
