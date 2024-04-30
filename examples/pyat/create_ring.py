@@ -29,4 +29,6 @@ filter_res_h = acc.machine.filter_element_by_tags("quadrupoles",["Q2"]) # this w
 # todo: ask me what does filter by tags mean we can expand the filters
 filter_res_v = acc.machine.filter_element_by_tags("sextupoles",["V"])
 orbit = acc.ring.find_orbit(at.All) # call find orbit from AT
+
+twiss = acc.ring.get_optics(at.All)
 orbit

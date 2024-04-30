@@ -83,7 +83,8 @@ def instantiate_bending(prop: dict):
         FringeInt1=getattr(p, 'fringeInt1', 0.0),
         FullGap=getattr(p, 'fullgap', 0.0),
         PolynomB=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
-        PolynomA=p.element_configuration.magnetic_element.coeffs.skew_coefficients
+        PolynomA=p.element_configuration.magnetic_element.coeffs.skew_coefficients,
+        Energy=1.7e9
     )
 
 
@@ -101,7 +102,7 @@ def instanitate_quadrupole(prop: dict):
     k = p.element_configuration.magnetic_element.main_multipole_strength
     r = at.Quadrupole(p.name, length=p.length, k=k,
                       PolynomB=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
-                      PolynomA=p.element_configuration.magnetic_element.coeffs.skew_coefficients)
+                      PolynomA=p.element_configuration.magnetic_element.coeffs.skew_coefficients, Energy = 1.7e9)
     assert np.isfinite(r.K)
     return r
 
@@ -123,7 +124,7 @@ def instanitate_sextupole(props: dict):
         raise
     r = at.Sextupole(p.name, p.length, PolynomB=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
                      PolynomA=p.element_configuration.magnetic_element.coeffs.skew_coefficients, Corrector=p.tags[0],
-                     KickAngle=[p.element_configuration.kickangle.x, p.element_configuration.kickangle.y])
+                     KickAngle=[p.element_configuration.kickangle.x, p.element_configuration.kickangle.y], Energy = 1.7e9)
     assert np.isfinite(r.H)
     return r
 
