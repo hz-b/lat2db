@@ -243,7 +243,8 @@ const MyComponent = () => {
             selectedMachine,
             selectedQuad.name,
             selected_drift_RadioOption,
-            formData
+            formData,
+            0
           );
 
           console.log("fethc value is ..",quadrupolesFetched)
@@ -259,6 +260,60 @@ const MyComponent = () => {
             icon: "success",
             title: "Quadrupole Updated",
             text: "The quadrupole parameters have been successfully updated.",
+          });
+        }
+      } catch (error) {
+        console.error("Error updating quadrupole:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "An error occurred while updating the quadrupole. Please try again.",
+        });
+      }
+    }
+  };
+
+  const handleUpdateQuad_copy = async () => {
+
+
+    if (formData.updateLength !== selectedQuad.length.toString()) {
+      if (showRow && !selected_drift_RadioOption) {
+        Swal.fire({
+          icon: "warning",
+          title: "Select Quadrupole Option",
+          text: "Please select a drift option before updating.",
+        });
+        setSelected_drift_RadioOption(-1)
+        return;
+      }
+    }
+
+      if (selectedQuad) {
+        console.log("update data is  ", formData)
+        setQuadrupolesFetched(false);
+
+        try {
+          await updateQuadrupole(
+            selectedMachine,
+            selectedQuad.name,
+            selected_drift_RadioOption,
+            formData,
+            1
+          );
+
+          console.log("fethc value is ..",quadrupolesFetched)
+          handleMachineChange(selectedMachine)
+          //setQuadrupoles(await fetchQuadrupoles(selectedMachine));
+          console.log("valeu are.... ", selectedQuad ? selectedQuad.index : "")
+          if (quadrupolesFetched) {
+          handleQuadChange(selectedQuad ? selectedQuad.index : "")
+          console.log("Quadrupole updated successfully");
+          toggleModal();
+
+          Swal.fire({
+            icon: "success",
+            title: "Quadrupole updation & Machine creation",
+            text: "The quadrupole parameters have been successfully updated into the new machine.",
           });
         }
       } catch (error) {
@@ -616,6 +671,9 @@ const MyComponent = () => {
           </Button>
           <Button variant="primary" onClick={handleUpdateQuad}>
             Update
+          </Button>
+          <Button variant="primary" onClick={handleUpdateQuad_copy}>
+            Save with a different Machine
           </Button>
         </Modal.Footer>
       </Modal>

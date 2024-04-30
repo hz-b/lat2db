@@ -238,7 +238,8 @@ const MyComponent = () => {
           selectedMachine,
           selectedSext.name,
           selected_drift_RadioOption,
-          formData
+          formData,
+          0
         );
 
         handleMachineChange(selectedMachine)
@@ -264,6 +265,59 @@ const MyComponent = () => {
       }
     }
   };
+
+  const handleUpdateSext_copy = async () => {
+
+
+    if (formData.updateLength !== selectedSext.length.toString()) {
+      if (showRow && !selected_drift_RadioOption) {
+        Swal.fire({
+          icon: "warning",
+          title: "Select Quadrupole Option",
+          text: "Please select a drift option before updating.",
+        });
+        setSelected_drift_RadioOption(-1)
+        return;
+      }
+    }
+
+    if (selectedSext) {
+      console.log("calling the form data ", formData)
+      setSextupolesFetched(false);
+      try {
+        await updateSextupole(
+          selectedMachine,
+          selectedSext.name,
+          selected_drift_RadioOption,
+          formData,
+          1
+        );
+
+        handleMachineChange(selectedMachine)
+        if (sextupolesFetched) {
+          //setSextupoles(await fetchSextupoles(selectedMachine));
+          handleQuadChange(selectedSext ? selectedSext.index : "")
+          console.log("sextupole updated successfully");
+          toggleModal();
+
+          Swal.fire({
+            icon: "success",
+            title: "Sextupole Updation & Mahcine Creation !",
+            text: "The Sextupole parameters have been successfully updated into the new machine.",
+          });
+        }
+      } catch (error) {
+        console.error("Error updating quadrupole:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "An error occurred while updating the Sextupoles. Please try again.",
+        });
+      }
+    }
+  };
+
+
   useEffect(() => {
     if (sextupolesFetched) {
       handleQuadChange(selectedSext ? selectedSext.index : "");
@@ -606,6 +660,9 @@ const MyComponent = () => {
           </Button>
           <Button variant="primary" onClick={handleUpdateSext}>
             Update
+          </Button>
+          <Button variant="primary" onClick={handleUpdateSext_copy}>
+            Save with a different Machine
           </Button>
         </Modal.Footer>
       </Modal>
