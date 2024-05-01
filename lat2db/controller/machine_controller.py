@@ -9,6 +9,8 @@ from lat2db.model.machine import Machine, Quadrupole, Sextupole, Drift, Marker, 
 from lat2db.model.update_machine import MachineUpdate
 from pydantic import BaseModel
 from pymongo.collection import Collection
+from copy import deepcopy
+from datetime import datetime
 
 router = APIRouter()
 
@@ -195,6 +197,100 @@ def update_quadrupole_details(id: str, quad_name: str, request_body: Quadrupole_
                 return JSONResponse(status_code=200, content={"message": f"Quadrupole updated"})
 
 
+
+# update the copy of the quadrupole
+
+@router.put("/machine/{id}/quad_copy/{quad_name}", response_description="Update a quadrupole's details")
+def update_quadrupole_details_copy(id: str, quad_name: str, request_body: Quadrupole_request_update, request: Request):
+    database: Collection = request.app.database["machines"]
+    print("pass id is  ", id)
+    machine = database.find_one({"id": str(id)})
+    print("machien is ", machine)
+    if machine:
+
+        machine_copy = deepcopy(machine)
+        pre_id = machine_copy.pop("id")
+        current_date_time = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+        pre_id=f"{pre_id}-{current_date_time}"
+        machine_copy["id"] =pre_id
+        machine_copy["_id"]=ObjectId()
+        old_name=machine_copy.pop("name")
+        machine_copy["name"]=f"{old_name}_{current_date_time}"
+        database.insert_one(machine_copy)
+        if "quadrupoles" in machine_copy:
+            if "quadrupoles" in machine_copy:
+                quadrupoles_list = machine_copy.get("quadrupoles", [])
+                sequences_list = machine_copy.get("sequences", [])
+                operations = None
+                difference = 0
+                for quad_index, quad in enumerate(quadrupoles_list):
+                    print("quad indexis ", quad_index)
+                    if quad.get("name") == request_body.updated_data.name:
+                        quad_length = quad.get("length")
+                        if float(quad_length) > float(request_body.updated_data.length):
+                            operations = "+"
+                            difference = float(quad_length) - float(request_body.updated_data.length)
+                        else:
+                            operations = "-"
+                            difference = float(request_body.updated_data.length) - float(quad_length)
+
+                        removed_quadrupole = quadrupoles_list.pop(quad_index)
+                        update_data_dict = request_body.updated_data
+
+                        quadrupoles_list.insert(quad_index, asdict(request_body.updated_data))
+                        break
+
+                
+                database.update_one({"id": str(pre_id)}, {"$set": {"quadrupoles": quadrupoles_list}})
+                affected_drift = request_body.affected_drift
+                # update sequence
+                if "sequences" in machine_copy:
+                    sequences_list = machine_copy.get("sequences", [])
+                    for item_index, item in enumerate(sequences_list):
+                        if item.get("name") == request_body.updated_data.name and item.get("type") == "Quadrupole":
+                            removed_quadrupole = sequences_list.pop(item_index)
+                            # affected_drift=item.get("index")
+                            print("******* affected drif index is ", affected_drift)
+                            sequences_list.insert(item_index, asdict(request_body.updated_data))
+                            break
+                    if affected_drift != "-1":
+                        for item_index, item in enumerate(sequences_list):
+                            if int(item.get("index")) == int(affected_drift):
+                                if operations == "+":
+                                    item["length"] = float(item.get("length")) + difference
+                                    print("drift length is in seq seq ", item["length"])
+
+                                else:
+                                    item["length"] = float(item.get("length")) - difference
+                                    print("drift length is in seq seq ", item["length"])
+
+                                sequences_list[item_index] = item
+                                print("**** drift in the sequence is updated")
+                                # sequences_list.insert(item_index, asdict(request_body.updated_data))
+                                break
+
+                database.update_one({"id": str(pre_id)}, {"$set": {"sequences": sequences_list}})
+                # update drift
+                print("affected dfridt is ",affected_drift)
+                if "drifts" in machine_copy and affected_drift != "-1":
+                    print("drift update is intiated")
+                    drift_list = machine_copy.get("drifts", [])
+                    for drift_index, drift in enumerate(drift_list):
+                        if int(drift.get("index")) == int(affected_drift):
+                            if operations == "+":
+                                drift["length"] = float(drift.get("length")) + difference
+                                print("drift length is in drift seq ", drift["length"])
+                            else:
+                                drift["length"] = float(drift.get("length")) - difference
+                                print("drift length is iin drift seq ", drift["length"])
+                            break
+                    database.update_one({"id": str(pre_id)}, {"$set": {"drifts": drift_list}})
+
+                    print("**** drift in the drift list is updated")
+
+                return JSONResponse(status_code=200, content={"message": f"Quadrupole updated"})
+
+
 # get all Sextupoles
 
 @router.get("/machine/{id}/sextupole", response_description="Get a single machine by id",
@@ -288,6 +384,95 @@ def update_sextupole_details(id: str, sext_name: str, request_body: Sextupole_re
                                 print("drift length is iin drift seq ", drift["length"])
                             break
                     database.update_one({"id": str(id)}, {"$set": {"drifts": drift_list}})
+                    print("**** drift in the drift list is updated")
+
+                return JSONResponse(status_code=200, content={"message": f"Sextupoles updated"})
+
+
+# update sextupole copy
+
+@router.put("/machine/{id}/sext_copy/{sext_name}", response_description="Update a sextupole's details")
+def update_sextupole_details_copy(id: str, sext_name: str, request_body: Sextupole_request_update, request: Request):
+    
+    database: Collection = request.app.database["machines"]
+    print("pass id is  ", id)
+    machine = database.find_one({"id": str(id)})
+    print("machien is ", machine)
+    if machine:
+        machine_copy = deepcopy(machine)
+        pre_id = machine_copy.pop("id")
+        current_date_time = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+        pre_id=f"{pre_id}-{current_date_time}"
+        machine_copy["id"] =pre_id
+        machine_copy["_id"]=ObjectId()
+        old_name=machine_copy.pop("name")
+        machine_copy["name"]=f"{old_name}_{current_date_time}"
+        database.insert_one(machine_copy)
+        if "sextupoles" in machine_copy:
+            print("sextupoles field exists in the machine document")
+            if "sextupoles" in machine_copy:
+                sextupole_list = machine_copy.get("sextupoles", [])
+                operations = None
+                difference = 0
+                print("######passed index is ", request_body.updated_data.index)
+                for sext_index, sext in enumerate(sextupole_list):
+                    print("sext indexis ", sext_index)
+                    if sext.get("name") == request_body.updated_data.name:
+                        sext_length = sext.get("length")
+                        if float(sext_length) > float(request_body.updated_data.length):
+                            operations = "+"
+                            difference = float(sext_length) - float(request_body.updated_data.length)
+                        else:
+                            operations = "-"
+                            difference = float(request_body.updated_data.length) - float(sext_length)
+
+                        removed_sextupoles = sextupole_list.pop(sext_index)
+                        update_data_dict = request_body.updated_data
+
+                        sextupole_list.insert(sext_index, asdict(request_body.updated_data))
+                        print("inserted.")
+                        break
+
+                database.update_one({"id": str(pre_id)}, {"$set": {"sextupoles": sextupole_list}})
+                affected_drift = request_body.affected_drift
+                # update sequence
+                if "sequences" in machine_copy:
+                    sequences_list = machine_copy.get("sequences", [])
+                    for item_index, item in enumerate(sequences_list):
+                        if item.get("name") == request_body.updated_data.name and item.get("type") == "Sextupole":
+                            removed_sextupole = sequences_list.pop(item_index)
+                            sequences_list.insert(item_index, asdict(request_body.updated_data))
+                            break
+                    if affected_drift != "-1":
+                        for item_index, item in enumerate(sequences_list):
+                            if int(item.get("index")) == int(affected_drift):
+                                if operations == "+":
+                                    item["length"] = float(item.get("length")) + difference
+                                    print("drift length is in seq seq ", item["length"])
+
+                                else:
+                                    item["length"] = float(item.get("length")) - difference
+                                    print("drift length is in seq seq ", item["length"])
+
+                                sequences_list[item_index] = item
+                                print("**** drift in the sequence is updated")
+                                # sequences_list.insert(item_index, asdict(request_body.updated_data))
+                                break
+
+                database.update_one({"id": str(pre_id)}, {"$set": {"sequences": sequences_list}})
+                # update drift
+                if "drifts" in machine_copy and affected_drift != "-1":
+                    drift_list = machine_copy.get("drifts", [])
+                    for drift_index, drift in enumerate(drift_list):
+                        if int(drift.get("index")) == int(affected_drift):
+                            if operations == "+":
+                                drift["length"] = float(drift.get("length")) + difference
+                                print("drift length is in drift seq ", drift["length"])
+                            else:
+                                drift["length"] = float(drift.get("length")) - difference
+                                print("drift length is iin drift seq ", drift["length"])
+                            break
+                    database.update_one({"id": str(pre_id)}, {"$set": {"drifts": drift_list}})
                     print("**** drift in the drift list is updated")
 
                 return JSONResponse(status_code=200, content={"message": f"Sextupoles updated"})

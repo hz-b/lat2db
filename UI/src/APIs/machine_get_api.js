@@ -1,6 +1,7 @@
 import axios from 'axios';
-
+const baseurl='http://127.0.0.1:8000'
 export const fetchMachines = async () => {
+
   try {
     const response = await axios.get(`/machine/machine`);
     console.log("response:", response.data)
@@ -33,7 +34,7 @@ export const fetchSextupoles = async (machineId) => {
   }
 };
 
-export const updateQuadrupole = async (machineId, quadName, affected_quad, formData) => {
+export const updateQuadrupole = async (machineId, quadName, affected_quad, formData,option_with_copy) => {
   try {
     
     const normalCoefficients = typeof formData.updatesnormal_coefficients === 'string' ? formData.updatesnormal_coefficients.split(',').map(parseFloat) : [];
@@ -61,20 +62,32 @@ export const updateQuadrupole = async (machineId, quadName, affected_quad, formD
       }
     };
     console.log("updated object for submission is ",updated_data)
-    const response = await axios.put(`/machine/machine/${machineId}/quad/${quadName}`,
-    {
-      affected_drift: affected_quad === "" ? "-1" : affected_quad,
-      updated_data: updated_data
-    });
+
+    let response;
+    if (option_with_copy === 0) {
+      response = await axios.put(`/machine/machine/${machineId}/quad/${quadName}`, {
+        affected_drift: affected_quad === "" ? "-1" : affected_quad,
+        updated_data: updated_data
+      });
+    } else {
+      response = await axios.put(`/machine/machine/${machineId}/quad_copy/${quadName}`, {
+        affected_drift: affected_quad === "" ? "-1" : affected_quad,
+        updated_data: updated_data
+      });
+    }
+
     return response.data;
+
   } catch (error) {
     console.error('Error updating quadrupole:', error);
     throw error;
   }
 };
 
+
+
 //update sextu
-export const updateSextupole = async (machineId, SextName, affected_sext, formData) => {
+export const updateSextupole = async (machineId, SextName, affected_sext, formData,option_with_copy) => {
   try {
     const normalCoefficients = typeof formData.updatesnormal_coefficients === 'string' ? formData.updatesnormal_coefficients.split(',').map(parseFloat) : [];
     const skewCoefficients = typeof formData.updateskew_coefficients === 'string' ? formData.updateskew_coefficients.split(',').map(parseFloat) : [];
@@ -102,11 +115,23 @@ export const updateSextupole = async (machineId, SextName, affected_sext, formDa
       }
     };
     console.log("updated object for submission is ",updated_data)
-    const response = await axios.put(`/machine/machine/${machineId}/sext/${SextName}`,
-    {
-      affected_drift: affected_sext === "" ? "-1" : affected_sext,
-      updated_data: updated_data
-    });
+    let response;
+    if (option_with_copy === 0) {
+     response = await axios.put(`/machine/machine/${machineId}/sext/${SextName}`,
+      {
+        affected_drift: affected_sext === "" ? "-1" : affected_sext,
+        updated_data: updated_data
+      });
+    }
+    else {
+
+      response = await axios.put(`/machine/machine/${machineId}/sext_copy/${SextName}`,
+      {
+        affected_drift: affected_sext === "" ? "-1" : affected_sext,
+        updated_data: updated_data
+      });
+
+    }
     return response.data;
   } catch (error) {
     console.error('Error updating sextupole:', error);
