@@ -28,7 +28,7 @@ app.include_router(machine_controller.router, tags=["machines"], prefix="/machin
 app.include_router(index_controller.router, tags=["index"], prefix="/index")
 
 app_build_dir = Path(__file__).absolute().parent.parent / "UI" / "build"
-#app.mount("/", StaticFiles(directory=app_build_dir, html=True))
+app.mount("/", StaticFiles(directory=app_build_dir, html=True))
 
 
 @app.on_event("startup")
