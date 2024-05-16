@@ -1,7 +1,5 @@
-from pydantic.dataclasses import dataclass
+from pydantic import BaseModel
 
 
-@dataclass
-class Monitor:
-    
+class Monitor(BaseModel):
     pass

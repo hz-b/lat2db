@@ -1,9 +1,6 @@
-from pydantic.dataclasses import dataclass
-
 from lat2db.model.element import Element
 
 
-@dataclass
 class Marker(Element):
     """A virtual beam position monitor
 

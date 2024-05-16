@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 from typing import List
-from pydantic import Field
+from pydantic import Field, BaseModel
 import re
 
 from lat2db.tools.helper_function import filter_an_elements
@@ -17,7 +17,6 @@ from lat2db.model.sextupole import Sextupole
 from lat2db.model.version import Version
 from lat2db.model.energy import Energy
 from lat2db.model.geometric_info import GeometricInfo
-from pydantic.dataclasses import dataclass
 
 
 class ElementPosition:
@@ -36,8 +35,8 @@ def get_section_name(element_name):
     else:
         return ""
 
-@dataclass()
-class Machine():
+
+class Machine(BaseModel):
     sequences: List[Sequencer] = Field(default_factory=list)
     quadrupoles: List[Quadrupole] = Field(default_factory=list)
     sextupoles: List[Sextupole] = Field(default_factory=list)
@@ -48,7 +47,6 @@ class Machine():
     cavities: List[Cavity] = Field(default_factory=list)
     name: str = "unknown"
     id: str = Field(default_factory=uuid.uuid4)
-
 
     def add_drift(self, drift):
         self.drifts.append(drift)
@@ -77,6 +75,7 @@ class Machine():
     def to_dict(self):
         machine = {k: v for k, v in self.dict().items() if v is not None}
         return machine
+
     def set_base_parameters(self, lat):
         self.name = lat.lattice_standard_metadata.machine_name
         lat_version = lat.lattice_standard_metadata.lattice_version
@@ -93,7 +92,8 @@ class Machine():
                 break
             start_position += item.length
 
-        return ElementPosition(element_name=element_name, index=element.index,start_position=start_position, end_position=start_position + element.length)
+        return ElementPosition(element_name=element_name, index=element.index, start_position=start_position,
+                               end_position=start_position + element.length)
 
     def get_element(self, element_name):
         return list(filter(lambda x: x.name == element_name, self.sequences))
@@ -101,6 +101,7 @@ class Machine():
     def filter_element_by_tags(self, element_name: str, tags: List[str]):
         element_list = getattr(self, element_name)
         return filter_an_elements(tags, element_list, element_name)
+
     class Config:
         arbitrary_types_allowed: True
         allow_population_by_field_name = True

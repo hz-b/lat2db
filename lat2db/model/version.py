@@ -1,10 +1,10 @@
 from datetime import datetime
-from pydantic.dataclasses import dataclass
 from typing import Optional
 
+from pydantic import BaseModel
 
-@dataclass
-class Version:
+
+class Version(BaseModel):
     major: int
     minor: int
     level: int

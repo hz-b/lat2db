@@ -8,6 +8,7 @@ from functools import partial
 import at
 import jsons
 import numpy as np
+import pydantic
 
 from ...model.bending import Bending
 from ...model.cavity import Cavity
@@ -69,7 +70,7 @@ def instantiate_bending(prop: dict):
         Check what the definition of h is
     """
     h = 0.0
-    p = jsons.load(prop, Bending)
+    p = Bending(**prop)
     #: Todo: should irho be checked then
     return at.Dipole(
         p.name,
@@ -95,7 +96,8 @@ def instanitate_quadrupole(prop: dict):
     """
     logger.debug(f"Quadrupole {prop=}")
     try:
-        p = jsons.load(prop, Quadrupole)
+        # p = jsons.load(prop, Quadrupole)
+        p = Quadrupole(**prop)
     except jsons.exceptions.DeserializationError:
         logger.error(f"Could not load Quadrupole using properties {prop}")
         raise
@@ -118,10 +120,14 @@ def instanitate_sextupole(props: dict):
     # h = prop.main_multipole_strength
     logger.debug(f"Sextupole {props=}")
     try:
-        p = jsons.load(props, Sextupole)
-    except jsons.exceptions.DeserializationError:
+        # Combine props dictionary with empty tuple
+        # props_combined = dict(props)  # Create a copy to avoid modifying original
+        # props_combined.update(**props)  # Update with empty tuple (effectively no change)
+        # p = Sextupole(**props_combined)
+        p = Sextupole(**props)  #jsons.load(props, Sextupole)
+    except pydantic.ValidationError as e:
         logger.error(f"Could not load Sextupole using properties {props}")
-        raise
+        raise e from None  # Re-raise with proper context
     r = at.Sextupole(p.name, p.length, PolynomB=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
                      PolynomA=p.element_configuration.magnetic_element.coeffs.skew_coefficients, Corrector=p.tags[0],
                      KickAngle=[p.element_configuration.kickangle.x, p.element_configuration.kickangle.y], Energy = 1.7e9)
@@ -163,7 +169,7 @@ def instaniate_cavity(prop: dict, *, energy):
 
     """
     logger.debug(f"cavity property {prop=}")
-    p = jsons.load(prop, Cavity)
+    p = Cavity(**prop)
     voltage = p.cavity_configuration.voltage
 
     energy = energy

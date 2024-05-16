@@ -1,10 +1,13 @@
 from dataclasses import asdict
 from typing import List, Dict
 
+import uuid
 from bson import ObjectId
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status, Query
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
+
+from lat2db.controller.get_machine_output import get_machine_as_json_from_db
 from lat2db.model.machine import Machine, Quadrupole, Sextupole, Drift, Marker, BeamPositionMonitor
 from lat2db.model.update_machine import MachineUpdate
 from pydantic import BaseModel
@@ -202,22 +205,61 @@ def update_quadrupole_details(id: str, quad_name: str, request_body: Quadrupole_
 
 @router.put("/machine/{id}/quad_copy/{quad_name}", response_description="Update a quadrupole's details")
 def update_quadrupole_details_copy(id: str, quad_name: str, request_body: Quadrupole_request_update, request: Request):
+    # you should be able to call your normal quad update after a new record is created
+    # e.g: simply call two functions under the new service (duplicateMachine)
+    # whenever the duplicate machine service is called from UI then call two functions
+    #   1. create new machine
+    #       1.1 get existing machine call the service (see get_machine_output.py)
+    machine = get_machine_as_json_from_db(id)
+    #       1.2 make your changes (change name and assign a new id)
+
+    if machine:
+        machine_copy = deepcopy(machine)
+        old_name=machine_copy.pop("name")
+        current_date_time = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+        machine_copy["name"]=f"{old_name}_{current_date_time}"
+        new_id = str(uuid.uuid4())
+        machine_copy['id'] = new_id
+        machine_copy["_id"] = ObjectId()
+        database: Collection = request.app.database["machines"]
+    #       1.3 insert the updated machine into db
+        database.insert_one(machine_copy)
+    #   2. update quad (this you already have) just move the functionality under a function
+    #     update_quad(machine)
+    #   and move that function to a different file called machine_update_helper.
+    #   this function should be dynamic so that a quad/sextupole or any other type of element can be updated.
+    #   this means you don't write  the code again and again with very little changes.
+
+
     database: Collection = request.app.database["machines"]
     print("pass id is  ", id)
     machine = database.find_one({"id": str(id)})
     print("machien is ", machine)
     if machine:
 
-        machine_copy = deepcopy(machine)
-        pre_id = machine_copy.pop("id")
-        current_date_time = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-        pre_id=f"{pre_id}-{current_date_time}"
-        machine_copy["id"] =pre_id
-        machine_copy["_id"]=ObjectId()
-        old_name=machine_copy.pop("name")
-        machine_copy["name"]=f"{old_name}_{current_date_time}"
-        database.insert_one(machine_copy)
+        # machine_copy = deepcopy(machine)
+        # pre_id = machine_copy.pop("id")
+        # current_date_time = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+        # pre_id=f"{pre_id}-{current_date_time}"
+        # machine_copy["id"] =pre_id
+        # #create id like this: uuid.uuid4 no need to create a similar id to the old one
+        # machine_copy["_id"]=ObjectId()   # mongo will add this field no need to forcefully generate it
+        # old_name=machine_copy.pop("name")
+        # machine_copy["name"]=f"{old_name}_{current_date_time}"
+        # database.insert_one(machine_copy)
         if "quadrupoles" in machine_copy:
+            # you should be able to call your normal quad update after a new record is created
+            # e.g: simply call two functions under the new service (duplicateMachine)
+            # whenever the duplicate machine service is called from UI then call two functions
+            #   1. create new machine
+            #       1.1 get existing machine call the service (see get_machine_output.py)
+            #       1.2 make your changes (change name and assign a new id)
+            #       1.3 insert the updated machine into db
+            #   2. update quad (this you already have) just move the functionality under a function
+            #   and move that function to a different file called machine_update_helper.
+            #   this function should be dynamic so that a quad/sextupole or any other type of element can be updated.
+            #   this means you don't write  the code again and again with very little changes.
+
             if "quadrupoles" in machine_copy:
                 quadrupoles_list = machine_copy.get("quadrupoles", [])
                 sequences_list = machine_copy.get("sequences", [])

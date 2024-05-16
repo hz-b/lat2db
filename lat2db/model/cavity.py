@@ -1,14 +1,8 @@
-from pydantic.dataclasses import dataclass
-from typing import Optional, Dict,Any
-from lat2db.model.element import Element
 from typing import Optional
 
-from bson import ObjectId
-from bson import BSON
-from bson.codec_options import TypeRegistry, CodecOptions
-from bson.raw_bson import RawBSONDocument
-from dataclasses import asdict
-from typing import Sequence
+from pydantic.dataclasses import dataclass
+
+from lat2db.model.element import Element
 
 
 @dataclass
@@ -31,15 +25,9 @@ class RFFieldHarmonic:
     #: need to review: is it a time lag or a phase slip
     #: phase slip per turn ?
     timelag: Optional[float] = None
-    
 
 
-
-
-@dataclass
 class Cavity(Element):
     #: review : that's a property of the ring
-    cavity_configuration :Optional[RFFieldHarmonic]=None
+    cavity_configuration: Optional[RFFieldHarmonic] = None
     harmonic_number: Optional[int] = None
-    
-
