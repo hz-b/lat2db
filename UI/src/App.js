@@ -7,6 +7,8 @@ import Sextupole from "./components/sextupoles"
 import Drift from "./components/drifts"
 import Marker from "./components/markers"
 import Monitor from "./components/monitor"
+import UPdate from './components/update'
+import CircleSVG from "./components/cricle";
 function App() {
   return (
     <div className="App">
@@ -18,6 +20,8 @@ function App() {
           <Route path="/drift" element={<Drift/>} />
           <Route path="/marker" element={<Marker/>} />
           <Route path="/monitor" element={<Monitor/>} />
+          <Route path="/update" element={<UPdate/>} />
+          <Route path="/circle" element={<CircleSVG/>} />
         </Routes>
 
       </Router>

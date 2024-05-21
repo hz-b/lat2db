@@ -65,17 +65,20 @@ export const updateQuadrupole = async (machineId, quadName, affected_quad, formD
 
     let response;
     if (option_with_copy === 0) {
-      response = await axios.put(`/machine/machine/${machineId}/quad/${quadName}`, {
+      response = await axios.put(`${baseurl}/machine/machine/${machineId}/quad/${quadName}`, {
         affected_drift: affected_quad === "" ? "-1" : affected_quad,
         updated_data: updated_data
       });
-    } else {
-      response = await axios.put(`/machine/machine/${machineId}/quad_copy/${quadName}`, {
-        affected_drift: affected_quad === "" ? "-1" : affected_quad,
-        updated_data: updated_data
-      });
-    }
 
+      console.log("updated")
+    } else {
+      response = await axios.put(`${baseurl}/machine/machine/${machineId}/quad_copy/${quadName}`, {
+        affected_drift: affected_quad === "" ? "-1" : affected_quad,
+        updated_data: updated_data
+      });
+      console.log("updated")
+    }
+    console.log("resposne.......",response.data)
     return response.data;
 
   } catch (error) {
@@ -260,6 +263,38 @@ export const get_quad_from_seq = async (machineId, quadName, updatedData) => {
     return response.data;
   } catch (error) {
     console.error('Error updating quadrupole:', error);
+    throw error;
+  }
+};
+
+
+
+// fetch machine groups
+
+export const fetchMachineGroups = async (machineId) => {
+  try {
+    const response = await axios.get(`/machine/machine/${machineId}/groups`);
+    return response.data;
+    
+  } catch (error) {
+    console.error('Error fetching quadrupoles:', error);
+    throw error;
+  }
+};
+
+
+
+// fetch machine groups elemnets
+
+export const fetchMachineGroupElements = async (id,section_name) => {
+  try {
+    console.log("passes id ",id)
+    console.log("passes id ",section_name)
+    const response = await axios.get(`/machine/machine/${id}/relevant_elements/groups/${section_name}`);
+    return response.data;
+    
+  } catch (error) {
+    console.error('Error fetching quadrupoles:', error);
     throw error;
   }
 };

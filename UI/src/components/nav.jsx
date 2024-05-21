@@ -14,6 +14,7 @@ function nav() {
           <Nav.Link as={Link} to="/drift">Drifts</Nav.Link>
           <Nav.Link as={Link} to="/marker">Markers</Nav.Link>
           <Nav.Link as={Link} to="/monitor">Beam Position Monitors</Nav.Link>
+          <Nav.Link as={Link} to="/update">Single Page</Nav.Link>
         </Nav>
       </Container>
     </Navbar>
