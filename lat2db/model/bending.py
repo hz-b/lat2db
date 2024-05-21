@@ -1,12 +1,9 @@
-from pydantic.dataclasses import dataclass
 from typing import Optional
 
 from .element import Element
 from .magnetic_element import MagnetAssembly
-from typing import Sequence
 
 
-@dataclass
 class Bending(Element):
     element_configuration: Optional[MagnetAssembly] = None
     number_of_integration_steps: Optional[int] = None
@@ -16,4 +13,3 @@ class Bending(Element):
     fringeint1: Optional[float] = None
     fringeint2: Optional[float] = None
     fullgap: Optional[float] = None
-    

@@ -1,12 +1,9 @@
-
-from pydantic.dataclasses import dataclass
 from typing import Sequence, Optional
 
 from pydantic import BaseModel
 
 
-@dataclass()
-class Element:
+class Element(BaseModel):
     #: actually an identifier
     name: Optional[str]
     index: Optional[int]

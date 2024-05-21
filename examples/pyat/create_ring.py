@@ -3,7 +3,9 @@ import sys
 sys.path.append('/Users/safiullahomar/lattice/lat2db test')
 from lat2db.model.accelerator import Accelerator
 
-acc = Accelerator("662886ff4e40b9b6fecdcb34") # create accelerator
+
+acc = Accelerator() # create accelerator
+
 """
 @INFO: Read it to Understand it:
    create accelerator from 
@@ -31,6 +33,8 @@ filter_res_h = acc.machine.filter_element_by_tags("quadrupoles",["Q2"]) # this w
 # todo: ask me what does filter by tags mean we can expand the filters
 filter_res_v = acc.machine.filter_element_by_tags("sextupoles",["V"])
 orbit = acc.ring.find_orbit(at.All) # call find orbit from AT
+
+ring2 = acc.ring
 
 twiss = acc.ring.get_optics(at.All)
 orbit

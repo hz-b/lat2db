@@ -5,6 +5,7 @@ import jsons
 from fastapi import FastAPI
 from pymongo import MongoClient
 
+from lat2db import mongodb_url
 from lat2db.controller import machine_controller
 from lat2db.model.beam_position_monitor import BeamPositionMonitor
 from lat2db.model.bending import Bending
@@ -19,10 +20,7 @@ from lat2db.model.sextupole import Sextupole
 
 app = FastAPI()
 app.include_router(machine_controller.router, tags=["machines"], prefix="/machine")
-# use this if you want to write to the besy server
-# app.mongodb_client = MongoClient("mongodb://mongodb.bessy.de:27017/")
-# use this if you are writing to your local machine.
-app.mongodb_client = MongoClient("mongodb://localhost:27017/")
+app.mongodb_client = MongoClient(mongodb_url)
 app.database = app.mongodb_client["bessyii"]
 
 logger = logging.getLogger("tools")

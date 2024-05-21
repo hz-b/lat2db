@@ -14,9 +14,8 @@ from lat2db.model.cavity import Cavity, RFFieldHarmonic
 from lat2db.model.version import Version
 from lat2db.model.monitor import Monitor
 from lat2db.model.magnetic_element import MagneticElement
-from lat2db.model.magnetic_element import MultipoleCoefficients ,KickAngles
+from lat2db.model.magnetic_element import MultipoleCoefficients, KickAngles
 import uuid
-from dataclasses import fields
 
 from lat2db.tools.pyat.bessy2_export import bessy2Lattice
 
@@ -52,19 +51,15 @@ def insert_elements(ring, parent_id=None):
     index = 0
     quadrupole_data = {}  # Store Quadrupole data separately
     # Get all fields of the Quadrupole class
-    quadrupole_fields = [field.name for field in fields(Quadrupole)]
-    sextupole_fields = [field.name for field in fields(Sextupole)]
-    drift_fields = [field.name for field in fields(Drift)]
-
-    bending_fields = [field.name for field in fields(Bending)]
-    marker_fields = [field.name for field in fields(Marker)]
-    #todo: horizontalSteerer and verticle steerer are removed
-    #h_steerer_fields = [field.name for field in fields(HorizontalSteerer)]
-    #v_steerer_fields = [field.name for field in fields(VerticalSteerer)]
-    beamposition_fields = [field.name for field in fields(BeamPositionMonitor)]
-    cavity_fields = [field.name for field in fields(Cavity)]
-    version_fields = [field.name for field in fields(Version)]
-    monitor_fields = [field.name for field in fields(Monitor)]
+    quadrupole_fields = [*Quadrupole.__fields__]
+    sextupole_fields = [*Sextupole.__fields__]
+    drift_fields = [*Drift.__fields__]
+    bending_fields = [*Bending.__fields__]
+    marker_fields = [*Marker.__fields__]
+    beamposition_fields = [*BeamPositionMonitor.__fields__]
+    cavity_fields = [*Cavity.__fields__]
+    version_fields = [*Version.__fields__]
+    monitor_fields = [*Monitor.__fields__]
 
     for element in ring:
 
@@ -204,7 +199,7 @@ def insert_elements(ring, parent_id=None):
                 element_quad[field] = field_value
 
         if typename.lower() == "quadrupole":
-            #element_quad["main_multipole_strength"] = element_quad.pop("k", None)
+            # element_quad["main_multipole_strength"] = element_quad.pop("k", None)
             element_quad["passmethod"] = element_quad.pop("PassMethod")
             multipole_coefficients = MultipoleCoefficients()
             multipole_coefficients.normal_coefficients = [float(x) for x in element_quad.pop("PolynomB")]
@@ -225,7 +220,7 @@ def insert_elements(ring, parent_id=None):
             magnetic_element = MagneticElement(coeffs=multipole_coefficients,
                                                main_multipole_strength=element_quad.pop("k", None),
                                                main_multipole_index=None
-                                               #passmethod=element_sextupole.pop("PassMethod")
+                                               # passmethod=element_sextupole.pop("PassMethod")
 
                                                )
             magnetic_element_dict = {
@@ -258,14 +253,12 @@ def insert_elements(ring, parent_id=None):
 
         if typename.lower() == "sextupole":
 
-
             multipole_coefficients = MultipoleCoefficients()
             multipole_coefficients.normal_coefficients = [float(x) for x in element_sextupole.pop("PolynomB")]
             multipole_coefficients.skew_coefficients = [float(x) for x in element_sextupole.pop("PolynomA")]
 
             kickAngles = KickAngles()
             if "KickAngle" in element_sextupole:
-
                 float_array = [float(x) for x in element_sextupole.pop("KickAngle")]
 
             if len(float_array) >= 2:  # Ensure there are at least two values in the array
@@ -279,7 +272,7 @@ def insert_elements(ring, parent_id=None):
             magnetic_element = MagneticElement(coeffs=multipole_coefficients,
                                                main_multipole_strength=element_sextupole.pop("k", None),
                                                main_multipole_index=None
-                                               #passmethod=element_sextupole.pop("PassMethod")
+                                               # passmethod=element_sextupole.pop("PassMethod")
 
                                                )
             magnetic_element_dict = {
@@ -327,11 +320,11 @@ def insert_elements(ring, parent_id=None):
             multipole_coefficients.normal_coefficients = [float(x) for x in element_bending.pop("PolynomB")]
             multipole_coefficients.skew_coefficients = [float(x) for x in element_bending.pop("PolynomA")]
             magnetic_element = MagneticElement(coeffs=multipole_coefficients
-                                               #passmethod=element_bending.pop("PassMethod")
+                                               # passmethod=element_bending.pop("PassMethod")
 
                                                )
 
-            #element_bending["element_properties"] = magnetic_element
+            # element_bending["element_properties"] = magnetic_element
             element_bending["number_of_integration_steps"] = element_bending.pop("NumIntSteps", None)
             element_bending["name"] = element_bending.pop("FamName", None)
             element_bending["length"] = element_bending.pop("Length", None)
@@ -433,7 +426,7 @@ def insert_elements(ring, parent_id=None):
             magnetic_element = MagneticElement(coeffs=multipole_coefficients,
                                                main_multipole_strength=element_dipole.pop("k", None),
                                                main_multipole_index=None
-                                               #passmethod=element_sextupole.pop("PassMethod")
+                                               # passmethod=element_sextupole.pop("PassMethod")
 
                                                )
             magnetic_element_dict = {
@@ -589,8 +582,8 @@ def insert_elements(ring, parent_id=None):
                            # "bendings":bending_elements,
                            "bendings": dipole_elements,
                            "markers": marker_elements,
-                           #"horizontal_steerers": h_steerer_elements,
-                           #"vertical_steerers": v_steerer_elements,
+                           # "horizontal_steerers": h_steerer_elements,
+                           # "vertical_steerers": v_steerer_elements,
                            # "beam_position_monitors":beamposition_elements,
                            "beam_position_monitors": beamposition_elements,
                            "cavities": cavity_elements

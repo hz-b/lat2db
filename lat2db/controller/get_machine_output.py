@@ -20,10 +20,11 @@ def get_machine_as_json_from_db(machine_id: str):
     if (machine_id is None):
         machine = mongo_init['db']["machines"].find_one({})
         return machine
-    else:
+    elif(machine := mongo_init['db']["machines"].find_one({"id": str(machine_id)})) is not None:
+        return machine
+    else :
         machine = mongo_init['db']["machines"].find_one({"_id": ObjectId(machine_id)})
         return machine
-
 
 def get_machine_as_json(file_name):
     if (file_name is None):

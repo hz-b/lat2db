@@ -1,11 +1,11 @@
-from pydantic.dataclasses import dataclass
 from typing import Optional, Sequence
+
+from pydantic import BaseModel
 
 from lat2db.model.element import Element
 
 
-@dataclass
-class MultipoleCoefficients:
+class MultipoleCoefficients(BaseModel):
     normal_coefficients: Optional[Sequence[float]] = None
     skew_coefficients: Optional[Sequence[float]] = None
 
@@ -19,15 +19,15 @@ class MultipoleCoefficients:
     #         "skew_coefficients": self.skew_coefficients
     #     }
 
-@dataclass
-class MagneticElement:
+
+class MagneticElement(BaseModel):
     """Info what field a particular magnet component provides
     """
     #: todoo or coefficients
     coeffs: MultipoleCoefficients
     main_multipole_index: Optional[int] = None
     main_multipole_strength: Optional[float] = None
-    
+
     # def to_dict(self):
     #     return {
     #         "coeffs": self.coeffs.to_dict(),
@@ -36,7 +36,6 @@ class MagneticElement:
     #     }
 
 
-@dataclass
 class AddonCorrector(Element):
     """
     or better:
@@ -59,8 +58,7 @@ class AddonCorrector(Element):
     element_properties: Optional[MagneticElement] = None
 
 
-@dataclass
-class KickAngles:
+class KickAngles(BaseModel):
     """statisfy PyAT design flaws
 
     see if that could be part of the Element
@@ -81,15 +79,14 @@ class KickAngles:
     #
 
 
-@dataclass
-class MagnetAssembly:
+class MagnetAssembly(BaseModel):
     """does not need to be a single magnet, but can have extra magnets
 
     """
     magnetic_element: MagneticElement
     #: physisists often think of these corrector magnets
-    kickangle: Optional[KickAngles]=None
-    correctors: Optional[Sequence[AddonCorrector]]=None
+    kickangle: Optional[KickAngles] = None
+    correctors: Optional[Sequence[AddonCorrector]] = None
 
     # def __init__(self, magnetic_element, kickangle, correctors):
     #     self.magnetic_element = magnetic_element
@@ -102,5 +99,3 @@ class MagnetAssembly:
     #         "kickangle": self.kickangle.to_dict(),
     #         "correctors": self.correctors
     #     }
-
-    
