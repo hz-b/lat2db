@@ -45,11 +45,41 @@ def list_machines(request: Request):
 @router.get("/machine/{id}", response_description="Get a single machine by id", response_model=Machine)
 def find_a_machine(id: str, request: Request):
     if (machine := request.app.database["machines"].find_one({"id": str(id)})) is not None:
+        machine_data = request.app.database["machines"].find_one({"id": str(id)})
+        section_names = set()
+        for key, value in machine_data.items():
+            if isinstance(value, list):
+                for item in value:
+                    section_name = get_section_name(item['name'])
+                    if section_name:
+                        section_names.add(section_name)
+        print("Unique Section Names:", section_names)
+
+    
+        relevant_elements = []
+
+        for key, value in machine_data.items():
+            if isinstance(value, list):
+                for item in value:
+                    section_name = get_section_name(item['name'])
+                    if section_name == "D3":
+                        relevant_elements.append(item)
+           
+        
         return machine
     if (machine := request.app.database["machines"].find_one({"_id": ObjectId(id)})) is not None:
         return machine
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {id} not found")
 
+
+import re
+def get_section_name(element_name):
+    match = re.search(r'[DTKL][1-8]', element_name)
+    if match:
+        return match.group()
+    else:
+        return ""
+    
 
 # get all Quads
 @router.get("/machine/{id}/quad", response_description="Get machine quads by id", response_model=List[Quadrupole])
@@ -117,21 +147,15 @@ class Quadrupole_request_update(BaseModel):
 @router.put("/machine/{id}/quad/{quad_name}", response_description="Update a quadrupole's details")
 def update_quadrupole_details(id: str, quad_name: str, request_body: Quadrupole_request_update, request: Request):
     database: Collection = request.app.database["machines"]
-    print("pass id is  ", id)
     machine = database.find_one({"id": str(id)})
-    print("machien is ", machine)
     if machine:
-        print("Found machine with ID:", id)
         if "quadrupoles" in machine:
-            print("Quadrupoles field exists in the machine document")
             if "quadrupoles" in machine:
                 quadrupoles_list = machine.get("quadrupoles", [])
                 sequences_list = machine.get("sequences", [])
                 operations = None
                 difference = 0
-                print("######passed index is ", request_body.updated_data.index)
                 for quad_index, quad in enumerate(quadrupoles_list):
-                    print("quad indexis ", quad_index)
                     if quad.get("name") == request_body.updated_data.name:
                         quad_length = quad.get("length")
                         if float(quad_length) > float(request_body.updated_data.length):
@@ -156,7 +180,6 @@ def update_quadrupole_details(id: str, quad_name: str, request_body: Quadrupole_
                         if item.get("name") == request_body.updated_data.name and item.get("type") == "Quadrupole":
                             removed_quadrupole = sequences_list.pop(item_index)
                             # affected_drift=item.get("index")
-                            print("******* affected drif index is ", affected_drift)
                             sequences_list.insert(item_index, asdict(request_body.updated_data))
                             break
                     if affected_drift != "-1":
@@ -164,15 +187,11 @@ def update_quadrupole_details(id: str, quad_name: str, request_body: Quadrupole_
                             if int(item.get("index")) == int(affected_drift):
                                 if operations == "+":
                                     item["length"] = float(item.get("length")) + difference
-                                    print("drift length is in seq seq ", item["length"])
 
                                 else:
                                     item["length"] = float(item.get("length")) - difference
-                                    print("drift length is in seq seq ", item["length"])
 
                                 sequences_list[item_index] = item
-                                print("**** drift in the sequence is updated")
-                                # sequences_list.insert(item_index, asdict(request_body.updated_data))
                                 break
 
                 database.update_one({"id": str(id)}, {"$set": {"sequences": sequences_list}})
@@ -192,9 +211,9 @@ def update_quadrupole_details(id: str, quad_name: str, request_body: Quadrupole_
                             break
                     database.update_one({"id": str(id)}, {"$set": {"drifts": drift_list}})
 
-                    print("**** drift in the drift list is updated")
+                   
 
-                return JSONResponse(status_code=200, content={"message": f"Quadrupole updated"})
+                return JSONResponse(status_code=200, content={"data":machine.get("quadrupoles", [])})
 
 
 
@@ -386,7 +405,7 @@ def update_sextupole_details(id: str, sext_name: str, request_body: Sextupole_re
                     database.update_one({"id": str(id)}, {"$set": {"drifts": drift_list}})
                     print("**** drift in the drift list is updated")
 
-                return JSONResponse(status_code=200, content={"message": f"Sextupoles updated"})
+                return JSONResponse(status_code=200, content={"data":machine.get("sextupoles", [])})
 
 
 # update sextupole copy
@@ -572,22 +591,15 @@ class Marker_request_update(BaseModel):
 
 @router.put("/machine/{id}/marker/{marker_name}", response_description="Update a markers's details")
 def update_drift_details(id: str, marker_name: str, request_body: Marker_request_update, request: Request):
-    print("Inside the update function ")
     database: Collection = request.app.database["machines"]
-    print("pass id is  ", id)
     machine = database.find_one({"id": str(id)})
-    print("machien is ", machine)
     if machine:
-        print("Found machine with ID:", id)
         if "markers" in machine:
-            print("markers field exists in the machine document")
             if "markers" in machine:
                 marker_list = machine.get("markers", [])
                 operations = None
                 difference = 0
-                print("######passed index is ", request_body.updated_data.index)
                 for marker_index, marker in enumerate(marker_list):
-                    print("marker indexis ", marker_index)
                     if marker.get("name") == request_body.updated_data.name:
                         marker_length = marker.get("length")
                         if float(marker_length) > float(request_body.updated_data.length):
@@ -599,25 +611,10 @@ def update_drift_details(id: str, marker_name: str, request_body: Marker_request
 
                         removed_marker = marker_list.pop(marker_index)
                         update_data_dict = request_body.updated_data
-                        print("&&&&&&&& removed ", removed_marker)
-                        print("Type of update_data_dict:", type(request_body.updated_data))
-                        print("Attributes of update_data_dict:", dir(request_body.updated_data))
-
-                        print("^^^^^^^^^^^^ json converted", asdict(request_body.updated_data))
                         marker_list.insert(marker_index, asdict(request_body.updated_data))
-                        print("inserted.")
                         break
 
                 database.update_one({"id": str(id)}, {"$set": {"markers": marker_list}})
-                """ if request_body.affected_marker!="-1":
-                    for marker_index, marker in enumerate(marker_list):
-                        if int(marker.get("index")) == int(request_body.affected_marker):
-                            if operations == "+":
-                                marker["length"] = float(marker.get("length")) + difference
-                            else:
-                                marker["length"] = float(marker.get("length")) - difference
-
-                    database.update_one({"id": str( id)}, {"$set": {"markers": marker_list}}) """
                 if "sequences" in machine:
                     sequences_list = machine.get("sequences", [])
                     for item_index, item in enumerate(sequences_list):
@@ -650,22 +647,15 @@ class Monitor_request_update(BaseModel):
 
 @router.put("/machine/{id}/monitor/{monitor_name}", response_description="Update a monitor's details")
 def update_monitor_details(id: str, monitor_name: str, request_body: Monitor_request_update, request: Request):
-    print("Inside the update function ")
     database: Collection = request.app.database["machines"]
-    print("pass id is  ", id)
     machine = database.find_one({"id": str(id)})
-    print("machien is ", machine)
     if machine:
-        print("Found machine with ID:", id)
         if "beam_position_monitors" in machine:
-            print("markers field exists in the machine document")
             if "beam_position_monitors" in machine:
                 monitor_list = machine.get("beam_position_monitors", [])
                 operations = None
                 difference = 0
-                print("######passed index is ", request_body.updated_data.index)
                 for monitor_index, monitor in enumerate(monitor_list):
-                    print("monitor indexis ", monitor_index)
                     if monitor.get("name") == request_body.updated_data.name:
                         monitor_length = monitor.get("length")
                         if float(monitor_length) > float(request_body.updated_data.length):
@@ -677,25 +667,12 @@ def update_monitor_details(id: str, monitor_name: str, request_body: Monitor_req
 
                         removed_monitor = monitor_list.pop(monitor_index)
                         update_data_dict = request_body.updated_data
-                        print("&&&&&&&& removed ", removed_monitor)
-                        print("Type of update_data_dict:", type(request_body.updated_data))
-                        print("Attributes of update_data_dict:", dir(request_body.updated_data))
 
-                        print("^^^^^^^^^^^^ json converted", asdict(request_body.updated_data))
                         monitor_list.insert(monitor_index, asdict(request_body.updated_data))
-                        print("inserted.")
                         break
 
                 database.update_one({"id": str(id)}, {"$set": {"beam_position_monitors": monitor_list}})
-                """ if request_body.affected_monitor!="-1":
-                    for monitor_index, monitor in enumerate(monitor_list):
-                        if int(monitor.get("index")) == int(request_body.affected_monitor):
-                            if operations == "+":
-                                monitor["length"] = float(monitor.get("length")) + difference
-                            else:
-                                monitor["length"] = float(monitor.get("length")) - difference
-
-                    database.update_one({"id": str( id)}, {"$set": {"beam_position_monitors": monitor_list}}) """
+               
 
                 if "sequences" in machine:
                     sequences_list = machine.get("sequences", [])
@@ -711,7 +688,6 @@ def update_monitor_details(id: str, monitor_name: str, request_body: Monitor_req
 # get the relevenet quad detail from sequence lsit
 @router.get("/machine/{id}/get_quad_from_seq/{quad_name}", response_description="listing the quad from sequence")
 def get_quadrupole_details_from_sequence(id: str, quad_name: str, request: Request):
-    print("Inside the update function ")
 
     database: Collection = request.app.database[
         "machines"]  # Assuming sequence is a record in the "machines" collection
@@ -719,13 +695,11 @@ def get_quadrupole_details_from_sequence(id: str, quad_name: str, request: Reque
     machine = database.find_one({"id": str(id)})  # Find the machine record by ID
 
     if machine:
-        print("Found machine with ID:", id)
         sequences = machine.get("sequences", [])
         for sequence in sequences:
 
             if sequence["name"] == quad_name:  # Assuming sequence name is the same as the quadrupole name
 
-                print("Sequence found with name:", quad_name)
                 return sequence
 
     raise HTTPException(status_code=404,
@@ -734,27 +708,22 @@ def get_quadrupole_details_from_sequence(id: str, quad_name: str, request: Reque
 
 @router.put("/machine/{id}/update_quad_from_seq/{quad_name}", response_description="Update a quadrupole from sequence")
 def update_quadrupole_from_sequence(id: str, target_drift: str, quad_name: str, update_data: dict, request: Request):
-    print("Inside the update function ")
     database: Collection = request.app.database["machines"]
 
     machine = database.find_one({"id": str(id)})  # Find the machine id
     if machine:
-        print("Found machine with ID:", id)
         sequences = machine.get("sequences", [])
         is_sequence_update = False
         is_quad_updated = False
         for sequence in sequences:
             if str(sequence["index"]) == target_drift and sequence["type"] == "Drift":
-                print("inside the drift")
                 try:
                     get_qud_prev = database.find_one(
                         {"id": str(id), "sequences": {"$elemMatch": {"name": quad_name, "type": "Quadrupole"}}},
                         projection={"sequences.$": 1}
                     )
 
-                    print("--object of qud for the previous value ", get_qud_prev)
                     if get_qud_prev["sequences"][0]["length"] > update_data["length"]:
-                        print("target drift", target_drift)
                         drift_value = database.find_one(
                             {"id": str(id),
                              "sequences": {"$elemMatch": {"index": int(target_drift), "type": "Drift"}}},
@@ -763,19 +732,14 @@ def update_quadrupole_from_sequence(id: str, target_drift: str, quad_name: str, 
                         drift_object = drift_value["sequences"][0]
 
                         prev_value_drift_length = drift_object.get("length", "Length not found")
-                        print("----prev drift va", prev_value_drift_length)
-                        print("------prev of quad is ", get_qud_prev["sequences"][0]["length"])
-                        print("----new valu of qud is ", update_data["length"])
                         update_drift_value = prev_value_drift_length + (
                                 get_qud_prev["sequences"][0].get("length", 0) - update_data.get("length", 0))
-                        print("updated -------drfit val", update_drift_value)
-                        print("updated drift new value is  ", update_drift_value)
+                      
                         result = database.update_one(
                             {"id": str(id)},
                             {"$set": {"sequences.$[element].length": update_drift_value}},
                             array_filters=[{"element.index": int(target_drift), "element.type": "Drift"}]
                         )
-                        print("updated--------")
 
                     else:
                         drift_value = database.find_one(
@@ -786,11 +750,9 @@ def update_quadrupole_from_sequence(id: str, target_drift: str, quad_name: str, 
 
                         drift_object = drift_value["sequences"][0]
                         prev_value_drift_length = drift_object.get("length", "Length not found")
-                        print("prev value of dirf------", prev_value_drift_length)
-                        print("new value of qud-", get_qud_prev["sequences"][0]["length"])
+                     
                         update_drift_value = prev_value_drift_length - (
                                 update_data.get("length", 0) - get_qud_prev["sequences"][0].get("length", 0))
-                        print("new vlaue of drift is ", update_drift_value)
                         result = database.update_one(
                             {"id": str(id)},
                             {"$set": {"sequences.$[element].length": update_drift_value}},
@@ -807,7 +769,6 @@ def update_quadrupole_from_sequence(id: str, target_drift: str, quad_name: str, 
 
         for sequence in sequences:
             if sequence["name"] == quad_name:
-                print("Sequence found with name:", quad_name)
                 database.update_one(
                     {"id": str(id), "sequences.name": quad_name},
                     {"$set": {"sequences.$": update_data}}
@@ -817,7 +778,6 @@ def update_quadrupole_from_sequence(id: str, target_drift: str, quad_name: str, 
                     {"id": str(id), "quadrupoles.name": quad_name},
                     {"$set": {f"quadrupoles.$": update_data}}
                 )
-                print("Quadrupole details updated successfully")
                 is_quad_updated = True
                 return {"message": "Quadrupole and sequence updated successfully"}
 
@@ -829,3 +789,44 @@ def update_quadrupole_from_sequence(id: str, target_drift: str, quad_name: str, 
                                 detail=f"Sequence with target drift {target_drift} not found in the sequence collection")
     else:
         raise HTTPException(status_code=404, detail=f"Machine with ID {id} not found")
+
+
+@router.get("/machine/{id}/groups", response_description="Get machine groups", response_model=List[str])
+def find_groups_in_machine(id: str, request: Request):
+    machine = request.app.database["machines"].find_one({"id": str(id)})
+    if machine is not None:
+        section_names = set()
+        for key, value in machine.items():
+            if isinstance(value, list):
+                for item in value:
+                    section_name = get_section_name(item['name'])
+                    if section_name:
+                        section_names.add(section_name)
+        
+        if section_names:
+            return list(section_names)
+    
+    raise HTTPException(status_code=404, detail="There is no group in the collections")
+
+@router.get("/machine/{id}/relevant_elements/groups/{section_name}", response_description="Get relevant elements from groups", response_model=List[dict])
+def find_elements_in_groups(id: str, section_name: str, request: Request):
+    machine = request.app.database["machines"].find_one({"id": id})
+    if machine is not None:
+        relevant_elements = []
+
+        for key, value in machine.items():
+            if isinstance(value, list):
+                for item in value:
+                    item_section_name = get_section_name(item['name'])
+                    if item_section_name == section_name:
+                        relevant_elements.append(item)  
+
+        if relevant_elements:
+            return relevant_elements
+    
+    raise HTTPException(status_code=404, detail="There is no element in the section")
+
+    
+
+        
+    

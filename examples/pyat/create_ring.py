@@ -1,8 +1,9 @@
 import at
-
+import sys
+sys.path.append('/Users/safiullahomar/lattice/lat2db test')
 from lat2db.model.accelerator import Accelerator
 
-acc = Accelerator(from_json=True) # create accelerator
+acc = Accelerator("662886ff4e40b9b6fecdcb34") # create accelerator
 """
 @INFO: Read it to Understand it:
    create accelerator from 
@@ -25,6 +26,7 @@ acc = Accelerator(from_json=True) # create accelerator
 # if no arguments provided then it will get the first lattice from the database if there are more then one.
 
 element_coordinate = acc.machine.retrieve_element_coordinate("Q5M1T1R") #examine and see what is available in element coordinate
+
 filter_res_h = acc.machine.filter_element_by_tags("quadrupoles",["Q2"]) # this will filter all quads with tags Q2
 # todo: ask me what does filter by tags mean we can expand the filters
 filter_res_v = acc.machine.filter_element_by_tags("sextupoles",["V"])
