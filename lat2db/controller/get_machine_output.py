@@ -1,12 +1,25 @@
+import logging
 import json
+import os
 from typing import List, Dict
 
 import jsons
 from bson import ObjectId
 from pymongo import MongoClient
 
-from lat2db import mongodb_url
 from lat2db.model.machine import Machine
+
+logger = logging.getLogger('lat2db')
+
+try:
+    mongodb_url = os.environ["MONGODB_URL"]
+except KeyError:
+    from lat2db import mongodb_url
+
+    logger.info(
+        'Environment variable MONGODB_URL is not defined, using default %s',  mongodb_url
+    )
+
 
 mongo_init = {'client': MongoClient(mongodb_url), 'db': MongoClient(mongodb_url)['bessyii']}
 
