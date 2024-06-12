@@ -1,4 +1,4 @@
-from dataclasses import asdict
+from dataclasses import asdict,is_dataclass
 from typing import List, Dict
 
 import uuid
@@ -122,6 +122,11 @@ def update_quadrupole_details(id: str, quad_name: str, request_body: Quadrupole_
     database: Collection = request.app.database["machines"]
     print("pass id is  ", id)
     machine = database.find_one({"id": str(id)})
+    update_data_dict = request_body.updated_data
+    if is_dataclass(request_body.updated_data):
+        update_data_dict = asdict(request_body.updated_data)
+    else:
+        update_data_dict = request_body.updated_data.dict()
     print("machien is ", machine)
     if machine:
         print("Found machine with ID:", id)
@@ -145,9 +150,9 @@ def update_quadrupole_details(id: str, quad_name: str, request_body: Quadrupole_
                             difference = float(request_body.updated_data.length) - float(quad_length)
 
                         removed_quadrupole = quadrupoles_list.pop(quad_index)
-                        update_data_dict = request_body.updated_data
+                       
 
-                        quadrupoles_list.insert(quad_index, asdict(request_body.updated_data))
+                        quadrupoles_list.insert(quad_index, update_data_dict)
                         break
 
                 database.update_one({"id": str(id)}, {"$set": {"quadrupoles": quadrupoles_list}})
@@ -160,7 +165,7 @@ def update_quadrupole_details(id: str, quad_name: str, request_body: Quadrupole_
                             removed_quadrupole = sequences_list.pop(item_index)
                             # affected_drift=item.get("index")
                             print("******* affected drif index is ", affected_drift)
-                            sequences_list.insert(item_index, asdict(request_body.updated_data))
+                            sequences_list.insert(item_index, update_data_dict)
                             break
                     if affected_drift != "-1":
                         for item_index, item in enumerate(sequences_list):
@@ -235,10 +240,15 @@ def update_quadrupole_details_copy(id: str, quad_name: str, request_body: Quadru
     print("pass id is  ", id)
     machine = database.find_one({"id": str(id)})
     print("machien is ", machine)
+    update_data_dict = request_body.updated_data
+    if is_dataclass(request_body.updated_data):
+        update_data_dict = asdict(request_body.updated_data)
+    else:
+        update_data_dict = request_body.updated_data.dict()
     if machine:
 
         # machine_copy = deepcopy(machine)
-        # pre_id = machine_copy.pop("id")
+        pre_id = machine_copy.pop("id")
         # current_date_time = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
         # pre_id=f"{pre_id}-{current_date_time}"
         # machine_copy["id"] =pre_id
@@ -276,10 +286,8 @@ def update_quadrupole_details_copy(id: str, quad_name: str, request_body: Quadru
                             operations = "-"
                             difference = float(request_body.updated_data.length) - float(quad_length)
 
-                        removed_quadrupole = quadrupoles_list.pop(quad_index)
-                        update_data_dict = request_body.updated_data
-
-                        quadrupoles_list.insert(quad_index, asdict(request_body.updated_data))
+                        
+                        quadrupoles_list.insert(quad_index, update_data_dict)
                         break
 
                 
@@ -293,7 +301,7 @@ def update_quadrupole_details_copy(id: str, quad_name: str, request_body: Quadru
                             removed_quadrupole = sequences_list.pop(item_index)
                             # affected_drift=item.get("index")
                             print("******* affected drif index is ", affected_drift)
-                            sequences_list.insert(item_index, asdict(request_body.updated_data))
+                            sequences_list.insert(item_index, update_data_dict)
                             break
                     if affected_drift != "-1":
                         for item_index, item in enumerate(sequences_list):
@@ -358,6 +366,11 @@ def update_sextupole_details(id: str, sext_name: str, request_body: Sextupole_re
     database: Collection = request.app.database["machines"]
     print("pass id is  ", id)
     machine = database.find_one({"id": str(id)})
+    update_data_dict = request_body.updated_data
+    if is_dataclass(request_body.updated_data):
+        update_data_dict = asdict(request_body.updated_data)
+    else:
+        update_data_dict = request_body.updated_data.dict()
     print("machien is ", machine)
     if machine:
         print("Found machine with ID:", id)
@@ -367,6 +380,7 @@ def update_sextupole_details(id: str, sext_name: str, request_body: Sextupole_re
                 sextupole_list = machine.get("sextupoles", [])
                 operations = None
                 difference = 0
+
                 print("######passed index is ", request_body.updated_data.index)
                 for sext_index, sext in enumerate(sextupole_list):
                     print("sext indexis ", sext_index)
@@ -380,9 +394,9 @@ def update_sextupole_details(id: str, sext_name: str, request_body: Sextupole_re
                             difference = float(request_body.updated_data.length) - float(sext_length)
 
                         removed_sextupoles = sextupole_list.pop(sext_index)
-                        update_data_dict = request_body.updated_data
+                      
 
-                        sextupole_list.insert(sext_index, asdict(request_body.updated_data))
+                        sextupole_list.insert(sext_index, update_data_dict)
                         print("inserted.")
                         break
 
@@ -394,7 +408,7 @@ def update_sextupole_details(id: str, sext_name: str, request_body: Sextupole_re
                     for item_index, item in enumerate(sequences_list):
                         if item.get("name") == request_body.updated_data.name and item.get("type") == "Sextupole":
                             removed_sextupole = sequences_list.pop(item_index)
-                            sequences_list.insert(item_index, asdict(request_body.updated_data))
+                            sequences_list.insert(item_index, update_data_dict)
                             break
                     if affected_drift != "-1":
                         for item_index, item in enumerate(sequences_list):
@@ -440,6 +454,11 @@ def update_sextupole_details_copy(id: str, sext_name: str, request_body: Sextupo
     print("pass id is  ", id)
     machine = database.find_one({"id": str(id)})
     print("machien is ", machine)
+    update_data_dict = request_body.updated_data
+    if is_dataclass(request_body.updated_data):
+        update_data_dict = asdict(request_body.updated_data)
+    else:
+        update_data_dict = request_body.updated_data.dict()
     if machine:
         machine_copy = deepcopy(machine)
         pre_id = machine_copy.pop("id")
@@ -469,9 +488,9 @@ def update_sextupole_details_copy(id: str, sext_name: str, request_body: Sextupo
                             difference = float(request_body.updated_data.length) - float(sext_length)
 
                         removed_sextupoles = sextupole_list.pop(sext_index)
-                        update_data_dict = request_body.updated_data
+                        
 
-                        sextupole_list.insert(sext_index, asdict(request_body.updated_data))
+                        sextupole_list.insert(sext_index, update_data_dict)
                         print("inserted.")
                         break
 
@@ -483,7 +502,7 @@ def update_sextupole_details_copy(id: str, sext_name: str, request_body: Sextupo
                     for item_index, item in enumerate(sequences_list):
                         if item.get("name") == request_body.updated_data.name and item.get("type") == "Sextupole":
                             removed_sextupole = sequences_list.pop(item_index)
-                            sequences_list.insert(item_index, asdict(request_body.updated_data))
+                            sequences_list.insert(item_index, update_data_dict)
                             break
                     if affected_drift != "-1":
                         for item_index, item in enumerate(sequences_list):
