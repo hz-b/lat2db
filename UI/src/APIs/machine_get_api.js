@@ -3,7 +3,7 @@ const baseurl='http://127.0.0.1:8000'
 export const fetchMachines = async () => {
 
   try {
-    const response = await axios.get(`/machine/machine`);
+    const response = await axios.get(`${baseurl}/machine/machine`);
     console.log("response:", response.data)
     return response.data;
   } catch (error) {
@@ -15,7 +15,7 @@ export const fetchMachines = async () => {
 // get all quads
 export const fetchQuadrupoles = async (machineId) => {
   try {
-    const response = await axios.get(`/machine/machine/${machineId}/quad`);
+    const response = await axios.get(`${baseurl}/machine/machine/${machineId}/quad`);
     return response.data;
   } catch (error) {
     console.error('Error fetching quadrupoles:', error);
@@ -26,7 +26,7 @@ export const fetchQuadrupoles = async (machineId) => {
 //get all sextupoles
 export const fetchSextupoles = async (machineId) => {
   try {
-    const response = await axios.get(`/machine/machine/${machineId}/sextupole`);
+    const response = await axios.get(`${baseurl}/machine/machine/${machineId}/sextupole`);
     return response.data;
   } catch (error) {
     console.error('Error fetching sextupoles:', error);
@@ -120,7 +120,7 @@ export const updateSextupole = async (machineId, SextName, affected_sext, formDa
     console.log("updated object for submission is ",updated_data)
     let response;
     if (option_with_copy === 0) {
-     response = await axios.put(`/machine/machine/${machineId}/sext/${SextName}`,
+     response = await axios.put(`${baseurl}/machine/machine/${machineId}/sext/${SextName}`,
       {
         affected_drift: affected_sext === "" ? "-1" : affected_sext,
         updated_data: updated_data
@@ -128,7 +128,7 @@ export const updateSextupole = async (machineId, SextName, affected_sext, formDa
     }
     else {
 
-      response = await axios.put(`/machine/machine/${machineId}/sext_copy/${SextName}`,
+      response = await axios.put(`${baseurl}/machine/machine/${machineId}/sext_copy/${SextName}`,
       {
         affected_drift: affected_sext === "" ? "-1" : affected_sext,
         updated_data: updated_data
@@ -146,7 +146,7 @@ export const updateSextupole = async (machineId, SextName, affected_sext, formDa
 //get all drifts
 export const fetchDrifts = async (machineId) => {
   try {
-    const response = await axios.get(`/machine/machine/${machineId}/drifts`);
+    const response = await axios.get(`${baseurl}/machine/machine/${machineId}/drifts`);
     return response.data;
   } catch (error) {
     console.error('Error fetching drifts:', error);
@@ -168,7 +168,7 @@ export const updateDrifts = async (machineId, DriftName, affected_drift, formDat
       "length": formData.updateLength
     };
     console.log("updated object for submission is ",updated_data)
-    const response = await axios.put(`/machine/machine/${machineId}/drift/${DriftName}`,
+    const response = await axios.put(`${baseurl}/machine/machine/${machineId}/drift/${DriftName}`,
     {
       affected_drift: affected_drift === "" ? "-1" : affected_drift,
       updated_data: updated_data
@@ -183,7 +183,7 @@ export const updateDrifts = async (machineId, DriftName, affected_drift, formDat
 //get all markers
 export const fetchMarkers = async (machineId) => {
   try {
-    const response = await axios.get(`/machine/machine/${machineId}/markers`);
+    const response = await axios.get(`${baseurl}/machine/machine/${machineId}/markers`);
     return response.data;
   } catch (error) {
     console.error('Error fetching markers:', error);
@@ -243,7 +243,7 @@ export const updateMonitors = async (machineId, MonitorName, affected_monitor, f
       "length": formData.updateLength
     };
     console.log("updated object for submission is ",updated_data)
-    const response = await axios.put(`/machine/machine/${machineId}/monitor/${MonitorName}`,
+    const response = await axios.put(`${baseurl}/machine/machine/${machineId}/monitor/${MonitorName}`,
     {
       affected_monitor: affected_monitor === "" ? "-1" : affected_monitor,
       updated_data: updated_data
@@ -259,7 +259,7 @@ export const updateMonitors = async (machineId, MonitorName, affected_monitor, f
 
 export const get_quad_from_seq = async (machineId, quadName, updatedData) => {
   try {
-    const response = await axios.put(`/machine/${machineId}/quad/${quadName}`, updatedData);
+    const response = await axios.put(`${baseurl}/machine/${machineId}/quad/${quadName}`, updatedData);
     return response.data;
   } catch (error) {
     console.error('Error updating quadrupole:', error);
@@ -273,7 +273,7 @@ export const get_quad_from_seq = async (machineId, quadName, updatedData) => {
 
 export const fetchMachineGroups = async (machineId) => {
   try {
-    const response = await axios.get(`/machine/machine/${machineId}/groups`);
+    const response = await axios.get(`${baseurl}/machine/machine/${machineId}/groups`);
     return response.data;
     
   } catch (error) {
@@ -290,7 +290,7 @@ export const fetchMachineGroupElements = async (id,section_name) => {
   try {
     console.log("passes id ",id)
     console.log("passes id ",section_name)
-    const response = await axios.get(`/machine/machine/${id}/relevant_elements/groups/${section_name}`);
+    const response = await axios.get(`${baseurl}/machine/machine/${id}/relevant_elements/groups/${section_name}`);
     return response.data;
     
   } catch (error) {
@@ -298,4 +298,35 @@ export const fetchMachineGroupElements = async (id,section_name) => {
     throw error;
   }
 };
+
+
+// fetch sunburst data
+
+
+export const fetchMachineSunBurstData = async (id) => {
+  try {
+    const response = await axios.get(`${baseurl}/machine/machine/${id}/sunburst/`);
+    console.log("the retureded sun burst data is ",response)
+    return response.data;
+    
+  } catch (error) {
+    console.error('Error fetching quadrupoles:', error);
+    throw error;
+  }
+};
+
+// get children of the charts
+
+
+export const fetchMachineSunBurstParentChildren = async (id, section, elementType) => {
+  try {
+    const response = await axios.get(`${baseurl}/machine/machine/${id}/sunburst_children?section=${section}&element_type=${elementType}`);
+      return response.data;
+    
+  } catch (error) {
+    console.error('Error fetching quadrupoles:', error);
+    throw error;
+  }
+};
+
 

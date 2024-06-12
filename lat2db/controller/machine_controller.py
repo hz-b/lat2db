@@ -1,4 +1,4 @@
-from dataclasses import asdict
+from dataclasses import asdict,is_dataclass
 from typing import List, Dict
 
 import uuid
@@ -170,8 +170,11 @@ def update_quadrupole_details(id: str, quad_name: str, request_body: Quadrupole_
 
                         removed_quadrupole = quadrupoles_list.pop(quad_index)
                         update_data_dict = request_body.updated_data
-
-                        quadrupoles_list.insert(quad_index, asdict(request_body.updated_data))
+                        if is_dataclass(request_body.updated_data):
+                            update_data_dict = asdict(request_body.updated_data)
+                        else:
+                            update_data_dict = request_body.updated_data.dict()
+                        quadrupoles_list.insert(quad_index, update_data_dict)
                         break
 
                 database.update_one({"id": str(id)}, {"$set": {"quadrupoles": quadrupoles_list}})
@@ -183,7 +186,11 @@ def update_quadrupole_details(id: str, quad_name: str, request_body: Quadrupole_
                         if item.get("name") == request_body.updated_data.name and item.get("type") == "Quadrupole":
                             removed_quadrupole = sequences_list.pop(item_index)
                             # affected_drift=item.get("index")
-                            sequences_list.insert(item_index, asdict(request_body.updated_data))
+                            if is_dataclass(request_body.updated_data):
+                                update_data_dict = asdict(request_body.updated_data)
+                            else:
+                                update_data_dict = request_body.updated_data.dict()
+                            sequences_list.insert(item_index, update_data_dict)
                             break
                     if affected_drift != "-1":
                         for item_index, item in enumerate(sequences_list):
@@ -839,8 +846,12 @@ def find_groups_in_machine(id: str, request: Request):
     if machine is not None:
         section_names = set()
         for key, value in machine.items():
+            
+            count=0
             if isinstance(value, list):
                 for item in value:
+                    if count<50:
+                        count=count+1
                     section_name = get_section_name(item['name'])
                     if section_name:
                         section_names.add(section_name)
@@ -850,12 +861,88 @@ def find_groups_in_machine(id: str, request: Request):
     
     raise HTTPException(status_code=404, detail="There is no group in the collections")
 
+
+
+@router.get("/machine/{id}/sunburst", response_description="Get machine burst data")
+def create_sunburst_in_machine(id: str, request: Request):
+    machine = request.app.database["machines"].find_one({"id": str(id)})
+    if machine is not None:
+        section_dict = {}
+        for key, value in machine.items():
+            if isinstance(value, list):
+                for item in value:
+                    section_name = get_section_name(item['name'])
+                    element_type=item['type']
+                    if section_name:
+                        if section_name not in section_dict:
+                            section_dict[section_name] = {}
+                        if element_type not in section_dict[section_name]:
+                            section_dict[section_name][element_type]=[]
+                        section_dict[section_name][element_type].append(item)
+
+        data = {
+            "name": "root",
+            "children": [
+                {
+                    "name": section,
+                    "children": [
+                        {
+                            "name": element_type,
+                            "value":1
+                        }
+                        for element_type, items in element_types.items()
+                    ]
+                }
+                for section, element_types in section_dict.items()
+            ]
+        }
+
+        return data
+    
+    raise HTTPException(status_code=404, detail="There is no group in the collections")
+
+
+@router.get("/machine/{id}/sunburst_children", response_description="Get burst children from chart")
+@router.get("/machine/{id}/sunburst_children", response_description="Get burst children from chart")
+def fetch_sunburst_children_in_machine(id: str, section: str, element_type: str, request: Request):
+    machine = request.app.database["machines"].find_one({"id": str(id)})
+    if machine is not None:
+        section_dict = {}
+        for key, value in machine.items():
+            if isinstance(value, list):
+                for item in value:
+                    section_name = get_section_name(item['name'])
+                    etype = item['type']
+                    if section_name:
+                        if section_name not in section_dict:
+                            section_dict[section_name] = {}
+                        if etype not in section_dict[section_name]:
+                            section_dict[section_name][etype] = []
+                        section_dict[section_name][etype].append(item)
+
+        if section in section_dict and element_type in section_dict[section]:
+            children = section_dict[section][element_type]
+            # Convert children data to hierarchical format with section name as root
+            hierarchical_data = {
+                "name": element_type,
+                "children": []
+            }
+            for child in children:
+                hierarchical_data["children"].append({
+                    "name": child["name"],
+                    "index":child["index"],
+                    "value":1
+                })
+            return hierarchical_data
+
+    raise HTTPException(status_code=404, detail="Machine not found")
+
+
 @router.get("/machine/{id}/relevant_elements/groups/{section_name}", response_description="Get relevant elements from groups", response_model=List[dict])
 def find_elements_in_groups(id: str, section_name: str, request: Request):
     machine = request.app.database["machines"].find_one({"id": id})
     if machine is not None:
         relevant_elements = []
-
         for key, value in machine.items():
             if isinstance(value, list):
                 for item in value:

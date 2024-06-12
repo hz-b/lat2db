@@ -15,13 +15,15 @@ import {
   get_quad_from_seq,
   fetchMachineGroups,
   fetchMachineGroupElements,
-  updateSextupole
+  updateSextupole, fetchMachineSunBurstData, fetchMachineSunBurstParentChildren
 } from "../APIs/machine_get_api";
 import $ from "jquery";
 import "select2/dist/js/select2.min.js";
 import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
+import SunburstChart from "./SunburstChart";
+import SunburstSubChart from "./SunburstSubChart;";
 
 const MyComponent = () => {
   const [machines, setMachines] = useState([]);
@@ -65,12 +67,42 @@ const MyComponent = () => {
   const [showModal, setShowModal] = useState(false);
   const [groups, setGroups] = useState([]);
 
+  const [sunBurst, setSunBurst] = useState({});
+  const [subsunBurst, setSubSunBurst] = useState({});
+  const [subsunBurstData, setSubSunBurstData] = useState({
+    section: '',
+    type: ''
+  });
+
+
+  const data = {
+    "name": "root",
+    "children": [
+      {
+        "name": "A",
+        "children": [
+          { "name": "A1", "value": 100 },
+          { "name": "A2", "value": 50 }
+        ]
+      },
+      {
+        "name": "B",
+        "children": [
+          { "name": "B1", "value": 70 },
+          { "name": "B2", "value": 30 }
+        ]
+      }
+    ]
+  };
+
+
   useEffect(() => {
     // Fetch machines on component mount
     const fetchMachines_func = async () => {
       try {
         const machinesData = await fetchMachines();
         setMachines(machinesData);
+        console.log("machind data is ", machinesData)
       } catch (error) {
         console.error("Error fetching machines:", error);
       }
@@ -81,6 +113,7 @@ const MyComponent = () => {
 
 
   const handleMachingeddlChange = (event) => {
+
     let selectedMachineId;
     if (typeof event === "string") {
       selectedMachineId = event;
@@ -90,6 +123,7 @@ const MyComponent = () => {
       selectedMachineId = event.target.value.toString();
       setSelectedMachine(selectedMachineId);
     }
+
     const fetchMahchineGroups = async (selectedMachine) => {
       try {
         const groupData = await fetchMachineGroups(selectedMachineId);
@@ -101,27 +135,45 @@ const MyComponent = () => {
 
     }
 
+
+    const fetchSubBurstData = async (selectedMachine) => {
+      try {
+        const groupData = await fetchMachineSunBurstData(selectedMachineId);
+        console.log("gr oups are ", groupData)
+
+        setSunBurst(groupData)
+
+      } catch (error) {
+        console.error("Error fetching quadrupoles:", error);
+      }
+
+    }
+
     fetchMahchineGroups(selectedMachineId);
+    fetchSubBurstData(selectedMachineId);
+
+
+
 
   }
 
-  const handleDDLGroupChange = (event) => { 
+  const handleDDLGroupChange = (event) => {
 
 
-    const fetchQuadrupoles_func = async (MachineId,event) => {
+    const fetchQuadrupoles_func = async (MachineId, event) => {
       try {
-        const quadrupolesData = await fetchMachineGroupElements(MachineId,event);
+        const quadrupolesData = await fetchMachineGroupElements(MachineId, event);
         console.log("the quad details are ...", quadrupolesData)
-        
+
         setQuadrupoles(quadrupolesData);
 
-       // setQuadrupolesFetched(true);
+        // setQuadrupolesFetched(true);
       } catch (error) {
         console.error("Error fetching quadrupoles:", error);
       }
     };
 
-    fetchQuadrupoles_func(selectedMachine,event.target.value)
+    fetchQuadrupoles_func(selectedMachine, event.target.value)
 
     // why the set state is not called 
     // console.log("wainting for the machine id ", selectedMachineId)
@@ -149,15 +201,15 @@ const MyComponent = () => {
     // } 
     // else {
     //   if (event != "") {
-        const selectedQuadIndex = event.target.value;
-        console.log("the selected index is after quad update",selectedQuadIndex)
-        quadDetails = quadrupoles.find(
-          (quad) => quad.index === parseInt(selectedQuadIndex)
-        );
-        
-        console.log("quaddetailsare",quadrupoles)
-        setSelectedQuad(quadDetails);
-     // }
+    const selectedQuadIndex = event.target.value;
+    console.log("the selected index is after quad update", selectedQuadIndex)
+    quadDetails = quadrupoles.find(
+      (quad) => quad.index === parseInt(selectedQuadIndex)
+    );
+
+    console.log("quaddetailsare", quadrupoles)
+    setSelectedQuad(quadDetails);
+    // }
     //}
 
 
@@ -197,19 +249,19 @@ const MyComponent = () => {
       setFormData({
         updateLength: selectedQuad.length?.toString() || '',
         updateCorrector: selectedQuad.element_configuration?.correctors?.toString() || '',
-    
+
         updateKickangleX: selectedQuad.element_configuration?.kickangle?.x?.toString() || '0',
         updateKickangleY: selectedQuad.element_configuration?.kickangle?.y?.toString() || '0',
-    
+
         updatesnormal_coefficients: selectedQuad.element_configuration?.magnetic_element?.coeffs?.normal_coefficients?.toString() || '0',
-    
+
         updateskew_coefficients: selectedQuad.element_configuration?.magnetic_element?.coeffs?.skew_coefficients?.toString() || '0',
-    
+
         updateMainMultipoleIndex: selectedQuad.element_configuration?.magnetic_element?.main_multipole_index?.toString() || '0',
         updateMainMultipoleStrenght: selectedQuad.element_configuration?.magnetic_element?.main_multipole_strength?.toString() || '0',
         passMethod: selectedQuad.passmethod?.toString() || '',
         tags: selectedQuad.tags?.toString() || '',
-    
+
         index: selectedQuad.index?.toString() || '',
         name: selectedQuad.name?.toString() || ''
       });
@@ -246,19 +298,19 @@ const MyComponent = () => {
       //console.log("update data is  ", formData)
       //setQuadrupolesFetched(false);
 
-      try { 
+      try {
         var newQuads;
-        if(selectedQuad.type=="Quadrupole"){
-           newQuads=await updateQuadrupole(
+        if (selectedQuad.type == "Quadrupole") {
+          newQuads = await updateQuadrupole(
             selectedMachine,
             selectedQuad.name,
             selected_drift_RadioOption,
             formData,
             0
           );
-        }else if(selectedQuad.type=="Sextupole"){
+        } else if (selectedQuad.type == "Sextupole") {
 
-           newQuads=await updateSextupole(
+          newQuads = await updateSextupole(
             selectedMachine,
             selectedQuad.name,
             selected_drift_RadioOption,
@@ -266,16 +318,16 @@ const MyComponent = () => {
             0
           );
         }
-       
+
 
         var quadDetails = newQuads.data.find(
           (quad) => quad.index === parseInt(selectedQuad.index)
         );
-        if(newQuads){
+        if (newQuads) {
           setSelectedQuad(quadDetails);
         }
-        
-        
+
+
         //handleMachineChange(selectedMachine)
         //console.log('1')
         //handleDDLGroupChange(selectedMachine)
@@ -283,15 +335,15 @@ const MyComponent = () => {
         //setQuadrupoles(await fetchQuadrupoles(selectedMachine));
         //if (quadrupolesFetched) {
         //  console.log('3........')
-          ///handleQuadChange(selectedQuad ? selectedQuad.index : "")
+        ///handleQuadChange(selectedQuad ? selectedQuad.index : "")
         //  console.log("Quadrupole updated successfully");
-          toggleModal();
+        toggleModal();
 
-          Swal.fire({
-            icon: "success",
-            title: "Quadrupole Updated",
-            text: "The quadrupole parameters have been successfully updated.",
-          });
+        Swal.fire({
+          icon: "success",
+          title: "Quadrupole Updated",
+          text: "The quadrupole parameters have been successfully updated.",
+        });
         //}
       } catch (error) {
         console.error("Error updating quadrupole:", error);
@@ -325,7 +377,7 @@ const MyComponent = () => {
 
       try {
 
-        if(selectedQuad.type=="Quadrupole"){
+        if (selectedQuad.type == "Quadrupole") {
           await updateQuadrupole(
             selectedMachine,
             selectedQuad.name,
@@ -333,9 +385,9 @@ const MyComponent = () => {
             formData,
             1
           );
-        }else if(selectedQuad.type=="Quadrupole"){
+        } else if (selectedQuad.type == "Quadrupole") {
 
-          const newQuads=await updateSextupole(
+          const newQuads = await updateSextupole(
             selectedMachine,
             selectedQuad.name,
             selected_drift_RadioOption,
@@ -343,7 +395,7 @@ const MyComponent = () => {
             1
           );
         }
-      
+
 
         // var quadDetails = newQuads.data.find(
         //   (quad) => quad.index === parseInt(selectedQuad.index)
@@ -356,16 +408,16 @@ const MyComponent = () => {
         //handleMachineChange(selectedMachine)
         //setQuadrupoles(await fetchQuadrupoles(selectedMachine));
         //console.log("valeu are.... ", selectedQuad ? selectedQuad.index : "")
-       // if (quadrupolesFetched) {
+        // if (quadrupolesFetched) {
         //  handleQuadChange(selectedQuad ? selectedQuad.index : "")
         //  console.log("Quadrupole updated successfully");
-          toggleModal();
+        toggleModal();
 
-          Swal.fire({
-            icon: "success",
-            title: "Quadrupole updation & Machine creation",
-            text: "The quadrupole parameters have been successfully updated into the new machine.",
-          });
+        Swal.fire({
+          icon: "success",
+          title: "Quadrupole updation & Machine creation",
+          text: "The quadrupole parameters have been successfully updated into the new machine.",
+        });
         //}
       } catch (error) {
         console.error("Error updating quadrupole:", error);
@@ -401,7 +453,50 @@ const MyComponent = () => {
   };
 
 
+  const callParentDrawChart = (section, elementType) => {
 
+    if (section && elementType) {
+
+      const drawChildrenChart = async (section, elementType) => {
+        try {
+          const childrenData = await fetchMachineSunBurstParentChildren(selectedMachine, section, elementType);
+          if (childrenData) {
+            console.log("chilren ", childrenData)
+            setSubSunBurst(childrenData);
+            setSubSunBurstData({
+              section: section,
+              type: elementType
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching quadrupoles:", error);
+        }
+
+      }
+
+      drawChildrenChart(section, elementType);
+    }
+
+  };
+
+
+  const callParentTable = async (section, type, element) => {
+
+    const fetchQuadrupoles_func = async (MachineId, section) => {
+      try {
+        const quadrupolesData = await fetchMachineGroupElements(MachineId, section);
+        setQuadrupoles(quadrupolesData);
+      } catch (error) {
+        console.error("Error fetching quadrupoles:", error);
+      }
+    };
+
+    await fetchQuadrupoles_func(selectedMachine, section);
+
+    const quadDetails = quadrupoles.find((quad) => quad.name === element);
+    console.log("quaddetailsare", quadDetails);
+    setSelectedQuad(quadDetails);
+  };
 
 
   return (
@@ -441,13 +536,13 @@ const MyComponent = () => {
                   as="select"
                   onChange={handleDDLGroupChange}
                   disabled={!selectedMachine}
-                  
+
                 >
                   <option value="">Select...</option>
-                  {groups.map((name,index) => (
-                       <option key={`${name}-${index}`} value={name}>
-                       {name}
-                     </option>
+                  {groups.map((name, index) => (
+                    <option key={`${name}-${index}`} value={name}>
+                      {name}
+                    </option>
                   ))}
                 </Form.Control>
 
@@ -464,8 +559,8 @@ const MyComponent = () => {
                   value={selectedQuad ? selectedQuad.index : ""}
                 >
                   <option value="">Select...</option>
-                  {quadrupoles.map((quad,idx) => (
-                     <option key={`${quad.index}-${idx}`} value={quad.index}>
+                  {quadrupoles.map((quad, idx) => (
+                    <option key={`${quad.index}-${idx}`} value={quad.index}>
                       {`${quad.type}-${quad.name} - ${quad.index}`}
                     </option>
                   ))}
@@ -486,12 +581,12 @@ const MyComponent = () => {
                     onClick={toggleModal}
                     style={{ cursor: "pointer", marginRight: "60px" }}
                   />
-                  Selected {selectedQuad?selectedQuad.type:"Element"} Details
+                  Selected {selectedQuad ? selectedQuad.type : "Element"} Details
                 </Card.Title>
                 <Card.Text className="text-left align-left">
                   <table className="table table-bordered text-left">
                     <tbody>
-                    <tr>
+                      <tr>
                         <td>
                           <strong>Element Type:</strong>
                         </td>
@@ -519,7 +614,7 @@ const MyComponent = () => {
                         <td>
                           <strong>Correctors:</strong>
                         </td>
-                        <td>{JSON.stringify(selectedQuad?.element_configuration?.correctors||"no values")||"no values"}</td>
+                        <td>{JSON.stringify(selectedQuad?.element_configuration?.correctors || "no values") || "no values"}</td>
                       </tr>
                       <tr>
                         <td>
@@ -559,14 +654,24 @@ const MyComponent = () => {
                 </Button> */}
               </Card.Body>
             </Card>
+
+
           )}
+        </Col>
+      </Row>
+
+      <Row>
+        <Col>
+          <SunburstChart data={sunBurst} call_parent_draw_chart={callParentDrawChart} />
+          <SunburstSubChart data={subsunBurst} sectionTypeNames={subsunBurstData} call_parent_table={callParentTable} />
+
         </Col>
       </Row>
 
       {/* Modal for updating quadrupole */}
       <Modal show={showModal} onHide={toggleModal}>
         <Modal.Header closeButton>
-          <Modal.Title>update {selectedQuad?selectedQuad.type:""}</Modal.Title>
+          <Modal.Title>update {selectedQuad ? selectedQuad.type : ""}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row className="mb-3">
