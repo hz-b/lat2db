@@ -528,7 +528,7 @@ const MyComponent = () => {
                 </Form.Control>
               </Form.Group>
             </Col>
-            <Col md={3}>
+            <Col style={{display:'none'}}  md={3}>
               <Form.Group controlId="groupSelect">
                 <Form.Label>Select a Group:</Form.Label>
 
@@ -548,7 +548,7 @@ const MyComponent = () => {
 
               </Form.Group>
             </Col>
-            <Col md={5}>
+            <Col style={{display:'none'}}  md={5}>
               <Form.Group controlId="quadSelect">
                 <Form.Label>Select a Element:</Form.Label>
 
