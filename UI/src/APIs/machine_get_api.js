@@ -167,7 +167,7 @@ export const updateDrifts = async (machineId, DriftName, affected_drift, formDat
       "tags": [formData.tags],
       "length": formData.updateLength
     };
-    console.log("updated object for submission is ",updated_data)
+    console.log("updated object for submission is ",updated_data ,"affected drift is ",affected_drift)
     const response = await axios.put(`${baseurl}/machine/machine/${machineId}/drift/${DriftName}`,
     {
       affected_drift: affected_drift === "" ? "-1" : affected_drift,

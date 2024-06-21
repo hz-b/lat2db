@@ -1,0 +1,171 @@
+## Do not delete this file _____________________
+
+
+
+# # update Drifts
+
+# class Drift_request_update(BaseModel):
+#     affected_drift: str
+#     updated_data: Drift
+
+
+# @router.put("/machine/{id}/drift/{drift_name}", response_description="Update a Drift's details")
+# def update_drift_details(id: str, drift_name: str, request_body: Drift_request_update, request: Request):
+#     print("Inside the update function ")
+#     database: Collection = request.app.database["machines"]
+#     print("pass id is  ", id)
+#     machine = database.find_one({"id": str(id)})
+#     print("machien is ", machine)
+#     if machine:
+#         print("Found machine with ID:", id)
+#         if "drifts" in machine:
+#             print("drifts field exists in the machine document")
+#             if "drifts" in machine:
+#                 drift_list = machine.get("drifts", [])
+#                 operations = None
+#                 difference = 0
+#                 print("######passed index is ", request_body.updated_data.index)
+#                 for drift_index, drift in enumerate(drift_list):
+#                     print("drift indexis ", drift_index)
+#                     if drift.get("name") == request_body.updated_data.name:
+#                         drift_length = drift.get("length")
+#                         if float(drift_length) > float(request_body.updated_data.length):
+#                             operations = "+"
+#                             difference = float(drift_length) - float(request_body.updated_data.length)
+#                         else:
+#                             operations = "-"
+#                             difference = float(request_body.updated_data.length) - float(drift_length)
+
+#                         removed_drift = drift_list.pop(drift_index)
+#                         update_data_dict = request_body.updated_data
+
+#                         drift_list.insert(drift_index, asdict(request_body.updated_data))
+#                         print("inserted.")
+#                         break
+
+#                 database.update_one({"id": str(id)}, {"$set": {"drifts": drift_list}})
+#                 """ if request_body.affected_drift!="-1":
+#                     for drift_index, drift in enumerate(drift_list):
+#                         if int(drift.get("index")) == int(request_body.affected_drift):
+#                             if operations == "+":
+#                                 drift["length"] = float(drift.get("length")) + difference
+#                             else:
+#                                 drift["length"] = float(drift.get("length")) - difference
+
+#                     database.update_one({"id": str( id)}, {"$set": {"drifts": drift_list}}) """
+#                 if "sequences" in machine:
+#                     sequences_list = machine.get("sequences", [])
+#                     for item_index, item in enumerate(sequences_list):
+#                         if item.get("name") == request_body.updated_data.name and item.get("type") == "Drift":
+#                             removed_Drift = sequences_list.pop(item_index)
+#                             sequences_list.insert(item_index, asdict(request_body.updated_data))
+#                             break
+#                     database.update_one({"id": str(id)}, {"$set": {"sequences": sequences_list}})
+
+#                 return JSONResponse(status_code=200, content={"message": f"drifts updated"})
+
+
+
+
+
+
+
+
+
+
+# # update Markers
+
+# class Marker_request_update(BaseModel):
+#     affected_marker: str
+#     updated_data: Marker
+
+
+# # @router.put("/machine/{id}/marker/{marker_name}", response_description="Update a markers's details")
+# # def update_drift_details(id: str, marker_name: str, request_body: Marker_request_update, request: Request):
+# #     database: Collection = request.app.database["machines"]
+# #     machine = database.find_one({"id": str(id)})
+# #     if machine:
+# #         if "markers" in machine:
+# #             if "markers" in machine:
+# #                 marker_list = machine.get("markers", [])
+# #                 operations = None
+# #                 difference = 0
+# #                 for marker_index, marker in enumerate(marker_list):
+# #                     if marker.get("name") == request_body.updated_data.name:
+# #                         marker_length = marker.get("length")
+# #                         if float(marker_length) > float(request_body.updated_data.length):
+# #                             operations = "+"
+# #                             difference = float(marker_length) - float(request_body.updated_data.length)
+# #                         else:
+# #                             operations = "-"
+# #                             difference = float(request_body.updated_data.length) - float(marker_length)
+
+# #                         removed_marker = marker_list.pop(marker_index)
+# #                         update_data_dict = request_body.updated_data
+# #                         marker_list.insert(marker_index, asdict(request_body.updated_data))
+# #                         break
+
+# #                 database.update_one({"id": str(id)}, {"$set": {"markers": marker_list}})
+# #                 if "sequences" in machine:
+# #                     sequences_list = machine.get("sequences", [])
+# #                     for item_index, item in enumerate(sequences_list):
+# #                         if item.get("name") == request_body.updated_data.name and item.get("type") == "Marker":
+# #                             removed_Marker = sequences_list.pop(item_index)
+# #                             sequences_list.insert(item_index, asdict(request_body.updated_data))
+# #                             break
+# #                     database.update_one({"id": str(id)}, {"$set": {"sequences": sequences_list}})
+
+# #                 return JSONResponse(status_code=200, content={"message": f"markers updated"})
+
+
+
+
+
+
+
+
+# # update Monitors
+
+# class Monitor_request_update(BaseModel):
+#     affected_monitor: str
+#     updated_data: BeamPositionMonitor
+
+
+# # @router.put("/machine/{id}/monitor/{monitor_name}", response_description="Update a monitor's details")
+# # def update_monitor_details(id: str, monitor_name: str, request_body: Monitor_request_update, request: Request):
+# #     database: Collection = request.app.database["machines"]
+# #     machine = database.find_one({"id": str(id)})
+# #     if machine:
+# #         if "beam_position_monitors" in machine:
+# #             if "beam_position_monitors" in machine:
+# #                 monitor_list = machine.get("beam_position_monitors", [])
+# #                 operations = None
+# #                 difference = 0
+# #                 for monitor_index, monitor in enumerate(monitor_list):
+# #                     if monitor.get("name") == request_body.updated_data.name:
+# #                         monitor_length = monitor.get("length")
+# #                         if float(monitor_length) > float(request_body.updated_data.length):
+# #                             operations = "+"
+# #                             difference = float(monitor_length) - float(request_body.updated_data.length)
+# #                         else:
+# #                             operations = "-"
+# #                             difference = float(request_body.updated_data.length) - float(monitor_length)
+
+# #                         removed_monitor = monitor_list.pop(monitor_index)
+# #                         update_data_dict = request_body.updated_data
+
+# #                         monitor_list.insert(monitor_index, asdict(request_body.updated_data))
+# #                         break
+
+# #                 database.update_one({"id": str(id)}, {"$set": {"beam_position_monitors": monitor_list}})
+               
+
+# #                 if "sequences" in machine:
+# #                     sequences_list = machine.get("sequences", [])
+# #                     for item_index, item in enumerate(sequences_list):
+# #                         if item.get("name") == request_body.updated_data.name and item.get("type") == "Monitor":
+# #                             removed_Monitor = sequences_list.pop(item_index)
+# #                             sequences_list.insert(item_index, asdict(request_body.updated_data))
+# #                             break
+# #                     database.update_one({"id": str(id)}, {"$set": {"sequences": sequences_list}})
+# #                 return JSONResponse(status_code=200, content={"message": f"monitor updated"})
