@@ -142,4 +142,10 @@ def update_element_details(id: str, element_name: str, element_type: str, reques
 
 
 
-
+import re
+def get_section_name(element_name):
+    match = re.search(r'[DTKL][1-8]', element_name)
+    if match:
+        return match.group()
+    else:
+        return ""

@@ -13,7 +13,7 @@ from lat2db.model.update_machine import MachineUpdate
 from pydantic import BaseModel
 from pymongo.collection import Collection
 from copy import deepcopy
-from lat2db.controller.machine_helper import MagnetUpdateRequest,update_magnet_details,ElementUpdateRequest,update_element_details
+from lat2db.controller.machine_helper import MagnetUpdateRequest,update_magnet_details,ElementUpdateRequest,update_element_details,get_section_name
 from datetime import datetime
 
 router = APIRouter()
@@ -64,13 +64,7 @@ def find_a_machine(id: str, request: Request):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {id} not found")
 
 
-import re
-def get_section_name(element_name):
-    match = re.search(r'[DTKL][1-8]', element_name)
-    if match:
-        return match.group()
-    else:
-        return ""
+
     
 
 # get all Quads
