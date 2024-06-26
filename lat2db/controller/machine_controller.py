@@ -153,7 +153,6 @@ def update_quadrupole_details_copy(id: str, quad_name: str, request_body: Magnet
 @router.get("/machine/{id}/sextupole", response_description="Get a single machine by id",
             response_model=List[Sextupole])
 def find_a_machine(id: str, request: Request):
-    print("inside the quad get function")
     if (machine := request.app.database["machines"].find_one({"id": str(id)})) is not None:
         return machine["sextupoles"]
 
@@ -183,26 +182,27 @@ def update_sextupole_details_copy(id: str, sext_name: str, request_body: MagnetU
         return update_magnet_details(pre_id, sext_name, request_body, "sextupoles", request)
 
 
-
+# update other elements
 
 @router.put("/machine/{id}/drift/{drift_name}", response_description="Update a Drift's details")
 def update_drift_details(id: str, drift_name: str, request_body: ElementUpdateRequest, request: Request):
+    
     return update_element_details(id, drift_name, "drifts", request_body, request)
 
 @router.put("/machine/{id}/marker/{marker_name}", response_description="Update a marker's details")
 def update_marker_details(id: str, marker_name: str, request_body: ElementUpdateRequest, request: Request):
-    return update_element_details(id, marker_name, request_body, "markers", request)
+    return update_element_details(id, marker_name,"markers" ,request_body, request)
+
 
 @router.put("/machine/{id}/monitor/{monitor_name}", response_description="Update a monitor's details")
 def update_monitor_details(id: str, monitor_name: str, request_body: ElementUpdateRequest, request: Request):
-    return update_element_details(id, monitor_name, request_body, "beam_position_monitors", request)
+    return update_element_details(id, monitor_name,"beam_position_monitors",request_body, request)
 
 
 # get all Drifts
 
 @router.get("/machine/{id}/drifts", response_description="Get a single machine by id", response_model=List[Drift])
 def find_a_machine(id: str, request: Request):
-    print("inside the drif get function")
     if (machine := request.app.database["machines"].find_one({"id": str(id)})) is not None:
         return machine["drifts"]
 
@@ -214,7 +214,6 @@ def find_a_machine(id: str, request: Request):
 
 @router.get("/machine/{id}/markers", response_description="Get a single machine by id", response_model=List[Marker])
 def find_a_machine(id: str, request: Request):
-    print("inside the drift get function")
     if (machine := request.app.database["machines"].find_one({"id": str(id)})) is not None:
         return machine["markers"]
 
@@ -309,10 +308,9 @@ def update_quadrupole_from_sequence(id: str, target_drift: str, quad_name: str, 
                         )
 
                     if result.modified_count > 0:
-                        print("Sequence updated successfully")
                         is_sequence_update = True
                     else:
-                        print("Sequence not found or not updated")
+                        pass
                 except Exception as e:
                     print("Error updating sequence:", e)
 
@@ -340,6 +338,7 @@ def update_quadrupole_from_sequence(id: str, target_drift: str, quad_name: str, 
         raise HTTPException(status_code=404, detail=f"Machine with ID {id} not found")
 
 
+# find groups in machine db
 @router.get("/machine/{id}/groups", response_description="Get machine groups", response_model=List[str])
 def find_groups_in_machine(id: str, request: Request):
     machine = request.app.database["machines"].find_one({"id": str(id)})
@@ -362,6 +361,7 @@ def find_groups_in_machine(id: str, request: Request):
     raise HTTPException(status_code=404, detail="There is no group in the collections")
 
 
+# create sunburst plot 
 
 @router.get("/machine/{id}/sunburst", response_description="Get machine burst data")
 def create_sunburst_in_machine(id: str, request: Request):
@@ -402,6 +402,7 @@ def create_sunburst_in_machine(id: str, request: Request):
     raise HTTPException(status_code=404, detail="There is no group in the collections")
 
 
+# create child element plot
 @router.get("/machine/{id}/sunburst_children", response_description="Get burst children from chart")
 def fetch_sunburst_children_in_machine(id: str, section: str, element_type: str, request: Request):
     machine = request.app.database["machines"].find_one({"id": str(id)})
@@ -435,6 +436,7 @@ def fetch_sunburst_children_in_machine(id: str, section: str, element_type: str,
 
     raise HTTPException(status_code=404, detail="Machine not found")
 
+#find the element in group
 
 @router.get("/machine/{id}/relevant_elements/groups/{section_name}", response_description="Get relevant elements from groups", response_model=List[dict])
 def find_elements_in_groups(id: str, section_name: str, request: Request):

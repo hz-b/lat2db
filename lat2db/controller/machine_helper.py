@@ -20,7 +20,7 @@ class Quadrupole_request_update(BaseModel):
     affected_drift: str
     updated_data: Quadrupole
 
-### Quad & Sext section
+### Generic function for Quad & Sext section updated
 
 class MagnetUpdateRequest(BaseModel):
     affected_drift: str
@@ -91,18 +91,17 @@ def update_magnet_details(id: str, magnet_name: str, request_body: MagnetUpdateR
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {id} not found")
 
 
-### others Section
+### Generic function for others Section
 
 class ElementUpdateRequest(BaseModel):
     affected_element: str
-    updated_data: Union[Drift, Marker, BeamPositionMonitor]
+    updated_data: Union[BeamPositionMonitor,Drift,Marker]
     
 def update_element_details(id: str, element_name: str, element_type: str, request_body: ElementUpdateRequest, request: Request):
+
     database: Collection = request.app.database["machines"]
     machine = database.find_one({"id": str(id)})
-    print("element_name",element_name)
-    print("request_body",request_body)
-    print("type",element_type)
+
     if machine:
         if element_type in machine:
             element_list = machine.get(element_type, [])
@@ -119,7 +118,12 @@ def update_element_details(id: str, element_name: str, element_type: str, reques
                         operations = "-"
                         difference = float(request_body.updated_data.length) - float(element_length)
 
-                    element_list[element_index] = asdict(request_body.updated_data)
+                    if is_dataclass(request_body.updated_data):
+                        update_data_dict = asdict(request_body.updated_data)
+                    else:
+                        update_data_dict = request_body.updated_data.dict()
+
+                    element_list[element_index] = update_data_dict
 
                     database.update_one({"id": str(id)}, {"$set": {element_type: element_list}})
 
@@ -140,7 +144,7 @@ def update_element_details(id: str, element_name: str, element_type: str, reques
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Machine with ID {id} not found")
 
 
-
+## getting the section from element names
 
 import re
 def get_section_name(element_name):
