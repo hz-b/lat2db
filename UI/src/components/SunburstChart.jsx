@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 
-const SunburstChart = ({ data, width = 500, height = 500 , call_parent_draw_chart }) => {
+const SunburstChart = ({ data, width = 400, height = 400 , call_parent_draw_chart }) => {
 
     const svgRef = useRef();
 

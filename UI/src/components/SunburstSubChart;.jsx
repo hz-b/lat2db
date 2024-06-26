@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 
-const SunburstSubChart = ({ data,sectionTypeNames ,call_parent_table,width = 500, height = 500  }) => {
+const SunburstSubChart = ({ data,sectionTypeNames ,call_parent_table,width = 400, height = 400  }) => {
 
     const svgRef = useRef();
 
@@ -45,9 +45,10 @@ const SunburstSubChart = ({ data,sectionTypeNames ,call_parent_table,width = 500
                 d3.selectAll('path').style('opacity', 1);  // Reset opacity for all paths
                 d3.select(this).style('opacity', 0.5);  // Highlight the clicked path
 
-                console.log("forwarded data is ", sectionTypeNames);
-                console.log(d.data.name);
+                
+            
                 if (d.data.name) {
+                    console.log("forwarded data is ", d.data.name,sectionTypeNames.type,sectionTypeNames.section);
                     call_parent_table(sectionTypeNames.section, sectionTypeNames.type, d.data.name);
                 }
             })

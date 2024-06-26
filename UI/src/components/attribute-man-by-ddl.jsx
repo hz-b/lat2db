@@ -22,10 +22,9 @@ import "select2/dist/js/select2.min.js";
 import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
-import SunburstChart from "./SunburstChart";
-import SunburstSubChart from "./SunburstSubChart;";
 
-const MyComponent = () => {
+
+const AttributeManByDDL = () => {
   const [machines, setMachines] = useState([]);
   const [quadrupoles, setQuadrupoles] = useState([]);
   const [selectedMachine, setSelectedMachine] = useState("");
@@ -528,7 +527,7 @@ const MyComponent = () => {
                 </Form.Control>
               </Form.Group>
             </Col>
-            <Col style={{display:'none'}}  md={3}>
+            <Col   md={3}>
               <Form.Group controlId="groupSelect">
                 <Form.Label>Select a Group:</Form.Label>
 
@@ -548,7 +547,7 @@ const MyComponent = () => {
 
               </Form.Group>
             </Col>
-            <Col style={{display:'none'}}  md={5}>
+            <Col  md={5}>
               <Form.Group controlId="quadSelect">
                 <Form.Label>Select a Element:</Form.Label>
 
@@ -660,13 +659,7 @@ const MyComponent = () => {
         </Col>
       </Row>
 
-      <Row>
-        <Col>
-          <SunburstChart data={sunBurst} call_parent_draw_chart={callParentDrawChart} />
-          <SunburstSubChart data={subsunBurst} sectionTypeNames={subsunBurstData} call_parent_table={callParentTable} />
-
-        </Col>
-      </Row>
+   
 
       {/* Modal for updating quadrupole */}
       <Modal show={showModal} onHide={toggleModal}>
@@ -867,5 +860,5 @@ const MyComponent = () => {
   );
 };
 
-export default MyComponent;
+export default AttributeManByDDL;
 

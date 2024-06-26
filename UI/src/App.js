@@ -6,8 +6,9 @@ import Home from "./components/machine"
 import Sextupole from "./components/sextupoles"
 import Drift from "./components/drifts"
 import Marker from "./components/markers"
+import AttributeManByChart from "./components/attribute-man-by-chart"
+import AttributeManByDDL from "./components/attribute-man-by-ddl"
 import Monitor from "./components/monitor"
-import UPdate from './components/update'
 import CircleSVG from "./components/cricle";
 function App() {
   return (
@@ -20,7 +21,8 @@ function App() {
           <Route path="/drift" element={<Drift/>} />
           <Route path="/marker" element={<Marker/>} />
           <Route path="/monitor" element={<Monitor/>} />
-          <Route path="/update" element={<UPdate/>} />
+          <Route path="/attribute-man-by-chart" element={<AttributeManByChart/>} />
+          <Route path="/attribute-man-by-DDL" element={<AttributeManByDDL/>} />
           <Route path="/circle" element={<CircleSVG/>} />
         </Routes>
 
