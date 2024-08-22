@@ -1,4 +1,5 @@
 import json
+import logging
 from typing import List, Dict
 
 import jsons
@@ -8,6 +9,7 @@ from pymongo import MongoClient
 from lat2db import mongodb_url
 from lat2db.model.machine import Machine
 
+logger = logging.getLogger('lat2db')
 mongo_init = {'client': MongoClient(mongodb_url), 'db': MongoClient(mongodb_url)['bessyii']}
 
 
@@ -29,8 +31,23 @@ def get_machine_as_json_from_db(machine_id: str):
 def get_machine_as_json(file_name):
     if (file_name is None):
         file_name = "bessyii_lattice_json.json"
-    with open(file_name, 'r') as file:
-        return json.load(file)
+    path = get_config_filename("lat2db", file_name)
+    try:
+        with open(path, 'r') as file:
+            return json.load(file)
+    except FileNotFoundError as exc:
+        logger.error(f'Could not find package data file {file_name} using path {path}')
+        raise exc
+
+
+def get_config_filename(module_name: str, filename: str):
+    '''Get the configuration filename using pkg_resources
+    '''
+    from importlib.resources import files
+    path = files(module_name).parent / 'examples' / 'pyat' / filename
+    logger.info('Config file expected at %s', path)
+    return path
+
 
 
 def get_machine_element_list(machine: List[Dict], element_name: str):
