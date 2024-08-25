@@ -3,7 +3,8 @@ from datetime import datetime
 from typing import List
 from pydantic import Field, BaseModel
 import re
-
+import string
+import random
 from lat2db.tools.helper_function import filter_an_elements
 from lat2db.model.beam_position_monitor import BeamPositionMonitor
 from lat2db.model.bending import Bending
@@ -46,7 +47,9 @@ class Machine(BaseModel):
     beam_position_monitors: List[BeamPositionMonitor] = Field(default_factory=list)
     cavities: List[Cavity] = Field(default_factory=list)
     name: str = "unknown"
-    id: str = Field(default_factory=uuid.uuid4)
+    #id: str = Field(default_factory=uuid.uuid4)
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+
 
     def add_drift(self, drift):
         self.drifts.append(drift)

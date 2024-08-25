@@ -27,7 +27,12 @@ class RFFieldHarmonic:
     timelag: Optional[float] = None
 
 
+
+
+
+
 class Cavity(Element):
     #: review : that's a property of the ring
     cavity_configuration: Optional[RFFieldHarmonic] = None
     harmonic_number: Optional[int] = None
+

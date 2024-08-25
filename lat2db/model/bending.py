@@ -13,3 +13,13 @@ class Bending(Element):
     fringeint1: Optional[float] = None
     fringeint2: Optional[float] = None
     fullgap: Optional[float] = None
+
+    #newly added
+
+    L: Optional[float]
+    T: Optional[float]
+    T1: Optional[float]
+    T2: Optional[float]
+    K: Optional[float]
+    N: Optional[float]
+
