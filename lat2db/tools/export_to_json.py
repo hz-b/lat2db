@@ -34,7 +34,7 @@ def export_lattice_properties(
         ds.PhysicsParameter(name="energy", value=variables["energy"], egu="GeV")
     )
     geom = ds.LatticeGeometryProperties(is_ring=bool(variables["ringtype"]))
-    smd = ds.LatticeMetadata(machine_name=machine_name, lattice_version=lattice_version)
+    smd = ds.LatticeMetadata(machine_name=machine_name, lattice_version=lattice_version,closed=True)
     return ds.Lattice(
         properties=ds.LatticeProperties(physics=physics, geometric=geom),
         storage_format=storage_format,

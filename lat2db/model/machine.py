@@ -47,6 +47,7 @@ class Machine(BaseModel):
     cavities: List[Cavity] = Field(default_factory=list)
     name: str = "unknown"
     id: str = Field(default_factory=uuid.uuid4)
+    closed: bool = True
 
     def add_drift(self, drift):
         self.drifts.append(drift)
@@ -78,6 +79,7 @@ class Machine(BaseModel):
 
     def set_base_parameters(self, lat):
         self.name = lat.lattice_standard_metadata.machine_name
+        self.closed = lat.lattice_standard_metadata.closed
         lat_version = lat.lattice_standard_metadata.lattice_version
         lat_energy = lat.properties.physics.energy
         self.version = Version(lat_version.major, lat_version.minor, lat_version.patch_level, datetime.utcnow())
@@ -119,6 +121,7 @@ class Machine(BaseModel):
                 "cavities": [],
                 "version": "",
                 "geometric_info": "",
-                "physics_info": ""
+                "physics_info": "",
+                "closed" : True
             }
         }

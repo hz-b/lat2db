@@ -70,11 +70,13 @@ class StorageFormatMetadata:
 class LatticeMetadata:
     machine_name: str
     lattice_version: VersionInfo
+    closed: bool
 
     def to_dict(self):
         return dict(
             machine_name=self.machine_name,
             lattice_version=self.lattice_version.to_dict(),
+            closed=self.closed
         )
 
 
