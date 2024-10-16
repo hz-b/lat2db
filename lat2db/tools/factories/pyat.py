@@ -16,6 +16,7 @@ from ...model.element import Element
 from ...model.magnetic_element import MagneticElement, KickAngles, AddonCorrector, MagnetAssembly
 from ...model.quadrupole import Quadrupole
 from ...model.sextupole import Sextupole
+from ...model.steerer import Steerer
 
 logger = logging.getLogger("lat2db")
 __all__ = ["factory"]
@@ -140,21 +141,22 @@ class SteererOrientation(enum.Enum):
     vertical = "vertical"
 
 
-def instanitate_steerer(prop: Element, *, orientation: SteererOrientation):
+def instanitate_steerer(prop: Element):
     """
     Todo:
         What is test?
         What is kick angle ?
     """
-    orientation = SteererOrientation(orientation)
-    if orientation == SteererOrientation.horizontal:
-        test = 0
-    elif orientation == SteererOrientation.horizontal:
-        test = math.pi / 2
-    else:
-        raise AssertionError("Should not end up here")
-
-    return at.Corrector(prop.name, length=prop.length, test=test, kick_angle=[0, 0])
+    # orientation = SteererOrientation(orientation)
+    # if orientation == SteererOrientation.horizontal:
+    #     test = 0
+    # elif orientation == SteererOrientation.horizontal:
+    #     test = math.pi / 2
+    # else:
+    #     raise AssertionError("Should not end up here")
+    kick_angle_x = prop['element_configuration']['kickangle']['x']
+    kick_angle_y = prop['element_configuration']['kickangle']['y']
+    return at.Corrector(prop["name"], length=prop['length'], kick_angle=[kick_angle_x, kick_angle_y])
 
 
 def instaniate_cavity(prop: dict, *, energy):
@@ -189,7 +191,8 @@ factory_dict_default = dict(
     Drift=instantiate_drift,
     Dipole=instantiate_bending,
     Quadrupole=instanitate_quadrupole,
-    Sextupole=instanitate_sextupole
+    Sextupole=instanitate_sextupole,
+    Corrector=instanitate_steerer
 )
 
 # due to historic reasons: need to get the that cleaned away

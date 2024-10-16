@@ -3,6 +3,8 @@ import sys
 import numpy as np
 from pymongo import MongoClient
 
+from lat2db.tools.pyat.bessy2_TL_reflat import bessy2_TL
+
 sys.path.append('/Users/safiullahomar/lattice/lat2db test')
 from lat2db.model.quadrupole import Quadrupole
 from lat2db.model.sextupole import Sextupole
@@ -10,14 +12,13 @@ from lat2db.model.drift import Drift
 from lat2db.model.bending import Bending
 from lat2db.model.marker import Marker
 from lat2db.model.beam_position_monitor import BeamPositionMonitor
-from lat2db.model.cavity import Cavity, RFFieldHarmonic
+from lat2db.model.cavity import Cavity
 from lat2db.model.version import Version
 from lat2db.model.monitor import Monitor
+from lat2db.model.steerer import Steerer
 from lat2db.model.magnetic_element import MagneticElement
 from lat2db.model.magnetic_element import MultipoleCoefficients, KickAngles
 import uuid
-
-from lat2db.tools.pyat.bessy2_export import bessy2Lattice
 
 
 # new database by name of db1
@@ -36,6 +37,7 @@ def insert_elements(ring, parent_id=None):
     all_elements = []
     quad_elements = []
     sextupole_elements = []
+    steerer_elements = []
     drift_elements = []
 
     bending_elements = []
@@ -60,6 +62,7 @@ def insert_elements(ring, parent_id=None):
     cavity_fields = [*Cavity.__fields__]
     version_fields = [*Version.__fields__]
     monitor_fields = [*Monitor.__fields__]
+    steerer_fields = [*Steerer.__fields__]
 
     for element in ring:
 
@@ -83,6 +86,7 @@ def insert_elements(ring, parent_id=None):
         element_version = {}
         element_dipole = {}
         element_monitor = {}
+        element_steerer = {}
 
         _row = 1
         typename = ""
@@ -140,6 +144,8 @@ def insert_elements(ring, parent_id=None):
                 element_dipole[key] = value
             if typename.lower() == "monitor2":
                 element_monitor[key] = value
+            if typename.lower() == "corrector":
+                element_steerer[key] = value
 
         type_to_element_data = {
             "monitor2": element_monitor,
@@ -153,7 +159,8 @@ def insert_elements(ring, parent_id=None):
             "verticalsteerer": element_v_steerer,
             "monitor": element_beamposition,
             "rfcavity": element_cavity,
-            "version": element_version
+            "version": element_version,
+            "steerer": element_steerer
         }
         element_data_dict = type_to_element_data.get(typename.lower())
 
@@ -198,6 +205,9 @@ def insert_elements(ring, parent_id=None):
             if typename.lower() == "quadrupole":
                 element_quad[field] = field_value
 
+            if typename.lower() == "corrector":
+                element_steerer[field] = field_value
+
         if typename.lower() == "quadrupole":
             # element_quad["main_multipole_strength"] = element_quad.pop("k", None)
             element_quad["passmethod"] = element_quad.pop("PassMethod")
@@ -206,17 +216,21 @@ def insert_elements(ring, parent_id=None):
             multipole_coefficients.skew_coefficients = [float(x) for x in element_quad.pop("PolynomA")]
 
             kickAngles = KickAngles()
+            kick_angles_dict = {
+                "x": 0.0,
+                "y": 0.0
+            }
             if "KickAngle" in element_quad:
                 float_array = [float(x) for x in element_quad.pop("KickAngle")]
 
-            if len(float_array) >= 2:  # Ensure there are at least two values in the array
-                kickAngles.x = float_array[0]
-                kickAngles.y = float_array[1]
+                if len(float_array) >= 2:  # Ensure there are at least two values in the array
+                    kickAngles.x = float_array[0]
+                    kickAngles.y = float_array[1]
 
-            kick_angles_dict = {
-                "x": kickAngles.x,
-                "y": kickAngles.y
-            }
+                kick_angles_dict = {
+                    "x": kickAngles.x,
+                    "y": kickAngles.y
+                }
             magnetic_element = MagneticElement(coeffs=multipole_coefficients,
                                                main_multipole_strength=element_quad.pop("k", None),
                                                main_multipole_index=None
@@ -258,17 +272,21 @@ def insert_elements(ring, parent_id=None):
             multipole_coefficients.skew_coefficients = [float(x) for x in element_sextupole.pop("PolynomA")]
 
             kickAngles = KickAngles()
+            kick_angles_dict = {
+                "x": 0.0,
+                "y": 0.0
+            }
             if "KickAngle" in element_sextupole:
                 float_array = [float(x) for x in element_sextupole.pop("KickAngle")]
 
-            if len(float_array) >= 2:  # Ensure there are at least two values in the array
-                kickAngles.x = float_array[0]
-                kickAngles.y = float_array[1]
+                if len(float_array) >= 2:  # Ensure there are at least two values in the array
+                    kickAngles.x = float_array[0]
+                    kickAngles.y = float_array[1]
 
-            kick_angles_dict = {
-                "x": kickAngles.x,
-                "y": kickAngles.y
-            }
+                kick_angles_dict = {
+                    "x": kickAngles.x,
+                    "y": kickAngles.y
+                }
             magnetic_element = MagneticElement(coeffs=multipole_coefficients,
                                                main_multipole_strength=element_sextupole.pop("k", None),
                                                main_multipole_index=None
@@ -301,6 +319,54 @@ def insert_elements(ring, parent_id=None):
                 if field != "element_properties" and field not in element_sextupole:
                     # Add missing property with null value
                     element_sextupole[field] = None
+
+        if typename.lower() == "corrector":
+            kickAngles = KickAngles()
+            kick_angles_dict = {
+                "x": 0.0,
+                "y": 0.0
+            }
+            if "KickAngle" in element_steerer:
+                float_array = [float(x) for x in element_steerer.pop("KickAngle")]
+
+                if len(float_array) >= 2:  # Ensure there are at least two values in the array
+                    kickAngles.x = float_array[0]
+                    kickAngles.y = float_array[1]
+
+                kick_angles_dict = {
+                    "x": kickAngles.x,
+                    "y": kickAngles.y
+                }
+            magnetic_element = MagneticElement(coeffs={"normal_coefficients": [0, 0], "skew_coefficients": [0, 0]},
+                                               main_multipole_strength=element_steerer.pop("k", None),
+                                               main_multipole_index=None
+                                               )
+            magnetic_element_dict = {
+                "coeffs": {
+                    "normal_coefficients": magnetic_element.coeffs.normal_coefficients,
+                    "skew_coefficients": magnetic_element.coeffs.skew_coefficients
+                },
+                "main_multipole_index": magnetic_element.main_multipole_index,
+                "main_multipole_strength": magnetic_element.main_multipole_strength
+            }
+            configuation_attributes = {
+                "magnetic_element": magnetic_element_dict,  # No need to call to_dict()
+                "kickangle": kick_angles_dict if kickAngles.x is not None or kickAngles.y is not None else None,
+                "correctors": None
+            }
+
+            element_steerer["element_configuration"] = configuation_attributes
+            element_steerer["number_of_integration_steps"] = element_steerer.pop("NumIntSteps", None)
+            element_steerer["name"] = element_steerer.pop("FamName", None)
+            element_steerer["length"] = element_steerer.pop("Length", None)
+
+            element_steerer["passmethod"] = element_steerer.pop("PassMethod")
+            element_steerer["tags"] = [element_steerer.pop("Corrector", "")]
+
+            for field in sextupole_fields:
+                if field != "element_properties" and field not in element_steerer:
+                    # Add missing property with null value
+                    element_steerer[field] = None
 
         if typename.lower() == "drift":
             # element_drift["passmethod"] = element_quad.pop("method")
@@ -412,17 +478,21 @@ def insert_elements(ring, parent_id=None):
             multipole_coefficients.skew_coefficients = [float(x) for x in element_dipole.pop("PolynomA")]
 
             kickAngles = KickAngles()
+            kick_angles_dict = {
+                "x": 0.0,
+                "y": 0.0
+            }
             if "KickAngle" in element_dipole:
                 float_array = [float(x) for x in element_dipole.pop("KickAngle")]
 
-            if len(float_array) >= 2:  # Ensure there are at least two values in the array
-                kickAngles.x = float_array[0]
-                kickAngles.y = float_array[1]
+                if len(float_array) >= 2:  # Ensure there are at least two values in the array
+                    kickAngles.x = float_array[0]
+                    kickAngles.y = float_array[1]
 
-            kick_angles_dict = {
-                "x": kickAngles.x,
-                "y": kickAngles.y
-            }
+                kick_angles_dict = {
+                    "x": kickAngles.x,
+                    "y": kickAngles.y
+                }
             magnetic_element = MagneticElement(coeffs=multipole_coefficients,
                                                main_multipole_strength=element_dipole.pop("k", None),
                                                main_multipole_index=None
@@ -511,6 +581,13 @@ def insert_elements(ring, parent_id=None):
             sextupole_elements.append(element_sextupole)
             all_elements.append(element_sextupole)
 
+        if typename.lower() == "corrector":
+            # element_sextupole["name"] = element_sextupole.pop("famname")
+            element_steerer["index"] = index
+
+            steerer_elements.append(element_steerer)
+            all_elements.append(element_steerer)
+
         if typename.lower() == "drift":
             # element_drift["name"] = element_drift.pop("famname")
             element_drift["index"] = index
@@ -586,7 +663,9 @@ def insert_elements(ring, parent_id=None):
                            # "vertical_steerers": v_steerer_elements,
                            # "beam_position_monitors":beamposition_elements,
                            "beam_position_monitors": beamposition_elements,
-                           "cavities": cavity_elements
+                           "cavities": cavity_elements,
+                           "closed": True,
+                           "steerers": steerer_elements
                            # "dipoles":dipole_elements,
 
                            })
@@ -599,7 +678,7 @@ def insert_elements(ring, parent_id=None):
 
 if __name__ == '__main__':
     # for inserting the database uncomment this
-    ring = bessy2Lattice()
+    ring = bessy2_TL()
     insert_elements(ring)
     # print(ring["Lattice"])
     # export_to_mongodb(ring, mongodb_uri, database_name, collection_name)

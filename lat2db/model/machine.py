@@ -4,6 +4,7 @@ from typing import List
 from pydantic import Field, BaseModel
 import re
 
+from lat2db.model.steerer import Steerer
 from lat2db.tools.helper_function import filter_an_elements
 from lat2db.model.beam_position_monitor import BeamPositionMonitor
 from lat2db.model.bending import Bending
@@ -45,6 +46,7 @@ class Machine(BaseModel):
     markers: List[Marker] = Field(default_factory=list)
     beam_position_monitors: List[BeamPositionMonitor] = Field(default_factory=list)
     cavities: List[Cavity] = Field(default_factory=list)
+    steerers: List[Steerer] = Field(default_factory=list)
     name: str = "unknown"
     id: str = Field(default_factory=uuid.uuid4)
     closed: bool = True
@@ -58,6 +60,8 @@ class Machine(BaseModel):
     def add_sextupole(self, sextupole):
         self.sextupoles.append(sextupole)
 
+    def add_steerer(self, steerer):
+        self.steerers.append(steerer)
     def add_quadrupole(self, quadrupole):
         self.quadrupoles.append(quadrupole)
 
