@@ -1,4 +1,3 @@
-fastapi~=0.109.1
 pymongo~=4.3.2
 pydantic~=2.7.1
 jsons~=1.6.3
