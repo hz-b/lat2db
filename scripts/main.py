@@ -1,3 +1,4 @@
+import os
 import sys, logging
 from pathlib import Path
 
@@ -38,7 +39,8 @@ def startup_db_client():
 
     logger.warning("Connecting to mongo db %s", mongodb_url)
     app.mongodb_client = MongoClient(mongodb_url)  # use this if you are writing to your local machine.
-    app.database = app.mongodb_client["bessyii"]
+    DB_NAME = os.environ.get("MONGODB_DB", "bessyii")
+    app.database = app.mongodb_client[DB_NAME]
 
 
 @app.on_event("shutdown")

@@ -1,5 +1,6 @@
 import copy
 import logging
+import os
 
 import jsons
 from fastapi import FastAPI
@@ -21,7 +22,8 @@ from lat2db.model.steerer import Steerer
 app = FastAPI()
 app.include_router(machine_controller.router, tags=["machines"], prefix="/machine")
 app.mongodb_client = MongoClient(mongodb_url)
-app.database = app.mongodb_client["bessyii"]
+DB_NAME = os.environ.get("MONGODB_DB", "bessyii")
+app.database = app.mongodb_client[DB_NAME]
 
 logger = logging.getLogger("tools")
 

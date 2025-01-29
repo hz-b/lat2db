@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 from typing import List, Dict
 
 import jsons
@@ -10,7 +11,8 @@ from lat2db import mongodb_url
 from lat2db.model.machine import Machine
 
 logger = logging.getLogger('lat2db')
-mongo_init = {'client': MongoClient(mongodb_url), 'db': MongoClient(mongodb_url)['bessyii']}
+DB_NAME = os.environ.get("MONGODB_DB", "bessyii")
+mongo_init = {'client': MongoClient(mongodb_url), 'db': MongoClient(mongodb_url)[DB_NAME]}
 
 
 def get_machine(machine_id: str) -> Machine:

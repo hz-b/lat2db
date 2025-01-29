@@ -1,8 +1,11 @@
+import os
+
 import pymongo
 
 
 class InitializeMongo:
     def __init__(self, host="localhost", port=27017, database_name="bessyii"):
+        database_name = os.environ.get("MONGODB_DB", "bessyii")
         self.client = pymongo.MongoClient(f"mongodb://{host}:{port}/")
         self.db = self.client[database_name]
 
