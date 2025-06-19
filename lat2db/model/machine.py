@@ -2,7 +2,8 @@ import itertools
 import uuid
 import datetime
 from collections.abc import Iterator
-from typing import List, Sequence,TypeVar
+from functools import cached_property
+from typing import List, Sequence, TypeVar, Dict
 from pydantic import Field, BaseModel
 import re
 
@@ -19,6 +20,7 @@ from .lattice_elements.sextupole import Sextupole
 from .lattice_elements.steerer import Steerer
 from .physics_info import PhysicsInfo
 from .version import Version
+from ..tools.helper_function import filter_an_elements
 
 
 class ElementPosition:
@@ -83,7 +85,7 @@ class Machine(BaseModel):
     def get_bendings(self) -> Sequence[Bending]:
         return select_elements_by_instance(itertools.chain(*self.sequences), Bending)
 
-    def get_quadruoles(self) -> Sequence[Quadrupole]:
+    def get_quadrupoles(self) -> Sequence[Quadrupole]:
         return select_elements_by_instance(itertools.chain(*self.sequences), Quadrupole)
 
     def get_sextupoles(self) -> Sequence[Sextupole]:
@@ -110,12 +112,16 @@ class Machine(BaseModel):
         return ElementPosition(element_name=element_name, index=element.index, start_position=start_position,
                                end_position=start_position + element.length)
 
-    def get_element(self, element_name):
+    @cached_property
+    def _elements_dict(self) -> Dict[str, Element]:
+        return {elem.name : elem for elem in itertools.chain(*self.sequences)}
+
+    def get_element(self, element_name) -> Element:
         """
         Todo:
             use cached property
         """
-        return list(filter(lambda x: x.name == element_name, self.sequences))
+        return self._elements_dict[element_name]
 
     def filter_element_by_tags(self, element_name: str, tags: List[str]):
         element_list = getattr(self, element_name)
@@ -123,8 +129,8 @@ class Machine(BaseModel):
 
     class Config:
         arbitrary_types_allowed: True
-        allow_population_by_field_name = True
-        schema_extra = {
+        validate_by_name = True
+        json_schema_extra = {
             "example": {
                 "id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "name": "name of machine",

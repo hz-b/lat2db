@@ -1,8 +1,7 @@
 from pydantic.dataclasses import dataclass
-
 from pydantic import Field
 
-from lat2db.model.energy import Energy
+from .energy import Energy
 
 
 @dataclass
