@@ -161,7 +161,7 @@ def update_quadrupole_details(id: str, quad_name: str, request_body: Quadrupole_
                 if "sequences" in machine:
                     sequences_list = machine.get("sequences", [])
                     for item_index, item in enumerate(sequences_list):
-                        if item.get("name") == request_body.updated_data.name and item.get("type") == "Quadrupole":
+                        if item.get("name") == request_body.updated_data.name and item.get("type") == ElmTNams.quadrupole:
                             removed_quadrupole = sequences_list.pop(item_index)
                             # affected_drift=item.get("index")
                             print("******* affected drif index is ", affected_drift)
@@ -297,7 +297,7 @@ def update_quadrupole_details_copy(id: str, quad_name: str, request_body: Quadru
                 if "sequences" in machine_copy:
                     sequences_list = machine_copy.get("sequences", [])
                     for item_index, item in enumerate(sequences_list):
-                        if item.get("name") == request_body.updated_data.name and item.get("type") == "Quadrupole":
+                        if item.get("name") == request_body.updated_data.name and item.get("type") == ElmTNams.quadrupole:
                             removed_quadrupole = sequences_list.pop(item_index)
                             # affected_drift=item.get("index")
                             print("******* affected drif index is ", affected_drift)
@@ -809,7 +809,7 @@ def update_quadrupole_from_sequence(id: str, target_drift: str, quad_name: str, 
                 print("inside the drift")
                 try:
                     get_qud_prev = database.find_one(
-                        {"id": str(id), "sequences": {"$elemMatch": {"name": quad_name, "type": "Quadrupole"}}},
+                        {"id": str(id), "sequences": {"$elemMatch": {"name": quad_name, "type": ElmTNams.quadrupole}}},
                         projection={"sequences.$": 1}
                     )
 

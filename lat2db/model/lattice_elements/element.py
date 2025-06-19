@@ -1,3 +1,4 @@
+import enum
 from typing import Sequence, Optional
 
 from pydantic import BaseModel, Field
@@ -20,3 +21,16 @@ class Element(BaseModel):
 
 
 __all__ = ["Element"]
+
+
+class ElementTypeNames(enum.Enum):
+    marker = "Marker"
+    bpm = "Bpm"
+    drift = "Drift"
+    bending = "Bending"
+    quadrupole = "Quadrupole"
+    sextupole = "Sextupole"
+    steerer = "Steerer"
+    cavity = "Cavity"
+    horizontal_steerer = "HorizontalSteerer"
+    vertical_steerer = "VerticalSteerer"
