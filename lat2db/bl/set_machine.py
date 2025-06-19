@@ -33,7 +33,8 @@ app.database = app.mongodb_client[DB_NAME]
 logger = logging.getLogger("tools")
 
 
-type_dict_ = {
+
+type_dict_default = {
     "Drift": (Drift),
     "Marker": (Marker),
     "Sextupole": (Sextupole),
@@ -47,9 +48,9 @@ type_dict_ = {
 }
 
 
-def create_machine(lat):
+def create_machine(lat, type_dict=type_dict_default):
 
-    elms = [process_element(row_) for row_ in lat.elements]
+    elms = [process_element(standardise_element_info(row_), type_dict=type_dict) for row_ in lat.elements]
     # Todo: how to hande elements we are not processing further ...
     # shall one add a place holder
     elms = [elm for elm in elms if elm is not None]
@@ -80,10 +81,14 @@ def create_machine(lat):
             raise AssertionError(f"Got response {response}")
 
 
+def process_element(elem_info: Dict, *, type_dict):
+    type_class = type_dict[elem_info['type']]
+    if not type_class:
+        return None
+    return type_class(**elem_info)
 
 
-
-def process_element(elem_info: Dict, copy: bool=True):
+def standardise_element_info(elem_info: Dict, *, copy: bool = True):
     # iterate through each row in lat.elements
 
     # make a copy of the row so that changes don't affect original data
@@ -118,8 +123,4 @@ def process_element(elem_info: Dict, copy: bool=True):
         elem_info.setdefault("exit_angle", elem_info.pop("T2", 0e0))  # rename "T2" to "exit_angle"
 
 
-    type_class = type_dict_[type_name]
-    if not type_class:
-        return None
-    type_instance = type_class(**elem_info)
-    return type_instance
+    return elem_info
