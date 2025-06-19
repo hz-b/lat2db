@@ -5,13 +5,13 @@ from pydantic import BaseModel
 
 class Element(BaseModel):
     #: actually an identifier
-    name: Optional[str]
-    index: Optional[int]
+    name: str
+    index: int
     #: in meter
-    length: Optional[float]
+    length: float
     #: to be interpreted by the factories building a lattice from the database
-    type: Optional[str]
-    #: everythng describing the element itself beyond to the information given
+    type: str
+    #: everythnig describing the element itself beyond to the information given
     #: in the fields above
     # element_configuration: object
     # tags are given by specific lattice developers to later sort/filter/categorised/group or wild card search their

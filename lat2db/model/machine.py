@@ -1,9 +1,12 @@
+import itertools
 import uuid
-from datetime import datetime
-from typing import List
+import datetime
+from collections.abc import Iterator
+from typing import List, Sequence,TypeVar
 from pydantic import Field, BaseModel
 import re
 
+from lat2db.model.element import Element
 from lat2db.model.steerer import Steerer
 from lat2db.tools.helper_function import filter_an_elements
 from lat2db.model.beam_position_monitor import BeamPositionMonitor
@@ -13,7 +16,6 @@ from lat2db.model.drift import Drift
 from lat2db.model.marker import Marker
 from lat2db.model.physics_info import PhysicsInfo
 from lat2db.model.quadrupole import Quadrupole
-from lat2db.model.sequencer import Sequencer
 from lat2db.model.sextupole import Sextupole
 from lat2db.model.version import Version
 from lat2db.model.energy import Energy
@@ -36,59 +38,66 @@ def get_section_name(element_name):
     else:
         return ""
 
+T = TypeVar("T")
+
+def select_elements_by_instance(elms: Iterator[Element], T) -> Sequence[T]:
+    return [elm for elm in elms if isinstance(elm, T)]
+
+
+def extact_version_from_lattice(lat_version) -> Version:
+    return Version(
+        major=lat_version.major, minor=lat_version.minor, level=lat_version.patch_level,
+        effective_from=datetime.datetime.now(datetime.timezone.utc)
+    )
+
+
+def extract_physics_info_from_lattice(lat_energy) -> PhysicsInfo:
+    r = PhysicsInfo(
+        energy=Energy(egu=lat_energy.egu, name=lat_energy.name, value=lat_energy.value)
+    )
+    return r
+
+
+def extract_geometry_info_from_lattice(lat) -> GeometricInfo:
+    return GeometricInfo(is_ring=lat.properties.geometric.is_ring)
+
 
 class Machine(BaseModel):
-    sequences: List[Sequencer] = Field(default_factory=list)
-    quadrupoles: List[Quadrupole] = Field(default_factory=list)
-    sextupoles: List[Sextupole] = Field(default_factory=list)
-    drifts: List[Drift] = Field(default_factory=list)
-    bendings: List[Bending] = Field(default_factory=list)
-    markers: List[Marker] = Field(default_factory=list)
-    beam_position_monitors: List[BeamPositionMonitor] = Field(default_factory=list)
-    cavities: List[Cavity] = Field(default_factory=list)
-    steerers: List[Steerer] = Field(default_factory=list)
-    name: str = "unknown"
+    sequences: Sequence[Sequence[Element]]
+    # physics_info: PhysicsInfo
+    geometric_info: GeometricInfo
+    version: Version
+    name: str = Field(default_factory=lambda: "unknown")
     id: str = Field(default_factory=uuid.uuid4)
     closed: bool = True
 
-    def add_drift(self, drift):
-        self.drifts.append(drift)
+    def get_markers(self) -> Sequence[Marker]:
+        return select_elements_by_instance(itertools.chain(*self.sequences), Marker)
 
-    def add_bending(self, bending):
-        self.bendings.append(bending)
+    def get_beam_position_monitors(self) -> Sequence[BeamPositionMonitor]:
+        return select_elements_by_instance(itertools.chain(*self.sequences), Marker)
 
-    def add_sextupole(self, sextupole):
-        self.sextupoles.append(sextupole)
+    def get_drifts(self) -> Sequence[Drift]:
+        return select_elements_by_instance(itertools.chain(*self.sequences), Drift)
 
-    def add_steerer(self, steerer):
-        self.steerers.append(steerer)
-    def add_quadrupole(self, quadrupole):
-        self.quadrupoles.append(quadrupole)
+    def get_bendings(self) -> Sequence[Bending]:
+        return select_elements_by_instance(itertools.chain(*self.sequences), Bending)
 
-    def add_marker(self, marker):
-        self.markers.append(marker)
+    def get_quadruoles(self) -> Sequence[Quadrupole]:
+        return select_elements_by_instance(itertools.chain(*self.sequences), Quadrupole)
 
-    def add_beam_position_monitor(self, beam_position_monitor):
-        self.beam_position_monitors.append(beam_position_monitor)
+    def get_sextupoles(self) -> Sequence[Sextupole]:
+        return select_elements_by_instance(itertools.chain(*self.sequences), Sextupole)
 
-    def add_cavity(self, cavity):
-        self.cavities.append(cavity)
+    def get_cavities(self) -> Sequence[Cavity]:
+        return select_elements_by_instance(itertools.chain(*self.sequences), Cavity)
 
-    def add_to_sequence(self, sequence_item):
-        self.sequences.append(sequence_item)
+    def get_steerers(self) -> Sequence[Steerer]:
+        return select_elements_by_instance(itertools.chain(*self.sequences), Cavity)
 
     def to_dict(self):
         machine = {k: v for k, v in self.dict().items() if v is not None}
         return machine
-
-    def set_base_parameters(self, lat):
-        self.name = lat.lattice_standard_metadata.machine_name
-        self.closed = lat.lattice_standard_metadata.closed
-        lat_version = lat.lattice_standard_metadata.lattice_version
-        lat_energy = lat.properties.physics.energy
-        self.version = Version(lat_version.major, lat_version.minor, lat_version.patch_level, datetime.utcnow())
-        self.physics_info = PhysicsInfo(Energy(lat_energy.egu, lat_energy.name, lat_energy.value))
-        self.geometric_info = GeometricInfo(lat.properties.geometric.is_ring)
 
     def retrieve_element_coordinate(self, element_name):
         element = self.get_element(element_name)[0]
@@ -102,6 +111,10 @@ class Machine(BaseModel):
                                end_position=start_position + element.length)
 
     def get_element(self, element_name):
+        """
+        Todo:
+            use cached property
+        """
         return list(filter(lambda x: x.name == element_name, self.sequences))
 
     def filter_element_by_tags(self, element_name: str, tags: List[str]):
@@ -116,13 +129,6 @@ class Machine(BaseModel):
                 "id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "name": "name of machine",
                 "sequences": [],
-                "quadrupoles": [],
-                "sextupoles": [],
-                "drifts": [],
-                "bendings": [],
-                "markers": [],
-                "beam_position_monitors": [],
-                "cavities": [],
                 "version": "",
                 "geometric_info": "",
                 "physics_info": "",
