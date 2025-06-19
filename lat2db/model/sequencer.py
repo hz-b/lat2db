@@ -3,14 +3,8 @@ from typing import Optional, Sequence, Hashable
 import numpy as np
 from pydantic import BaseModel
 
-from .cavity import RFFieldHarmonic
-from .magnetic_element import MagnetAssembly
-
-nan = np.nan
-
-
-
-
+from .lattice_elements.cavity import RFFieldHarmonic
+from .lattice_elements.magnetic_element import MagnetAssembly
 
 
 class LatticeElement(BaseModel):
@@ -35,6 +29,8 @@ class BendingMagnet(BaseModel):
 
 
 class Sequencer(BaseModel):
+    """Todo: make me obsolete
+    """
     name: str
     index: int
     element_configuration: Optional[MagnetAssembly] = None

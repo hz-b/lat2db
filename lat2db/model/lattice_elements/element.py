@@ -1,6 +1,6 @@
 from typing import Sequence, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class Element(BaseModel):
@@ -11,13 +11,12 @@ class Element(BaseModel):
     length: float
     #: to be interpreted by the factories building a lattice from the database
     type: str
-    #: everythnig describing the element itself beyond to the information given
+    #: everything describing the element itself beyond to the information given
     #: in the fields above
     # element_configuration: object
     # tags are given by specific lattice developers to later sort/filter/categorised/group or wild card search their
     # elements
-    passmethod: Optional[str]
-    tags: Optional[Sequence[str]]
+    tags: Optional[Sequence[str]] = Field(default_factory=lambda: None)
 
 
 __all__ = ["Element"]

@@ -6,20 +6,19 @@ from typing import List, Sequence,TypeVar
 from pydantic import Field, BaseModel
 import re
 
-from lat2db.model.element import Element
-from lat2db.model.steerer import Steerer
-from lat2db.tools.helper_function import filter_an_elements
-from lat2db.model.beam_position_monitor import BeamPositionMonitor
-from lat2db.model.bending import Bending
-from lat2db.model.cavity import Cavity
-from lat2db.model.drift import Drift
-from lat2db.model.marker import Marker
-from lat2db.model.physics_info import PhysicsInfo
-from lat2db.model.quadrupole import Quadrupole
-from lat2db.model.sextupole import Sextupole
-from lat2db.model.version import Version
-from lat2db.model.energy import Energy
-from lat2db.model.geometric_info import GeometricInfo
+from .energy import Energy
+from .geometric_info import GeometricInfo
+from .lattice_elements.beam_position_monitor import BeamPositionMonitor
+from .lattice_elements.bending import Bending
+from .lattice_elements.cavity import Cavity
+from .lattice_elements.drift import Drift
+from .lattice_elements.element import Element
+from .lattice_elements.marker import Marker
+from .lattice_elements.quadrupole import Quadrupole
+from .lattice_elements.sextupole import Sextupole
+from .lattice_elements.steerer import Steerer
+from .physics_info import PhysicsInfo
+from .version import Version
 
 
 class ElementPosition:
@@ -39,6 +38,7 @@ def get_section_name(element_name):
         return ""
 
 T = TypeVar("T")
+
 
 def select_elements_by_instance(elms: Iterator[Element], T) -> Sequence[T]:
     return [elm for elm in elms if isinstance(elm, T)]

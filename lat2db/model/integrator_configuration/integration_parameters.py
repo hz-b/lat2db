@@ -2,5 +2,5 @@ from pydantic import BaseModel
 
 
 class IntegrationParameters(BaseModel):
-    steps:  int
-    order : int
+    n_slices:  int
+    symplectic_order : int

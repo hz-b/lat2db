@@ -1,4 +1,4 @@
-from lat2db.model.element import Element
+from .element import Element
 
 
 class Drift(Element):

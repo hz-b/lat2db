@@ -2,7 +2,7 @@ from typing import Optional, Sequence
 
 from pydantic import BaseModel
 
-from lat2db.model.element import Element
+from .element import Element
 
 
 class MultipoleCoefficients(BaseModel):
