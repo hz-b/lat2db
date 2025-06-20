@@ -7,6 +7,8 @@ from typing import List, Sequence, TypeVar, Dict
 from pydantic import Field, BaseModel
 import re
 
+from pydantic.dataclasses import dataclass
+
 from .energy import Energy
 from .geometric_info import GeometricInfo
 from .lattice_elements.beam_position_monitor import BeamPositionMonitor
@@ -23,7 +25,16 @@ from .version import Version
 from ..tools.helper_function import filter_an_elements
 
 
+
+
+@dataclass
 class ElementPosition:
+    element_name: str
+    index: int
+    start_position: float
+    end_position: float
+    section: str
+
     def __init__(self, element_name: str, index: int, start_position: float, end_position: float):
         self.element_name = element_name
         self.index = index
@@ -32,7 +43,7 @@ class ElementPosition:
         self.section = get_section_name(element_name=element_name)
 
 
-def get_section_name(element_name):
+def get_section_name(element_name: str):
     match = re.search(r'[DTKL][1-8]', element_name)
     if match:
         return match.group()
@@ -77,7 +88,7 @@ class Machine(BaseModel):
         return select_elements_by_instance(itertools.chain(*self.sequences), Marker)
 
     def get_beam_position_monitors(self) -> Sequence[BeamPositionMonitor]:
-        return select_elements_by_instance(itertools.chain(*self.sequences), Marker)
+        return select_elements_by_instance(itertools.chain(*self.sequences), BeamPositionMonitor)
 
     def get_drifts(self) -> Sequence[Drift]:
         return select_elements_by_instance(itertools.chain(*self.sequences), Drift)
@@ -101,7 +112,7 @@ class Machine(BaseModel):
         machine = {k: v for k, v in self.dict().items() if v is not None}
         return machine
 
-    def retrieve_element_coordinate(self, element_name):
+    def retrieve_element_coordinate(self, element_name) -> ElementPosition:
         element = self.get_element(element_name)[0]
         start_position = 0
         for item in self.sequences:
