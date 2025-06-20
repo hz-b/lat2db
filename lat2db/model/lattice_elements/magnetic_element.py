@@ -2,7 +2,7 @@ from typing import Optional, Sequence
 
 from pydantic import BaseModel
 
-from lat2db.model.element import Element
+from .element import Element
 
 
 class MultipoleCoefficients(BaseModel):
@@ -62,8 +62,8 @@ class KickAngles(BaseModel):
     """statisfy PyAT design flaws
 
     see if that could be part of the Element
-    todo: revisit if implemetation as Corrector would
-        be more consitent on the long run
+    todo: revisit if implementation as Corrector would
+        be more consistent on the long run
     """
     #: maps to MagneticElement.skew_coefficient[0]
     x: Optional[float] = 0
@@ -84,7 +84,7 @@ class MagnetAssembly(BaseModel):
 
     """
     magnetic_element: MagneticElement
-    #: physisists often think of these corrector magnets
+    #: physicists often think of these corrector magnets
     kickangle: Optional[KickAngles] = None
     correctors: Optional[Sequence[AddonCorrector]] = None
 
