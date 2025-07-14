@@ -1,9 +1,9 @@
 [{
   "_id": {
-    "$oid": "66e0686bf58b97e8063e52d6"
+    "$oid": "670e940336f20b338fbd07c9"
   },
-  "id": "770ae1ce-7ffb-4d7c-a4db-b74fb22e0034",
-  "name": "bessy2Lattice_1",
+  "id": "ea242d26-99c1-4285-9738-286f9ba8b947",
+  "name": "bessy2Lattice_5",
   "sequences": [
     {
       "type": "Marker",
@@ -173,8 +173,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -283,8 +283,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -398,8 +398,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -508,8 +508,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -670,8 +670,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -780,8 +780,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -895,8 +895,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -1006,8 +1006,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -1095,8 +1095,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -1344,8 +1344,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -1433,8 +1433,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -1544,8 +1544,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -1659,8 +1659,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -1769,8 +1769,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -1931,8 +1931,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -2062,8 +2062,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -2156,8 +2156,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -2266,8 +2266,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -2482,8 +2482,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -2592,8 +2592,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -2707,8 +2707,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -2818,8 +2818,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -2980,8 +2980,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -3090,8 +3090,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -3205,8 +3205,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -3316,8 +3316,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -3405,8 +3405,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -3677,8 +3677,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -3766,8 +3766,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -3876,8 +3876,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -3991,8 +3991,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -4101,8 +4101,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -4263,8 +4263,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -4406,8 +4406,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -4521,8 +4521,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -4631,8 +4631,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -4827,8 +4827,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -4937,8 +4937,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -5052,8 +5052,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -5162,8 +5162,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -5324,8 +5324,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -5434,8 +5434,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -5549,8 +5549,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -5660,8 +5660,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -5749,8 +5749,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -5865,8 +5865,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -5954,8 +5954,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -6065,8 +6065,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -6180,8 +6180,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -6290,8 +6290,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -6452,8 +6452,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -6562,8 +6562,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -6677,8 +6677,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -6787,8 +6787,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -7014,8 +7014,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -7124,8 +7124,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -7239,8 +7239,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -7349,8 +7349,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -7511,8 +7511,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -7621,8 +7621,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -7736,8 +7736,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -7846,8 +7846,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -7935,8 +7935,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -8061,8 +8061,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -8150,8 +8150,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -8261,8 +8261,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -8376,8 +8376,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -8486,8 +8486,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -8648,8 +8648,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -8758,8 +8758,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -8873,8 +8873,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -8983,8 +8983,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -9189,8 +9189,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -9300,8 +9300,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -9415,8 +9415,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -9525,8 +9525,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -9675,8 +9675,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -9817,8 +9817,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -9932,8 +9932,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -10042,8 +10042,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -10131,8 +10131,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -10247,8 +10247,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -10336,8 +10336,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -10446,8 +10446,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -10561,8 +10561,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -10672,8 +10672,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -10834,8 +10834,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -10944,8 +10944,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -11059,8 +11059,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -11170,8 +11170,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -11609,8 +11609,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -11720,8 +11720,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -11835,8 +11835,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -11946,8 +11946,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -12108,8 +12108,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -12218,8 +12218,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -12333,8 +12333,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -12443,8 +12443,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -12532,8 +12532,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -12657,8 +12657,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -12722,8 +12722,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -12811,8 +12811,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -12922,8 +12922,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -13037,8 +13037,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -13147,8 +13147,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -13309,8 +13309,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -13419,8 +13419,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -13534,8 +13534,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -13644,8 +13644,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -13850,8 +13850,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -13960,8 +13960,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -14075,8 +14075,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -14185,8 +14185,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -14347,8 +14347,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -14457,8 +14457,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -14572,8 +14572,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -14683,8 +14683,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -14772,8 +14772,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -14888,8 +14888,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -14977,8 +14977,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -15088,8 +15088,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -15203,8 +15203,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -15313,8 +15313,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -15475,8 +15475,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -15585,8 +15585,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -15700,8 +15700,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -15810,8 +15810,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -16036,8 +16036,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -16146,8 +16146,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -16261,8 +16261,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -16371,8 +16371,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -16533,8 +16533,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -16643,8 +16643,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -16758,8 +16758,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -16868,8 +16868,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -16957,8 +16957,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -17175,8 +17175,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -17264,8 +17264,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -17374,8 +17374,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -17489,8 +17489,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -17599,8 +17599,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -17761,8 +17761,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -17871,8 +17871,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -17986,8 +17986,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -18096,8 +18096,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -18320,8 +18320,8 @@
   "quadrupoles": [
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -18354,8 +18354,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -18388,8 +18388,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -18422,8 +18422,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -18456,8 +18456,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -18490,8 +18490,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -18524,8 +18524,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -18558,8 +18558,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -18592,8 +18592,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -18626,8 +18626,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -18660,8 +18660,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -18694,8 +18694,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -18728,8 +18728,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -18762,8 +18762,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -18796,8 +18796,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -18830,8 +18830,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -18864,8 +18864,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -18898,8 +18898,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -18932,8 +18932,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -18966,8 +18966,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19000,8 +19000,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19034,8 +19034,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19068,8 +19068,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19102,8 +19102,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19136,8 +19136,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19170,8 +19170,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19204,8 +19204,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19238,8 +19238,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19272,8 +19272,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19306,8 +19306,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19340,8 +19340,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19374,8 +19374,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19408,8 +19408,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19442,8 +19442,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19476,8 +19476,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19510,8 +19510,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19544,8 +19544,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19578,8 +19578,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19612,8 +19612,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19646,8 +19646,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19680,8 +19680,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19714,8 +19714,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19748,8 +19748,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19782,8 +19782,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19816,8 +19816,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19850,8 +19850,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19884,8 +19884,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19918,8 +19918,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19952,8 +19952,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -19986,8 +19986,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20020,8 +20020,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20054,8 +20054,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20088,8 +20088,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20122,8 +20122,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20156,8 +20156,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20190,8 +20190,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20224,8 +20224,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20258,8 +20258,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20292,8 +20292,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20326,8 +20326,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20360,8 +20360,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20394,8 +20394,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20428,8 +20428,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20462,8 +20462,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20496,8 +20496,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20530,8 +20530,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20564,8 +20564,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20598,8 +20598,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20632,8 +20632,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20666,8 +20666,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20700,8 +20700,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20734,8 +20734,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20768,8 +20768,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20802,8 +20802,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20836,8 +20836,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20870,8 +20870,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20904,8 +20904,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20938,8 +20938,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -20972,8 +20972,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21006,8 +21006,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21040,8 +21040,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21074,8 +21074,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21108,8 +21108,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21142,8 +21142,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21176,8 +21176,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21210,8 +21210,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21244,8 +21244,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21278,8 +21278,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21312,8 +21312,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21346,8 +21346,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21380,8 +21380,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21414,8 +21414,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21448,8 +21448,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21482,8 +21482,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21516,8 +21516,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21550,8 +21550,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21584,8 +21584,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21618,8 +21618,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21652,8 +21652,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21686,8 +21686,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21720,8 +21720,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21754,8 +21754,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21788,8 +21788,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21822,8 +21822,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21856,8 +21856,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21890,8 +21890,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21924,8 +21924,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21958,8 +21958,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -21992,8 +21992,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22026,8 +22026,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22060,8 +22060,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22094,8 +22094,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22128,8 +22128,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22162,8 +22162,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22196,8 +22196,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22230,8 +22230,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22264,8 +22264,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22298,8 +22298,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22332,8 +22332,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22366,8 +22366,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22400,8 +22400,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22434,8 +22434,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22468,8 +22468,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22502,8 +22502,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22536,8 +22536,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22570,8 +22570,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22604,8 +22604,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22638,8 +22638,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22672,8 +22672,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22706,8 +22706,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22740,8 +22740,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22774,8 +22774,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22808,8 +22808,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22842,8 +22842,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22876,8 +22876,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22910,8 +22910,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22944,8 +22944,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -22978,8 +22978,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -23012,8 +23012,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -23046,8 +23046,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -23080,8 +23080,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -23114,8 +23114,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -23148,8 +23148,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -23182,8 +23182,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -23216,8 +23216,8 @@
     },
     {
       "type": "Quadrupole",
-      "MaxOrder": 1,
       "Energy": 1700000000,
+      "MaxOrder": 1,
       "passmethod": "StrMPoleSymplectic4RadPass",
       "element_configuration": {
         "magnetic_element": {
@@ -36641,5 +36641,6 @@
       ],
       "index": 999
     }
-  ]
+  ],
+  "closed": true
 }]
