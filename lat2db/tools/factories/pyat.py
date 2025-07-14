@@ -10,13 +10,13 @@ import jsons
 import numpy as np
 import pydantic
 
-from ...model.bending import Bending
-from ...model.cavity import Cavity
-from ...model.element import Element
-from ...model.magnetic_element import MagneticElement, KickAngles, AddonCorrector, MagnetAssembly
-from ...model.quadrupole import Quadrupole
-from ...model.sextupole import Sextupole
-from ...model.steerer import Steerer
+from ...model.lattice_elements.bending import Bending
+from ...model.lattice_elements.cavity import Cavity
+from ...model.lattice_elements.element import Element
+from ...model.lattice_elements.magnetic_element import MagneticElement, KickAngles, AddonCorrector, MagnetAssembly
+from ...model.lattice_elements.quadrupole import Quadrupole
+from ...model.lattice_elements.sextupole import Sextupole
+from ...model.lattice_elements.steerer import Steerer
 
 logger = logging.getLogger("lat2db")
 __all__ = ["factory"]
