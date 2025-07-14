@@ -2,7 +2,7 @@ from typing import Optional
 
 from pydantic.dataclasses import dataclass
 
-from .element import Element
+from lat2db.model.element import Element
 
 
 @dataclass

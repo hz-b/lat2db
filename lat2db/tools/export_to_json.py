@@ -1,10 +1,7 @@
 import time
 from pathlib import Path
-import pprint
-
 from lark import Lark
-
-from lat2db.bl.create_machine import create_machine
+from lat2db.bl.set_machine import create_machine
 from lat2db.tools import dtclasses as ds
 from lat2db.tools.madx.parser import MADXTransformer, parse
 
@@ -50,23 +47,21 @@ def export_lattice_properties(
 
 def export(organized_dict, variables):
     lp = export_lattice_properties(variables, machine_name="BESSYII")
+    print("lppppp")
+    print(lp)
     # lp.elements = export_elements(config.getAny("elements"))  # config
     lp.elements = list(organized_dict.values())
 
-    machine = create_machine(lp)
+    try:
+        create_machine(lp)
+    except Exception as e:
+        print(f"An exception occurred: {e}")
+
+    return
+
     # d = dict(lattice_properties=lp, elements=element_configs)
     # json.dump(element_configs, sys.stdout, indent=4)
-    machine.get_element("start")
-    machine.get_element("ringend")
-    machine.get_markers()
-    machine.get_beam_position_monitors()
-    machine.get_bendings()
-    machine.get_drifts()
-    machine.get_quadrupoles()
-    machine.get_sextupoles()
-    machine.get_cavities()
 
-    return machine
 
 def main():
     BASE_DIR = Path(__file__).resolve().parent
@@ -79,8 +74,7 @@ def main():
     machine_data = MADXTransformer().transform(tree)
     organized_dict = parse(machine_data)
     variables = machine_data['variables']
-    machine = export(organized_dict, variables)
-    pprint.pprint(machine.get_element("START"))
+    export(organized_dict, variables)
 
 
 if __name__ == "__main__":

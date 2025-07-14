@@ -1,14 +1,16 @@
+import sys
+
+sys.path.append('/Users/safiullahomar/lattice/lat2db test')
+from lat2db.tools.madx.madx_lark_parser import convert_madx_to_json
 from lat2db.tools.export_to_json import export
 from lat2db.tools.thor_scsi.thor_scsi_lark_parser import to_json
 from pathlib import Path
-import logging
-
-logger = logging.getLogger("lat2db")
 
 
 def main(filename):
-    logger.info("%s: executing main", __name__)
+    print("another main")
     with open(filename, "rt") as file:
+        #  organized_dict, variables = convert_madx_to_json(file.read())
         organized_dict, variables = to_json(file.read())
 
     export(organized_dict, variables)

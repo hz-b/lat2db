@@ -1,15 +1,18 @@
 from typing import Optional, List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
-from .lattice_elements.beam_position_monitor import BeamPositionMonitor
-from .lattice_elements.bending import Bending
-from .lattice_elements.cavity import Cavity
-from .lattice_elements.drift import Drift
-from .lattice_elements.marker import Marker
+from lat2db.model.beam_position_monitor import BeamPositionMonitor
+from lat2db.model.bending import Bending
+from lat2db.model.cavity import Cavity
+from lat2db.model.drift import Drift
+from lat2db.model.geometric_info import GeometricInfo
+from lat2db.model.marker import Marker
+from lat2db.model.physics_info import PhysicsInfo
+from lat2db.model.quadrupole import Quadrupole
 from lat2db.model.sequencer import Sequencer
-from .lattice_elements.quadrupole import Quadrupole
-from .lattice_elements.sextupole import Sextupole
+from lat2db.model.sextupole import Sextupole
+from lat2db.model.version import Version
 
 
 class MachineUpdate(BaseModel):
