@@ -1,9 +1,6 @@
 from .parser import MADXTransformer, parse
 from importlib.resources import files
 from lark import Lark
-import logging
-
-logger = logging.getLogger("lat2db")
 
 __all__ = ["get_lark", "to_json"]
 
@@ -20,7 +17,7 @@ def get_lark():
     return parser
 
 def to_json(lattice_content: str):
-    logger.info("called to json")
+    print("called to json")
     tree = get_lark().parse(lattice_content)
     machine_data = MADXTransformer().transform(tree)
     organized_dict = parse(machine_data)

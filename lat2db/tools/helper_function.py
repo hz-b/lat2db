@@ -1,9 +1,5 @@
 
 def filter_an_elements(tags, element_list, element_name):
-    """
-    Todo:
-        rename this function
-    """
     result = {}
     for element in element_list:
         if any(tag in element.tags for tag in tags):
