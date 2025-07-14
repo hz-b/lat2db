@@ -46,7 +46,7 @@ def get_config_filename(module_name: str, filename: str):
     '''Get the configuration filename using pkg_resources
     '''
     from importlib.resources import files
-    path = files(module_name).parent / 'examples' / 'pyat' / filename
+    path = files(module_name) / 'db' / filename
     logger.info('Config file expected at %s', path)
     return path
 
