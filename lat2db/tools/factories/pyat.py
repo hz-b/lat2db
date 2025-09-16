@@ -31,7 +31,7 @@ def factory(expr: dict):
     # energy_prop = expr["physics_info"]["energy"]
     # assert energy_prop["egu"] == "GeV"
     # assert energy_prop["name"] == "energy"
-    energy = 1.7e9  # float(energy_prop["value"]) * 1e9
+    energy = 629e6  # float(energy_prop["value"]) * 1e9
 
     factory_dict = factory_dict_default.copy()
     factory_dict["RFCavity"] = partial(instaniate_cavity, energy=energy)
