@@ -86,7 +86,7 @@ def instantiate_bending(prop: dict):
         FullGap=getattr(p, 'fullgap', 0.0),
         PolynomB=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
         PolynomA=p.element_configuration.magnetic_element.coeffs.skew_coefficients,
-        Energy=1.7e9
+        Energy=629e6
     )
 
 
