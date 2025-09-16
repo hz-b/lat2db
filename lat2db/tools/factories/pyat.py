@@ -105,7 +105,7 @@ def instanitate_quadrupole(prop: dict):
     k = p.element_configuration.magnetic_element.main_multipole_strength
     r = at.Quadrupole(p.name, length=p.length, k=k,
                       PolynomB=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
-                      PolynomA=p.element_configuration.magnetic_element.coeffs.skew_coefficients, Energy = 1.7e9)
+                      PolynomA=p.element_configuration.magnetic_element.coeffs.skew_coefficients, Energy = 629e6)
     assert np.isfinite(r.K)
     return r
 
@@ -131,7 +131,7 @@ def instanitate_sextupole(props: dict):
         raise e from None  # Re-raise with proper context
     r = at.Sextupole(p.name, p.length, PolynomB=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
                      PolynomA=p.element_configuration.magnetic_element.coeffs.skew_coefficients, Corrector=p.tags[0],
-                     KickAngle=[p.element_configuration.kickangle.x, p.element_configuration.kickangle.y], Energy = 1.7e9)
+                     KickAngle=[p.element_configuration.kickangle.x, p.element_configuration.kickangle.y], Energy = 629e6)
     assert np.isfinite(r.H)
     return r
 
