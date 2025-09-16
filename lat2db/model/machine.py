@@ -4,6 +4,7 @@ from typing import List
 from pydantic import Field, BaseModel
 import re
 
+from lat2db.model.octupole import Octupole
 from lat2db.model.steerer import Steerer
 from lat2db.tools.helper_function import filter_an_elements
 from lat2db.model.beam_position_monitor import BeamPositionMonitor
@@ -41,6 +42,7 @@ class Machine(BaseModel):
     sequences: List[Sequencer] = Field(default_factory=list)
     quadrupoles: List[Quadrupole] = Field(default_factory=list)
     sextupoles: List[Sextupole] = Field(default_factory=list)
+    octupoles: List[Octupole] = Field(default_factory=list)
     drifts: List[Drift] = Field(default_factory=list)
     bendings: List[Bending] = Field(default_factory=list)
     markers: List[Marker] = Field(default_factory=list)
@@ -60,6 +62,8 @@ class Machine(BaseModel):
     def add_sextupole(self, sextupole):
         self.sextupoles.append(sextupole)
 
+    def add_octupole(self, octupole):
+        self.octupoles.append(octupole)
     def add_steerer(self, steerer):
         self.steerers.append(steerer)
     def add_quadrupole(self, quadrupole):

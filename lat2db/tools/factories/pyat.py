@@ -14,6 +14,7 @@ from ...model.bending import Bending
 from ...model.cavity import Cavity
 from ...model.element import Element
 from ...model.magnetic_element import MagneticElement, KickAngles, AddonCorrector, MagnetAssembly
+from ...model.octupole import Octupole
 from ...model.quadrupole import Quadrupole
 from ...model.sextupole import Sextupole
 from ...model.steerer import Steerer
@@ -112,6 +113,24 @@ def instanitate_quadrupole(prop: dict):
 
 #
 
+def instanitate_octupole(prop: dict):
+    """
+    Todo:
+    check which convention k follows
+    """
+    logger.debug(f"Octupole {prop=}")
+    try:
+        # p = jsons.load(prop, Quadrupole)
+        p = Octupole(**prop)
+    except jsons.exceptions.DeserializationError:
+        logger.error(f"Could not load Octupole using properties {prop}")
+        raise
+    k = p.element_configuration.magnetic_element.main_multipole_strength
+    r = at.Octupole(p.name, length=p.length, k=k,
+                      poly_b=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
+                      poly_a=p.element_configuration.magnetic_element.coeffs.skew_coefficients, Energy = 629e6)
+    return r
+
 
 def instanitate_sextupole(props: dict):
     """
@@ -192,7 +211,8 @@ factory_dict_default = dict(
     Dipole=instantiate_bending,
     Quadrupole=instanitate_quadrupole,
     Sextupole=instanitate_sextupole,
-    Corrector=instanitate_steerer
+    Corrector=instanitate_steerer,
+    Octupole=instanitate_octupole,
 )
 
 # due to historic reasons: need to get the that cleaned away

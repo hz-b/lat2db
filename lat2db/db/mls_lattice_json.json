@@ -1,9 +1,9 @@
 [{
   "_id": {
-    "$oid": "685952bafbab01c5bc4dd101"
+    "$oid": "68c958e5288d1fe9a42370ce"
   },
-  "id": "eb760d8a-6c92-4522-853d-7eec484856ee",
-  "name": "MLS_Lattice_1",
+  "id": "69913308-882f-4460-946c-6d116d63a873",
+  "name": "bessy2Lattice_2",
   "sequences": [
     {
       "type": "Marker",
@@ -401,6 +401,43 @@
       "tags": [
         ""
       ]
+    },
+    {
+      "type": "Octupole",
+      "MaxOrder": 3,
+      "element_configuration": {
+        "magnetic_element": {
+          "coeffs": {
+            "normal_coefficients": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "skew_coefficients": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "main_multipole_index": null,
+          "main_multipole_strength": null
+        },
+        "kickangle": {
+          "x": 0,
+          "y": 0
+        },
+        "correctors": null
+      },
+      "number_of_integration_steps": 10,
+      "name": "OMK1RP",
+      "length": 0.1,
+      "passmethod": "StrMPoleSymplectic4Pass",
+      "tags": [
+        ""
+      ],
+      "index": 22
     },
     {
       "type": "Drift",
@@ -1209,6 +1246,43 @@
       ]
     },
     {
+      "type": "Octupole",
+      "MaxOrder": 3,
+      "element_configuration": {
+        "magnetic_element": {
+          "coeffs": {
+            "normal_coefficients": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "skew_coefficients": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "main_multipole_index": null,
+          "main_multipole_strength": null
+        },
+        "kickangle": {
+          "x": 0,
+          "y": 0
+        },
+        "correctors": null
+      },
+      "number_of_integration_steps": 10,
+      "name": "OML2RP",
+      "length": 0.1,
+      "passmethod": "StrMPoleSymplectic4Pass",
+      "tags": [
+        ""
+      ],
+      "index": 68
+    },
+    {
       "type": "Drift",
       "name": "D2L1K3RP_1",
       "length": 0.054,
@@ -2001,6 +2075,43 @@
       "tags": [
         ""
       ]
+    },
+    {
+      "type": "Octupole",
+      "MaxOrder": 3,
+      "element_configuration": {
+        "magnetic_element": {
+          "coeffs": {
+            "normal_coefficients": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "skew_coefficients": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "main_multipole_index": null,
+          "main_multipole_strength": null
+        },
+        "kickangle": {
+          "x": 0,
+          "y": 0
+        },
+        "correctors": null
+      },
+      "number_of_integration_steps": 10,
+      "name": "OMK3RP",
+      "length": 0.1,
+      "passmethod": "StrMPoleSymplectic4Pass",
+      "tags": [
+        ""
+      ],
+      "index": 113
     },
     {
       "type": "Drift",
@@ -2814,6 +2925,43 @@
       "tags": [
         ""
       ]
+    },
+    {
+      "type": "Octupole",
+      "MaxOrder": 3,
+      "element_configuration": {
+        "magnetic_element": {
+          "coeffs": {
+            "normal_coefficients": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "skew_coefficients": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "main_multipole_index": null,
+          "main_multipole_strength": null
+        },
+        "kickangle": {
+          "x": 0,
+          "y": 0
+        },
+        "correctors": null
+      },
+      "number_of_integration_steps": 10,
+      "name": "OML4RP",
+      "length": 0.1,
+      "passmethod": "StrMPoleSymplectic4Pass",
+      "tags": [
+        ""
+      ],
+      "index": 159
     },
     {
       "type": "Drift",

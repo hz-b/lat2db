@@ -14,6 +14,7 @@ from lat2db.model.cavity import Cavity
 from lat2db.model.drift import Drift
 from lat2db.model.machine import Machine
 from lat2db.model.marker import Marker
+from lat2db.model.octupole import Octupole
 from lat2db.model.quadrupole import Quadrupole
 from lat2db.model.sequencer import Sequencer
 from lat2db.model.sextupole import Sextupole
@@ -47,7 +48,7 @@ def create_machine(lat):
         # Ensure 'passmethod' and 'tags' keys exist in the row dictionary
         row.setdefault("passmethod", None)
         row.setdefault("tags", None)
-        if type_name in ["Bending", "Quadrupole", "Sextupole", "Steerer"]:
+        if type_name in ["Bending", "Quadrupole", "Sextupole", "Octupole", "Steerer"]:
             row.setdefault("main_multipole_strength", row.pop("K", 0e0))  # rename "K" to "main_multipole_strength"
             row.setdefault("number_of_integration_steps",
                            row.pop("N", 1))  # rename "N" to "number_of_integration_steps"
@@ -73,6 +74,7 @@ def create_machine(lat):
             "Drift": (Drift, machine.add_drift),
             "Marker": (Marker, machine.add_marker),
             "Sextupole": (Sextupole, machine.add_sextupole),
+            "Octupole": (Octupole, machine.add_octupole),
             "Steerer": (Steerer, machine.add_steerer()),
             "Bending": (Bending, machine.add_bending),
             "Quadrupole": (Quadrupole, machine.add_quadrupole),

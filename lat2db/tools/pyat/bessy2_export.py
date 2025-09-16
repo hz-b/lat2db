@@ -7,6 +7,8 @@ import at
 import numpy as np
 import pymongo
 
+from lat2db.tools.pyat.mls_sr_reflat import mlsLattice
+
 sys.path.append('/Users/safiullahomar/lattice/lat2db test')
 from lat2db.model.marker import Marker
 
@@ -1373,7 +1375,7 @@ def export_to_mongodb(lattice, mongodb_uri, database_name, collection_name):
     db = client[database_name]
     collection = db[collection_name]
     for element in lattice:
-        if element.type != "Marker":
+        if element.definition[0] != "Marker":
             element_dict = element.to_dict()
             collection.insert_one(element_dict)
 
@@ -1398,14 +1400,14 @@ def export_to_mongodb(lattice, mongodb_uri, database_name, collection_name):
 
 if __name__ == '__main__':
     mongodb_uri = "mongodb://localhost:27017/"
-    database_name = "newDb"
-    collection_name = "lattice_collection"
+    database_name = "mls"
+    collection_name = "machines"
 
     # for inserting the database uncomment this
-    ring = bessy2Lattice()
+    ring = mlsLattice()
 
     # print(ring["Lattice"])
-    # export_to_mongodb(ring, mongodb_uri, database_name, collection_name)
+    export_to_mongodb(ring, mongodb_uri, database_name, collection_name)
     print("Exported all lattice elements (except Markers) to MongoDB")
     # for running the api uncomment this
     # app.run(debug=True)

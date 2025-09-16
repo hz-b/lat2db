@@ -3,7 +3,9 @@ import sys
 import numpy as np
 from pymongo import MongoClient
 
+from lat2db.model.octupole import Octupole
 from lat2db.tools.pyat.bessy2_TL_reflat import bessy2_TL
+from lat2db.tools.pyat.mls_sr_reflat import mlsLattice
 
 sys.path.append('/Users/safiullahomar/lattice/lat2db test')
 from lat2db.model.quadrupole import Quadrupole
@@ -26,17 +28,18 @@ import uuid
 
 def insert_elements(ring, parent_id=None):
     client = MongoClient('mongodb://localhost:27017/')
-    db = client['bessyii']
+    db = client['mls']
     collection = db['machines']
 
     # previosu machine databasse and its collection
     client_bess = MongoClient('mongodb://localhost:27017/')
-    db_bess = client_bess['bessyii']
+    db_bess = client_bess['mls']
     collection_bess = db_bess['machines']
 
     all_elements = []
     quad_elements = []
     sextupole_elements = []
+    octupole_elements = []
     steerer_elements = []
     drift_elements = []
 
@@ -55,6 +58,7 @@ def insert_elements(ring, parent_id=None):
     # Get all fields of the Quadrupole class
     quadrupole_fields = [*Quadrupole.__fields__]
     sextupole_fields = [*Sextupole.__fields__]
+    octupole_fields = [*Octupole.__fields__]
     drift_fields = [*Drift.__fields__]
     bending_fields = [*Bending.__fields__]
     marker_fields = [*Marker.__fields__]
@@ -75,6 +79,7 @@ def insert_elements(ring, parent_id=None):
         element_data = {}
         element_quad = {}
         element_sextupole = {}
+        element_octupole = {}
         element_drift = {}
 
         element_bending = {}
@@ -124,6 +129,8 @@ def insert_elements(ring, parent_id=None):
                 element_quad[key] = value
             if typename.lower() == "sextupole":
                 element_sextupole[key] = value
+            if typename.lower() == "octupole":
+                element_octupole[key] = value
             if typename.lower() == "drift":
                 element_drift[key] = value
             if typename.lower() == "bending":
@@ -152,6 +159,7 @@ def insert_elements(ring, parent_id=None):
             "dipole": element_dipole,
             "quadrupole": element_quad,
             "sextupole": element_sextupole,
+            "octupole": element_octupole,
             "drift": element_drift,
             "bending": element_bending,
             "marker": element_marker,
@@ -201,6 +209,8 @@ def insert_elements(ring, parent_id=None):
                 element_drift[field] = field_value
             if typename.lower() == "sextupole":
                 element_sextupole[field] = field_value
+            if typename.lower() == "octupole":
+                element_octupole[field] = field_value
 
             if typename.lower() == "quadrupole":
                 element_quad[field] = field_value
@@ -319,6 +329,65 @@ def insert_elements(ring, parent_id=None):
                 if field != "element_properties" and field not in element_sextupole:
                     # Add missing property with null value
                     element_sextupole[field] = None
+
+        if typename.lower() == "octupole":
+
+            multipole_coefficients = MultipoleCoefficients()
+            multipole_coefficients.normal_coefficients = [float(x) for x in element_octupole.pop("PolynomB")]
+            multipole_coefficients.skew_coefficients = [float(x) for x in element_octupole.pop("PolynomA")]
+
+            kickAngles = KickAngles()
+            kick_angles_dict = {
+                "x": 0.0,
+                "y": 0.0
+            }
+            if "KickAngle" in element_octupole:
+                float_array = [float(x) for x in element_octupole.pop("KickAngle")]
+
+                if len(float_array) >= 2:  # Ensure there are at least two values in the array
+                    kickAngles.x = float_array[0]
+                    kickAngles.y = float_array[1]
+
+                kick_angles_dict = {
+                    "x": kickAngles.x,
+                    "y": kickAngles.y
+                }
+            magnetic_element = MagneticElement(coeffs=multipole_coefficients,
+                                               main_multipole_strength=element_octupole.pop("k", None),
+                                               main_multipole_index=None
+                                               # passmethod=element_sextupole.pop("PassMethod")
+
+                                               )
+            magnetic_element_dict = {
+                "coeffs": {
+                    "normal_coefficients": magnetic_element.coeffs.normal_coefficients,
+                    "skew_coefficients": magnetic_element.coeffs.skew_coefficients
+                },
+                "main_multipole_index": magnetic_element.main_multipole_index,
+                "main_multipole_strength": magnetic_element.main_multipole_strength
+            }
+            configuation_attributes = {
+                "magnetic_element": magnetic_element_dict,  # No need to call to_dict()
+                "kickangle": kick_angles_dict if kickAngles.x is not None or kickAngles.y is not None else None,
+                "correctors": None
+            }
+
+            element_octupole["element_configuration"] = configuation_attributes
+            element_octupole["number_of_integration_steps"] = element_octupole.pop("NumIntSteps", None)
+            element_octupole["name"] = element_octupole.pop("FamName", None)
+            element_octupole["length"] = element_octupole.pop("Length", None)
+
+            element_octupole["passmethod"] = element_octupole.pop("PassMethod")
+            element_octupole["tags"] = [element_octupole.pop("Corrector", "")]
+
+            for field in octupole_fields:
+                if field != "element_properties" and field not in element_octupole:
+                    # Add missing property with null value
+                    element_octupole[field] = None
+
+
+
+
 
         if typename.lower() == "corrector":
             kickAngles = KickAngles()
@@ -580,6 +649,12 @@ def insert_elements(ring, parent_id=None):
 
             sextupole_elements.append(element_sextupole)
             all_elements.append(element_sextupole)
+        if typename.lower() == "octupole":
+            # element_sextupole["name"] = element_sextupole.pop("famname")
+            element_octupole["index"] = index
+
+            octupole_elements.append(element_octupole)
+            all_elements.append(element_octupole)
 
         if typename.lower() == "corrector":
             # element_sextupole["name"] = element_sextupole.pop("famname")
@@ -678,9 +753,9 @@ def insert_elements(ring, parent_id=None):
 
 if __name__ == '__main__':
     # for inserting the database uncomment this
-    ring = bessy2_TL()
+    ring = mlsLattice()
     insert_elements(ring)
-    # print(ring["Lattice"])
+    print(ring["Lattice"])
     # export_to_mongodb(ring, mongodb_uri, database_name, collection_name)
     print("Exported all lattice elements  to MongoDB")
     # for running the api uncomment this
