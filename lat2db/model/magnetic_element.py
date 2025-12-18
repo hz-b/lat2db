@@ -2,7 +2,8 @@ from typing import Optional, Sequence
 
 from pydantic import BaseModel
 
-from lat2db.model.element import Element
+from .element import Element
+from .integration_parameters import IntegrationParameters
 
 
 class MultipoleCoefficients(BaseModel):
@@ -27,6 +28,7 @@ class MagneticElement(BaseModel):
     coeffs: MultipoleCoefficients
     main_multipole_index: Optional[int] = None
     main_multipole_strength: Optional[float] = None
+    integration_parameters: Optional[IntegrationParameters] = None
 
     # def to_dict(self):
     #     return {
@@ -56,7 +58,6 @@ class AddonCorrector(Element):
     Coefficients Angles with errors
     """
     element_properties: Optional[MagneticElement] = None
-
 
 class KickAngles(BaseModel):
     """statisfy PyAT design flaws
