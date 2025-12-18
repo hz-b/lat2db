@@ -62,7 +62,7 @@ class OffsetFromRegressionLine:
 
     def create_reference_fit(self, indep, dep):
         self.slope, self.intercept = np.polyfit(indep, dep, 1)
-        logger.warning(
+        logger.debug(
             f"{self.__class__.__name__}: reference a={self.intercept} b={self.slope}"
         )
 
