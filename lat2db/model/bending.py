@@ -5,6 +5,13 @@ from .magnetic_element import MagnetAssembly
 
 
 class Bending(Element):
+    """
+    Todo:
+        split up into different sub parts
+
+        * angles as geometry
+
+    """
     element_configuration: Optional[MagnetAssembly] = None
     number_of_integration_steps: Optional[int] = None
     bending_angle: Optional[float] = 0.0
