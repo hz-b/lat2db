@@ -180,8 +180,8 @@ def instantiate_multipole(props: dict):
     r = at.Multipole(
         p.name,
         length=p.length,
-        poly_a=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
-        poly_b=p.element_configuration.magnetic_element.coeffs.skew_coefficients,
+        poly_b=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
+        poly_a=p.element_configuration.magnetic_element.coeffs.skew_coefficients,
         **kwargs,
     )
     assert np.isfinite(r.PolynomA).all()
