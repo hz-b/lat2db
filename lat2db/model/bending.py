@@ -12,7 +12,11 @@ class Bending(Element):
         * angles as geometry
 
     """
+
     element_configuration: Optional[MagnetAssembly] = None
+    # Todo: should it be treated as a corrector ?
+    #       combined dipole / quads: are the quad strength ending up here
+    gradient: Optional[float] = None
     number_of_integration_steps: Optional[int] = None
     bending_angle: Optional[float] = 0.0
     entranceangle: Optional[float] = 0.0

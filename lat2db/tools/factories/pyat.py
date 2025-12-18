@@ -4,6 +4,7 @@ import enum
 import logging
 import math
 from functools import partial
+from typing import Sequence, Dict
 
 import at
 import jsons
@@ -13,7 +14,7 @@ import pydantic
 from ...model.bending import Bending
 from ...model.cavity import Cavity
 from ...model.element import Element
-from ...model.magnetic_element import MagneticElement, KickAngles, AddonCorrector, MagnetAssembly
+from ...model.multipole import Multipole
 from ...model.octupole import Octupole
 from ...model.quadrupole import Quadrupole
 from ...model.sextupole import Sextupole
@@ -23,7 +24,7 @@ logger = logging.getLogger("lat2db")
 __all__ = ["factory"]
 
 
-def factory(expr: dict):
+def factory(expr: dict, *, energy: float):
     """
     Args:
         energy: energy of the accelerator: only used by the cavities
@@ -32,7 +33,7 @@ def factory(expr: dict):
     # energy_prop = expr["physics_info"]["energy"]
     # assert energy_prop["egu"] == "GeV"
     # assert energy_prop["name"] == "energy"
-    energy = 629e6  # float(energy_prop["value"]) * 1e9
+    # energy = 629e6  # float(energy_prop["value"]) * 1e9
 
     factory_dict = factory_dict_default.copy()
     factory_dict["RFCavity"] = partial(instaniate_cavity, energy=energy)
@@ -48,16 +49,24 @@ def instantiate_element(prop, *, factory_dict):
 
 def instantiate_marker(prop: dict):
     #: Todo re
-    return at.Marker(prop["name"], length=0)
+    return at.Marker(prop["name"], Length=0)
 
 
 def instantiate_monitor(prop: dict):
     #: Todo re
-    return at.Monitor(prop["name"], length=0)
+    return at.Monitor(prop["name"], Length=prop["length"])
 
 
 def instantiate_drift(prop: dict):
-    return at.Drift(prop["name"], length=prop["length"])
+    r = at.Drift(prop["name"], prop["length"])
+    return r
+
+
+def kick_angles(p) -> Dict[str, Sequence[float]]:
+    val = getattr(p.element_configuration, "kickangle", None)
+    if val is not None:
+        return dict(KickAngle=(val.x, val.y))
+    return dict()
 
 
 def instantiate_bending(prop: dict):
@@ -71,24 +80,40 @@ def instantiate_bending(prop: dict):
 
         Check what the definition of h is
     """
-    h = 0.0
+    # h = 0.0
     p = Bending(**prop)
     #: Todo: should irho be checked then
-    return at.Dipole(
+    me = p.element_configuration.magnetic_element
+
+    # To improve comparability to the inititally exported lattice
+    # Copy selected attributes if present
+
+    kwargs = dict()
+    for attr, key in [
+        ("fringeint2", "FringeInt2"),
+        ("fringeint1", "FringeInt1"),
+        ("fullgap", "FullGap"),
+    ]:
+        val = getattr(p, attr, None)
+        if val is not None:
+            kwargs[key] = val
+    # Add kick angles
+    kwargs.update(kick_angles(p))
+
+    r = at.Dipole(
         p.name,
-        h=h,
+        # h=h,
         ExitAngle=p.exitangle,
         EntranceAngle=p.entranceangle,
         bending_angle=p.bending_angle,
-        k=0.0,
+        k=p.gradient,
         length=p.length,
-        FringeInt2=getattr(p, 'fringeInt2', 0.0),
-        FringeInt1=getattr(p, 'fringeInt1', 0.0),
-        FullGap=getattr(p, 'fullgap', 0.0),
-        PolynomB=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
-        PolynomA=p.element_configuration.magnetic_element.coeffs.skew_coefficients,
-        Energy=629e6
+        PolynomB=me.coeffs.normal_coefficients,
+        PolynomA=me.coeffs.skew_coefficients,
+        NumIntSteps=me.integration_parameters.n_steps,
+        **kwargs,
     )
+    return r
 
 
 def instanitate_quadrupole(prop: dict):
@@ -103,15 +128,21 @@ def instanitate_quadrupole(prop: dict):
     except jsons.exceptions.DeserializationError:
         logger.error(f"Could not load Quadrupole using properties {prop}")
         raise
+
+    kwargs = kick_angles(p)
     k = p.element_configuration.magnetic_element.main_multipole_strength
-    r = at.Quadrupole(p.name, length=p.length, k=k,
-                      PolynomB=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
-                      PolynomA=p.element_configuration.magnetic_element.coeffs.skew_coefficients, Energy = 629e6)
+    r = at.Quadrupole(
+        p.name,
+        length=p.length,
+        k=k,
+        PolynomB=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
+        PolynomA=p.element_configuration.magnetic_element.coeffs.skew_coefficients,
+        NumIntSteps=p.element_configuration.magnetic_element.integration_parameters.n_steps,
+        **kwargs,
+    )
     assert np.isfinite(r.K)
     return r
 
-
-#
 
 def instanitate_octupole(prop: dict):
     """
@@ -126,9 +157,35 @@ def instanitate_octupole(prop: dict):
         logger.error(f"Could not load Octupole using properties {prop}")
         raise
     k = p.element_configuration.magnetic_element.main_multipole_strength
-    r = at.Octupole(p.name, length=p.length, k=k,
-                      poly_b=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
-                      poly_a=p.element_configuration.magnetic_element.coeffs.skew_coefficients, Energy = 629e6)
+    kwargs = kick_angles(p)
+    r = at.Octupole(
+        p.name,
+        length=p.length,
+        k=k,
+        poly_b=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
+        poly_a=p.element_configuration.magnetic_element.coeffs.skew_coefficients,
+        **kwargs,
+    )
+    return r
+
+
+def instantiate_multipole(props: dict):
+    try:
+        p = Multipole(**props)
+    except pydantic.ValidationError as e:
+        logger.error(f"Could not load Multipole using properties {props}")
+        logger.error(f"pydantic found following errors {e.errors()}")
+        raise e from None
+    kwargs = kick_angles(p)
+    r = at.Multipole(
+        p.name,
+        length=p.length,
+        poly_a=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
+        poly_b=p.element_configuration.magnetic_element.coeffs.skew_coefficients,
+        **kwargs,
+    )
+    assert np.isfinite(r.PolynomA).all()
+    assert np.isfinite(r.PolynomB).all()
     return r
 
 
@@ -144,13 +201,23 @@ def instanitate_sextupole(props: dict):
         # props_combined = dict(props)  # Create a copy to avoid modifying original
         # props_combined.update(**props)  # Update with empty tuple (effectively no change)
         # p = Sextupole(**props_combined)
-        p = Sextupole(**props)  #jsons.load(props, Sextupole)
+        p = Sextupole(**props)  # jsons.load(props, Sextupole)
     except pydantic.ValidationError as e:
         logger.error(f"Could not load Sextupole using properties {props}")
         raise e from None  # Re-raise with proper context
-    r = at.Sextupole(p.name, p.length, PolynomB=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
-                     PolynomA=p.element_configuration.magnetic_element.coeffs.skew_coefficients, Corrector=p.tags[0],
-                     KickAngle=[p.element_configuration.kickangle.x, p.element_configuration.kickangle.y], Energy = 629e6)
+    if p.tags:
+        corr = p.tags[0]
+    else:
+        corr = None
+    kwargs = kick_angles(p)
+    r = at.Sextupole(
+        p.name,
+        p.length,
+        PolynomB=p.element_configuration.magnetic_element.coeffs.normal_coefficients,
+        PolynomA=p.element_configuration.magnetic_element.coeffs.skew_coefficients,
+        Corrector=corr,
+        **kwargs,
+    )
     assert np.isfinite(r.H)
     return r
 
@@ -173,9 +240,10 @@ def instanitate_steerer(prop: Element):
     #     test = math.pi / 2
     # else:
     #     raise AssertionError("Should not end up here")
-    kick_angle_x = prop['element_configuration']['kickangle']['x']
-    kick_angle_y = prop['element_configuration']['kickangle']['y']
-    return at.Corrector(prop["name"], length=prop['length'], kick_angle=[kick_angle_x, kick_angle_y])
+    ka = prop["element_configuration"]["kickangle"]
+    return at.Corrector(
+        prop["name"], length=prop["length"], kick_angle=[ka["x"], ka["y"]]
+    )
 
 
 def instaniate_cavity(prop: dict, *, energy):
@@ -211,6 +279,7 @@ factory_dict_default = dict(
     Dipole=instantiate_bending,
     Quadrupole=instanitate_quadrupole,
     Sextupole=instanitate_sextupole,
+    Multipole=instantiate_multipole,
     Corrector=instanitate_steerer,
     Octupole=instanitate_octupole,
 )
