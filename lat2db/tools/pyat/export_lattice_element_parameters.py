@@ -96,6 +96,18 @@ def rework_corrector(inp: Dict[str, Any], copy: bool = True) -> Dict[str, Any]:
     return inp
 
 
+def rework_quadrupole(inp: Dict[str, Any], copy: bool = True) -> Dict[str, Any]:
+    """
+    Todo:
+        should be prepared for piggy pack correctors
+    """
+    if copy:
+        inp = inp.copy()
+    inp["tags"] = []
+    inp = rework_main_magnet(inp, main_multipole=2, strength=inp.pop("K"))
+    return inp
+
+
 def rework_sextupole(inp: Dict[str, Any], copy: bool = True) -> Dict[str, Any]:
     """
     Todo:
@@ -112,7 +124,7 @@ def rework_sextupole(inp: Dict[str, Any], copy: bool = True) -> Dict[str, Any]:
     return inp
 
 
-def rework_quadrupole(inp: Dict[str, Any], copy: bool = True) -> Dict[str, Any]:
+def rework_octupole(inp: Dict[str, Any], copy: bool = True) -> Dict[str, Any]:
     """
     Todo:
         should be prepared for piggy pack correctors
@@ -120,7 +132,7 @@ def rework_quadrupole(inp: Dict[str, Any], copy: bool = True) -> Dict[str, Any]:
     if copy:
         inp = inp.copy()
     inp["tags"] = []
-    inp = rework_main_magnet(inp, main_multipole=2, strength=inp.pop("K"))
+    inp = rework_main_magnet(inp, main_multipole=4, strength=None)
     return inp
 
 
@@ -214,6 +226,7 @@ refactory = dict(
     Bend=rework_dipole,
     Quadrupole=rework_quadrupole,
     Sextupole=rework_sextupole,
+    Octupole=rework_octupole,
     Multipole=rework_multipole,
     Corrector=rework_corrector,
     RFCavity=rework_cavity,
