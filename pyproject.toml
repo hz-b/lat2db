@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "lat2db"
-version = "0.0.3"
+version = "0.1.0"
 description = "Storing accelerator lattices as json in mongo"
 authors = [  "Waheedullah Sulaiman Khail", "Pierre Schnizer", "Teresia Olsson"]
 license = "GPL-3.0"
