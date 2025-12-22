@@ -9,7 +9,7 @@ def get_AT_ring_from_machine(machine : Machine, *, energy):
     Todo:
         eneregy should be part of config
     """
-    seq = factory(machine, energy)
+    seq = factory(machine, energy=energy)
 
     ring = at.Lattice(seq, name='bessy2', periodicity=1, energy=energy)
 

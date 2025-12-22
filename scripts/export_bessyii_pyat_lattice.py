@@ -29,20 +29,24 @@ sys.path.insert(0, str(path / "storage_ring"))
 
 def check_load(filename: str, *, energy: float) -> at.Lattice:
     with open(filename, "rt") as fp:
-        L = json.load(fp)
-    return factory(dict(sequences=L), energy=energy)
+        d = json.load(fp)
+    return factory(d, energy=energy)
 
 
 def export_storage_ring(filename="bessy2_storage_ring_reflat.json"):
     import bessy2_sr_reflat
 
     lat = bessy2_sr_reflat.bessy2Lattice()
-    tmp = export_lattice_parameters(lat)
+
+    # Todo: need to explore which extra information should be stored
+    # Pretty good idea how to store the elements, need to explore the extra data
+    # Compare it to Machine data model
+    energy = 1.7185e9
+    tmp = dict(sequences=export_lattice_parameters(lat), closed=True, enable_6d=True, default_energy=energy)
 
     with open(filename, "wt") as fp:
         json.dump(tmp, fp, indent=4)
 
-    energy = 1.7185e9
     r = check_load(filename, energy=energy)
     # if cavity is off and no 6d tracking one can see a bit
     # of radiation difference
@@ -66,7 +70,7 @@ def export_transferline(filename="bessy2_transferline_reflat.json"):
     lat = bessy2_TL_reflat.bessy2_TL()
     tmp = export_lattice_parameters(lat)
     with open(filename, "wt") as fp:
-        json.dump(tmp, fp, indent=4)
+        json.dump(dict(sequences=tmp), fp, indent=4)
 
     energy = 1.7e9
     r = at.Lattice(check_load(filename, energy=energy), energy=energy)
@@ -84,7 +88,7 @@ def export_booster(filename="bessy2_booster_reflat.json"):
     lat = bessy2_booster_reflat.bessy2Booster()
     tmp = export_lattice_parameters(lat)
     with open(filename, "wt") as fp:
-        json.dump(tmp, fp, indent=4)
+        json.dump(dict(sequences=tmp), fp, indent=4)
 
     energy = 1.7e9
     r = at.Lattice(check_load(filename, energy=energy), energy=energy)
@@ -107,7 +111,7 @@ def export_injection_line(filename="bessy2_injection_line_reflat.json"):
     lat = bessy2_IL_reflat.bessy2_IL()
     tmp = export_lattice_parameters(lat)
     with open(filename, "wt") as fp:
-        json.dump(tmp, fp, indent=4)
+        json.dump(dict(sequences=tmp), fp, indent=4)
 
     r = check_load(filename, energy=50.0e6)
     elem_diff = [

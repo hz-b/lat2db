@@ -26,8 +26,14 @@ __all__ = ["factory"]
 
 def factory(expr: dict, *, energy: float):
     """
+    Returns:
+            Sequence of lattice elements.
     Args:
         energy: energy of the accelerator: only used by the cavities
+
+    Todo:
+        find out if energy is really required here
+        Is it sufficient to pass it to the lattice object?
     """
 
     # energy_prop = expr["physics_info"]["energy"]
