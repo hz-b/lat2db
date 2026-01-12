@@ -11,11 +11,12 @@ class Element(BaseModel):
     length: Optional[float]
     #: to be interpreted by the factories building a lattice from the database
     type: Optional[str]
-    #: everythng describing the element itself beyond to the information given
+    #: everything describing the element itself beyond to the information given
     #: in the fields above
     # element_configuration: object
     # tags are given by specific lattice developers to later sort/filter/categorised/group or wild card search their
     # elements
+    #: todo: move pass method to integration parameters
     passmethod: Optional[str]
     tags: Optional[Sequence[str]]
 
