@@ -2,7 +2,6 @@
 """
 import enum
 import logging
-import math
 from functools import partial
 from typing import Sequence, Dict
 
@@ -42,25 +41,46 @@ def factory(expr: dict, *, energy: float):
     # energy = 629e6  # float(energy_prop["value"]) * 1e9
 
     factory_dict = factory_dict_default.copy()
-    factory_dict["RFCavity"] = partial(instaniate_cavity, energy=energy)
+    factory_dict["RFCavity"] = partial(instantiate_cavity, energy=energy)
     seq_expr = expr["sequences"]
     elements = [instantiate_element(e, factory_dict=factory_dict) for e in seq_expr]
     return elements
 
 
 def instantiate_element(prop, *, factory_dict):
-    type_ = prop["type"]
+    type_ = None
+    try:
+        type_ = prop["type"]
+    except KeyError:
+        pass
+    if type_ is None:
+        type_ = prop.pop("Class")
+        # Needed further down the line
+        prop["type"] = type_
     return factory_dict[type_](prop)
 
 
+def instantiate_marker_simple(prop: dict):
+    #: Todo
+    name = prop.pop("FamName")
+    return at.Marker(name, **prop)
+
+
 def instantiate_marker(prop: dict):
-    #: Todo re
+    #: Todo
     return at.Marker(prop["name"], Length=0)
 
 
 def instantiate_monitor(prop: dict):
     #: Todo re
     return at.Monitor(prop["name"], Length=prop["length"])
+
+
+def instantiate_drift_simple(prop: dict):
+    name = prop.pop("FamName")
+    length = prop.pop("Length")
+    r = at.Drift(name, length, **prop)
+    return r
 
 
 def instantiate_drift(prop: dict):
@@ -122,7 +142,7 @@ def instantiate_bending(prop: dict):
     return r
 
 
-def instanitate_quadrupole(prop: dict):
+def instantiate_quadrupole(prop: dict):
     """
     Todo:
     check which convention k follows
@@ -150,7 +170,7 @@ def instanitate_quadrupole(prop: dict):
     return r
 
 
-def instanitate_octupole(prop: dict):
+def instantiate_octupole(prop: dict):
     """
     Todo:
     check which convention k follows
@@ -195,7 +215,7 @@ def instantiate_multipole(props: dict):
     return r
 
 
-def instanitate_sextupole(props: dict):
+def instantiate_sextupole(props: dict):
     """
     Todo:
         check which convention h follows?
@@ -228,12 +248,45 @@ def instanitate_sextupole(props: dict):
     return r
 
 
+def instantiate_bending_simple(prop: dict):
+    name = prop.pop("FamName")
+    length = prop.pop("Length")
+    r = at.Bend(name, length, **prop)
+    return r
+
+
+def instantiate_sextupole_simple(prop: dict):
+    name = prop.pop("FamName")
+    length = prop.pop("Length")
+    r = at.Sextupole(name, length, **prop)
+    return r
+
+
+def instantiate_quadrupole_simple(prop: dict):
+    name = prop.pop("FamName")
+    length = prop.pop("Length")
+    r = at.Quadrupole(name, length, **prop)
+    return r
+
+
 class SteererOrientation(enum.Enum):
     horizontal = "horizontal"
     vertical = "vertical"
 
 
-def instanitate_steerer(prop: Element):
+def instantiate_steerer_simple(prop: Element):
+    """
+    Todo:
+        What is test?
+        What is kick angle ?
+    """
+    name = prop.pop("FamName")
+    length = prop.pop("Length")
+    kick_angles = prop.pop("KickAngle")
+    return at.Corrector(name, length,  kick_angles, **prop)
+
+
+def instantiate_steerer(prop: Element):
     """
     Todo:
         What is test?
@@ -252,7 +305,19 @@ def instanitate_steerer(prop: Element):
     )
 
 
-def instaniate_cavity(prop: dict, *, energy):
+def instantiate_cavity_simple(prop: dict, *, energy):
+    name = prop.pop("FamName")
+    length = prop.pop("Length")
+    voltage = prop.pop("Voltage")
+    frequency = prop.pop("Frequency")
+    harmonic_number = prop.pop("HarmNumber")
+    energy = prop.pop("Energy", energy)
+    r =  at.RFCavity(
+        name, length, voltage, frequency, harmonic_number, energy, **prop
+    )
+    return r
+
+def instantiate_cavity(prop: dict, *, energy):
     """Instanitate a heavily broken element
 
     Using voltage is inconsistent with using K values for quad
@@ -277,17 +342,25 @@ def instaniate_cavity(prop: dict, *, energy):
         energy=energy,
     )
 
+def instantiate_aperture(prop: Element) -> at.Aperture:
+    logger.debug(f"aperture property {prop=}")
+    fam_name = prop.pop("FamName")
+    limits = prop.pop("Limits")
+    return at.Aperture(fam_name, limits, **prop)
+
 
 factory_dict_default = dict(
     Marker=instantiate_marker,
     Monitor=instantiate_monitor,
     Drift=instantiate_drift,
     Dipole=instantiate_bending,
-    Quadrupole=instanitate_quadrupole,
-    Sextupole=instanitate_sextupole,
+    Bend=instantiate_bending,
+    Quadrupole=instantiate_quadrupole,
+    Sextupole=instantiate_sextupole,
     Multipole=instantiate_multipole,
-    Corrector=instanitate_steerer,
-    Octupole=instanitate_octupole,
+    Corrector=instantiate_steerer,
+    Octupole=instantiate_octupole,
+    Aperture=instantiate_aperture,
 )
 
 # due to historic reasons: need to get the that cleaned away
