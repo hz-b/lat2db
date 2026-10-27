@@ -132,8 +132,8 @@ def bessy2_TL() -> at.Lattice:
         at.Monitor('FOMZ8T'),
         at.Drift('DU_SEK1D1R' , 0.2554),
         at.Dipole('SEK1D1R', 0.555, SEK1D1R_angle, EntranceAngle=0*SEK1D1R_angle, ExitAngle=0),  # edge angles need to be confirmed
-        at.Drift('DU_SEK2D2R', 0.093),
-        at.Dipole('SEK2D2R', 0.555, SEK2D1R_angle, EntranceAngle=0*SEK2D1R_angle, ExitAngle=0),  # edge angles need to be confirmed
+        at.Drift('DU_SEK2D1R', 0.093),
+        at.Dipole('SEK2D1R', 0.555, SEK2D1R_angle, EntranceAngle=0*SEK2D1R_angle, ExitAngle=0),  # edge angles need to be confirmed
         at.Drift('DU_FOMZ2D1R', 0.0515),
         at.Monitor('FOMZ2D1R'),
         at.Drift('DU_KIK3D1R', 0.2635),
