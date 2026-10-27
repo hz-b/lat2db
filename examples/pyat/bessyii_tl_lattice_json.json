@@ -1691,7 +1691,7 @@
     },
     {
       "type": "Drift",
-      "name": "DU_SEK2D2R",
+      "name": "DU_SEK2D1R",
       "length": 0.093,
       "passmethod": "DriftPass",
       "index": 89,
@@ -1728,7 +1728,7 @@
         "correctors": null
       },
       "number_of_integration_steps": 10,
-      "name": "SEK2D2R",
+      "name": "SEK2D1R",
       "length": 0.555,
       "fringeint1": null,
       "fringeint2": null,
@@ -2658,7 +2658,7 @@
     },
     {
       "type": "Drift",
-      "name": "DU_SEK2D2R",
+      "name": "DU_SEK2D1R",
       "length": 0.093,
       "passmethod": "DriftPass",
       "index": 89,
@@ -2961,7 +2961,7 @@
         "correctors": null
       },
       "number_of_integration_steps": 10,
-      "name": "SEK2D2R",
+      "name": "SEK2D1R",
       "length": 0.555,
       "fringeint1": null,
       "fringeint2": null,
